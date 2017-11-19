@@ -25,6 +25,21 @@ app.get("/fulltests", function(req, res) {
   res.render("fulltests");
 })
 
+// Math Practice Page
+app.get("/mathpractice", function(req, res) {
+  res.render("math.ejs");
+})
+
+// Reading Practice Page
+app.get("/readingpractice", function(req, res) {
+  res.render("reading.ejs");
+})
+
+// Writing and Language Practice Page
+app.get("/writingpractice", function(req, res) {
+  res.render("writing.ejs");
+})
+
 // SOL Prep Page
 app.get("/solprep", function(req, res) {
   res.render("solprep");

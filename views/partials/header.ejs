@@ -2,14 +2,8 @@
 <html>
     <head>
         <title>SAT Initiative</title>
-        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.13/semantic.min.css">
         <link rel="stylesheet" type="text/css" href="/stylesheets/app.css">
-        <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/core.js"></script>-->
-        <script type="text/javascript" language='javascript'>
-            $(document).ready(function () {
-                $(".accordion").accordion();
-            });
-        </script>
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.13/semantic.min.css">
     </head>
     <body>
         <div class="ui fixed menu">
@@ -21,12 +15,13 @@
                 <a href="/" class="item">Home</a>
                 <a href="/about" class="item">About</a>
                 <div class="ui simple dropdown item">
-                    SAT Practice
+                    <a class="headerlink" href="/satprep">SAT Practice</a>
                     <i class="dropdown icon"></i>
                     <div class="menu">
-                      <div class="item"><a href="/fulltests">Full Practice Tests</a></div>
-                      <div class="item">Choice 2</div>
-                      <div class="item">Choice 3</div>
+                        <div><a class = "item" href="/fulltests">Full Practice Tests</a></div>
+                        <div><a class = "item" href="/mathpractice">Math Practice</a></div>
+                        <div><a class = "item" href="/readingpractice">Reading Practice</a></div>
+                        <div><a class = "item" href="/writingpractice">Writing Practice</a></div>
                     </div>
                 </div>
                 
