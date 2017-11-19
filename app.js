@@ -3,6 +3,7 @@ var app = express();
 app.set("view engine", "ejs");
 app.use(express.static("public"));
 
+
 // Home page route
 app.get("/", function(req, res) {
   res.render("home");
@@ -17,6 +18,11 @@ app.get("/about", function(req, res) {
 // SAT Prep Page
 app.get("/satprep", function(req, res) {
   res.render("satprep");
+})
+
+// Full Practice Test Page
+app.get("/fulltests", function(req, res) {
+  res.render("fulltests");
 })
 
 // SOL Prep Page

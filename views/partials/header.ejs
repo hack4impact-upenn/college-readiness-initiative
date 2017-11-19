@@ -4,6 +4,12 @@
         <title>SAT Initiative</title>
         <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.13/semantic.min.css">
         <link rel="stylesheet" type="text/css" href="/stylesheets/app.css">
+        <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/core.js"></script>-->
+        <script type="text/javascript" language='javascript'>
+            $(document).ready(function () {
+                $(".accordion").accordion();
+            });
+        </script>
     </head>
     <body>
         <div class="ui fixed menu">
@@ -14,7 +20,16 @@
                 </div>
                 <a href="/" class="item">Home</a>
                 <a href="/about" class="item">About</a>
-                <a href="/satprep" class = "item">SAT Practice</a>
+                <div class="ui simple dropdown item">
+                    SAT Practice
+                    <i class="dropdown icon"></i>
+                    <div class="menu">
+                      <div class="item"><a href="/fulltests">Full Practice Tests</a></div>
+                      <div class="item">Choice 2</div>
+                      <div class="item">Choice 3</div>
+                    </div>
+                </div>
+                
                 <a href="/solprep" class = "item">VA SOL Practice</a>
             </div>
         </div>
