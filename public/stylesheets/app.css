@@ -3,36 +3,6 @@
     margin:0; 
 }
 
-#name {
-    color: #0E6EB8;
-}
-i.icon {
-    font-size: 2em;
-}
-
-.ui.fluid.image {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-}
-
-.container.main {
-    margin: 7.0em;
-}
-
-.headerlink {
-    color: black;
-}
-
-.about {
-    margin-top: 4em;
-}
-
-.practicetest {
-    margin: 4em;
-}
-
 .practicetesttext {
     font-size: 2em;
 }
@@ -44,17 +14,12 @@ div a:after {
   width: 1px;
 }
 
-#math {
-    position: absolute;
-    clip: rect(0, 2000px, 300px, 0);
-}
-
 #hometitle {
     padding-top: 100px;
     color: white;
     font-size: 5em;
     text-align: center;
-    /*text-shadow: 2px 2px black;*/
+    text-shadow: 2px 2px black;
     font-family: 'Roboto', sans-serif;
 }
 
@@ -84,20 +49,10 @@ div a:after {
     margin-top: 0px;
 }
 
-.home2 {
+#home2 {
     margin-top: 50px;
     margin-bottom: 50px;
     text-align: center;
-}
-
-.category {
-    position:relative;
-    width: 30%;
-    display: inline-block;
-    margin-top: 50px;
-    margin: 0 auto;
-    padding:10px;
-    
 }
 
 #about {
@@ -109,33 +64,29 @@ div a:after {
 }
 
 #abouttitle {
-    padding-top: 100px;
+    padding-top: 75px;
     color: white;
     font-size: 4em;
     text-align: center;
     font-family: 'Roboto', sans-serif;
+    text-shadow: 2px 2px black;
 }
 
 #aboutsub {
     padding-top: 25px;
     color: white;
     text-align: center;
-    margin-left: 400px;
-    margin-right: 400px;
     font-family: 'Roboto', sans-serif;
-    
+    margin-left: 50px;
+    margin-right: 50px;
 }
 
-.about2 {
-    margin: 50px;
+#abouttext {
+    font-size: 1.5em;
 }
 
-.mastheadMath {
-    margin-top:50px;
-    height: 300px;
-    background-image: url('https://images.unsplash.com/photo-1471107191679-f26174d2d41e?auto=format&fit=crop&w=2532&q=60&ixid=dW5zcGxhc2guY29tOzs7Ozs%3D');
-    background-repeat: no-repeat;
-    background-position: center;
+.math {
+    text-align: center;
 }
 
 
