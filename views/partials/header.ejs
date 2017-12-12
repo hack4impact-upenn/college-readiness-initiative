@@ -2,12 +2,29 @@
 <html>
     <head>
         <title>The College Readiness Initiative</title>
+        <link rel="shortcut icon" href="//nebula.phx3.secureserver.net/6a2c3918a7915c627a3a5f2c2447f505?AccessKeyId=0D048B4CD03E0CB8531F&amp;disposition=0&amp;alloworigin=1">
         <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
         <link rel="stylesheet" type="text/css" href="/stylesheets/app.css">
         <link href="https://fonts.googleapis.com/css?family=Roboto:100" rel="stylesheet">
         <script src="https://use.fontawesome.com/a0335568e4.js"></script>
+        <script>
+          jQuery(function($) {
+          $('.navbar .dropdown').hover(function() {
+          $(this).find('.dropdown-menu').first().stop(true, true).delay(250).slideDown();
+          
+          }, function() {
+          $(this).find('.dropdown-menu').first().stop(true, true).delay(100).slideUp();
+          
+          });
+          
+          $('.navbar .dropdown > a').click(function(){
+          location.href = this.href;
+          });
+          
+          });
+          </script>
     </head>
     <body>
 
@@ -21,7 +38,12 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="/"><i class="fa fa-graduation-cap" aria-hidden="true"></i> The College Readiness Initiative</a>
+      <a class="navbar-brand" href="/">
+        <img src="http://nebula.wsimg.com/f7ccf5e9c26038a30ef922e1dc0bd072?AccessKeyId=0D048B4CD03E0CB8531F&disposition=0&alloworigin=1" height="40" class="d-inline-block align-top" alt="">
+        <!--<img src="//nebula.phx3.secureserver.net/6a2c3918a7915c627a3a5f2c2447f505?AccessKeyId=0D048B4CD03E0CB8531F&amp;disposition=0&amp;alloworigin=1" height="30" class="d-inline-block align-bottom" alt="">-->
+        <!--<i class="fa fa-graduation-cap" aria-hidden="true"></i> -->
+        <!--The College Readiness Initiative-->
+      </a>
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
@@ -37,21 +59,19 @@
             <li><a href="/writingpractice">Writing Practice</a></li>
           </ul>
         </li>
-        <li><a href="/solprep">VA SOL Practice</a></li>
+        <li class="dropdown">
+          <a href="/solprep" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">VA SOL Practice <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="/algebra1">Algebra 1</a></li>
+            <li><a href="/geometry">Geometry</a></li>
+            <li><a href="/algebra2">Algebra 2</a></li>
+          </ul>
+        </li>
       </ul>
       
 
       <ul class="nav navbar-nav navbar-right">
         <li><a href="/volunteer">Volunteer</a></li>
-        <!--<li class="dropdown">-->
-          <!--<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>-->
-          <!--<ul class="dropdown-menu">-->
-          <!--  <li><a href="#">Action</a></li>-->
-          <!--  <li><a href="#">Another action</a></li>-->
-          <!--  <li><a href="#">Something else here</a></li>-->
-          <!--  <li role="separator" class="divider"></li>-->
-          <!--  <li><a href="#">Separated link</a></li>-->
-          <!--</ul>-->
         </li>
       </ul>
     </div><!-- /.navbar-collapse -->
