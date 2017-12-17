@@ -1,5 +1,6 @@
 var express = require("express");
 var app = express();
+var fs = require('fs');
 app.set("view engine", "ejs");
 app.use(express.static("public"));
 
@@ -24,7 +25,14 @@ app.get("/satprep", function(req, res) {
 app.get("/fulltests", function(req, res) {
   res.render("fulltests");
 })
-
+    app.get('/files/fulltests/:testnum', function (req, res) {
+    var filePath = "/files/fulltests/" + req.params.testnum;
+    fs.readFile(__dirname + filePath , function (err,data){
+        res.contentType("application/pdf");
+        res.send(data);
+      });
+    })
+  
 // Math Practice Page
 app.get("/mathpractice", function(req, res) {
   res.render("math.ejs");
@@ -34,6 +42,13 @@ app.get("/mathpractice", function(req, res) {
 app.get("/readingpractice", function(req, res) {
   res.render("reading.ejs");
 })
+    app.get('/files/reading/:practicenum', function (req, res) {
+    var filePath = "/files/reading/" + req.params.practicenum;
+    fs.readFile(__dirname + filePath , function (err,data){
+        res.contentType("application/pdf");
+        res.send(data);
+      });
+    })
 
 // Writing and Language Practice Page
 app.get("/writingpractice", function(req, res) {
