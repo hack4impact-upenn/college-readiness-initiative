@@ -51,7 +51,7 @@ div a:after {
 }
 
 .pencilpic {
-    background-image: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url('https://images.unsplash.com/photo-1488722796624-0aa6f1bb6399?auto=format&fit=crop&w=2550&q=60&ixid=dW5zcGxhc2guY29tOzs7Ozs%3D');
+    background-image: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url('/images/pencilpic.jpeg');
     background-repeat: no-repeat;
     background-position: center;
     text-align: center;
@@ -60,7 +60,7 @@ div a:after {
 }
 
 .geometrypic {
-    background-image: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url(' https://images.unsplash.com/photo-1502043150060-b01aa3030556?auto=format&fit=crop&w=1350&q=60&ixid=dW5zcGxhc2guY29tOzs7Ozs%3D');
+    background-image: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url('/images/geometrypic.jpeg');
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
@@ -74,7 +74,7 @@ div a:after {
 }
 
 .mathpic {
-    background-image: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url('https://images.unsplash.com/photo-1509228468518-180dd4864904?auto=format&fit=crop&w=1350&q=60&ixid=dW5zcGxhc2guY29tOzs7Ozs%3D');
+    background-image: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url('/images/mathpic.jpeg');
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
@@ -82,7 +82,7 @@ div a:after {
 }
 
 .notebookpic {
-    background-image: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url('https://images.unsplash.com/photo-1471107191679-f26174d2d41e?auto=format&fit=crop&w=966&q=60&ixid=dW5zcGxhc2guY29tOzs7Ozs%3D');
+    background-image: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url('/images/notebookpic.jpeg');
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
@@ -90,7 +90,7 @@ div a:after {
 }
 
 .readingpic {
-    background-image: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url('https://images.unsplash.com/photo-1502979932800-33d311b7ce56?auto=format&fit=crop&w=1350&q=60&ixid=dW5zcGxhc2guY29tOzs7Ozs%3D');
+    background-image: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url('/images/readingpic.jpeg');
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
@@ -98,7 +98,7 @@ div a:after {
 }
 
 .writingpic {
-    background-image: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url('https://images.unsplash.com/photo-1456324504439-367cee3b3c32?auto=format&fit=crop&w=1350&q=60&ixid=dW5zcGxhc2guY29tOzs7Ozs%3D');
+    background-image: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url('/images/writingpic.jpeg');
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
@@ -106,7 +106,7 @@ div a:after {
 }
 
 .bookstackpic {
-    background-image: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url('https://images.unsplash.com/photo-1497633762265-9d179a990aa6?auto=format&fit=crop&w=1352&q=60&ixid=dW5zcGxhc2guY29tOzs7Ozs%3D');
+    background-image: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url('/images/bookstackpic.jpeg');
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;

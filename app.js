@@ -1,15 +1,21 @@
 var express = require("express");
 var app = express();
 var fs = require('fs');
-app.set("view engine", "ejs");
+var path = require('path'); // needed for image paths
+app.set("view engine", "ejs"); 
 app.use(express.static("public"));
+app.use(express.static("/images")); //needed for express to display images
 
+
+// Images
+app.get('/images/:image', function (req, res, next) {
+    res.sendfile(path.join(__dirname, 'images', req.params.image))
+})
 
 // Home page route
 app.get("/", function(req, res) {
   res.render("home");
 })
-
 
 // About page route
 app.get("/about", function(req, res) {
