@@ -37,6 +37,21 @@ app.get("/fulltests", function(req, res) {
 app.get("/mathpractice", function(req, res) {
   res.render("math.ejs");
 })
+    app.get('/files/math/tutorialsandworksheets/:folder/:worksheet', function (req, res) {
+    var filePath = "/files/math/tutorialsandworksheets/"+ req.params.folder + "/" + req.params.worksheet;
+    fs.readFile(__dirname + filePath , function (err,data){
+        res.contentType("application/pdf");
+        res.send(data);
+      });
+    })
+    
+    app.get('/files/math/:folder/:worksheetnum', function (req, res) {
+    var filePath = "/files/math/"+ req.params.folder + "/" + req.params.worksheetnum;
+    fs.readFile(__dirname + filePath , function (err,data){
+        res.contentType("application/pdf");
+        res.send(data);
+      });
+    })
 
 // Reading Practice Page
 app.get("/readingpractice", function(req, res) {
@@ -54,11 +69,25 @@ app.get("/readingpractice", function(req, res) {
 app.get("/writingpractice", function(req, res) {
   res.render("writing.ejs");
 })
+  app.get('/files/grammarguides/:practicenum', function (req, res) {
+    var filePath = "/files/grammarguides/" + req.params.practicenum;
+    fs.readFile(__dirname + filePath , function (err,data){
+        res.contentType("application/pdf");
+        res.send(data);
+      });
+    })
 
 // SOL Prep Page
 app.get("/solprep", function(req, res) {
   res.render("solprep");
 })
+    app.get('/files/sol/:pdf', function (req, res) {
+    var filePath = "/files/sol/" + req.params.pdf;
+    fs.readFile(__dirname + filePath , function (err,data){
+        res.contentType("application/pdf");
+        res.send(data);
+      });
+    })
 
 // Algebra 1 SOL
 app.get("/algebra1", function(req, res) {
@@ -71,6 +100,14 @@ app.get("/algebra1", function(req, res) {
   // Algebra 1 Song Videos
   app.get("/algebra1songvids", function(req, res) {
     res.render("algebra1songvids");
+  })
+  // Algebra 1 SAT
+  app.get("/algebra1sat", function(req, res) {
+    res.render("algebra1sat");
+  })
+  // Algebra 1 Quizzes
+  app.get("/algebra1quizzes", function(req, res) {
+    res.render("algebra1quizzes");
   })
 
 // Geometry SOL
