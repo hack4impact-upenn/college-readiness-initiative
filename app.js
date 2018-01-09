@@ -75,8 +75,8 @@ app.get("/readingpractice", function(req, res) {
 app.get("/writingpractice", function(req, res) {
   res.render("writing.ejs");
 })
-  app.get('/files/grammarguides/:practicenum', function (req, res) {
-    var filePath = "/files/grammarguides/" + req.params.practicenum;
+  app.get('/files/writing/:practicenum', function (req, res) {
+    var filePath = "/files/writing/" + req.params.practicenum;
     fs.readFile(__dirname + filePath , function (err,data){
         res.contentType("application/pdf");
         res.send(data);
