@@ -21,6 +21,10 @@ app.get("/", function(req, res) {
 app.get("/about", function(req, res) {
   res.render("about");
 })
+  // Board members page route
+  app.get("/boardmembers", function(req, res) {
+    res.render("boardmembers");
+  })
 
 // SAT Prep Page
 app.get("/satprep", function(req, res) {
