@@ -1,7 +1,7 @@
 {
-  "name": "chat-example",
+  "name": "college-readiness-initiative",
   "version": "0.0.0",
-  "description": "A chat example to showcase how to use `socket.io` with a static `express` server with `async` for control flow.",
+  "description": "Website for College Readiness Initiative in Richmond, VA",
   "main": "server.js",
   "author": "Melissa Gu <melissa.gu@richmond.edu>",
   "dependencies": {
