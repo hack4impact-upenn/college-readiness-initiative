@@ -1,0 +1,24 @@
+<!-- render image top center of page -->
+<!-- radio buttons a b c d e with random answers or w/e -->
+<!-- route it so that typing /question pulls up the page -->
+<!-- look into bootstrap, i should be getting an email about it soon -->
+
+<% include partials/header %>
+<div class="jumbotron notebookpic">
+    <h1 id="questiontitle">Question</h1>
+    <h2 id="questionsub">Questions were meant to be answered!</h2>
+</div>
+
+<div class="btn-group btn-group-toggle" data-toggle="buttons">
+  <label class="btn btn-secondary active">
+    <input type="radio" name="options" id="option1" autocomplete="off" checked> Active
+  </label>
+  <label class="btn btn-secondary">
+    <input type="radio" name="options" id="option2" autocomplete="off"> Radio
+  </label>
+  <label class="btn btn-secondary">
+    <input type="radio" name="options" id="option3" autocomplete="off"> Radio
+  </label>
+</div>
+
+<% include partials/footer %>
