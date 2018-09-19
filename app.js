@@ -31,6 +31,11 @@ app.get("/satprep", function(req, res) {
   res.render("satprep");
 })
 
+// Question page
+app.get("/question", function(req, res) {
+    res.render("question");
+})
+
 // Full Practice Test Page
 app.get("/fulltests", function(req, res) {
   res.render("fulltests");
