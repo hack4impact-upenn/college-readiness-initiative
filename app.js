@@ -147,3 +147,9 @@ app.get("/volunteer", function(req, res) {
 app.listen(process.env.PORT || 3000, process.env.IP, function() {
   console.log("Server has started!")
 })
+
+
+//Student profile page
+app.get("/profile", function(req, res) {
+  res.render("profile");
+})

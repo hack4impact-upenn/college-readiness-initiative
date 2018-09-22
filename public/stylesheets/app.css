@@ -529,5 +529,19 @@ div a:after {
 
 
 
+#profiletitle {
+     color: white;
+     font-size: 4em;
+     font-family: 'Roboto', sans-serif;
+     text-shadow: 2px 2px black;
 
+}
 
+.profilepic {
+      
+    background-image: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url('https://placekitten.com/g/');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    text-align: center;
+}
