@@ -1,6 +1,6 @@
 .navbar {
     background-color: white;
-    margin:0; 
+    margin:0;
     /*height: 80px;*/
 }
 
@@ -518,7 +518,7 @@ div a:after {
 
 .divider {
     width: 200px;
-    position: relative; 
+    position: relative;
     left: -470px;
     border: none;
     height: 1px;
@@ -526,8 +526,3 @@ div a:after {
     color: #333; /* old IE */
     background-color: #333; /* Modern Browsers */
 }
-
-
-
-
-
