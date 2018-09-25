@@ -5,22 +5,22 @@
 
 <div class="profileinfo">
 	<div class="wrapper">
+		<aside class="aside aside-1"><img src="https://placekitten.com/200/300" /></aside>
 		<article class="main">
 			<h3>First Name Last Name</h3>
 			<h3>name@email.com</h3>
 			<h3>(123) 456-7890</h3>
 			<h3>Address</h3>
 		</article>
-		<aside class="aside aside-1"><img src="https://placekitten.com/200/300" /></aside>
 		</div>
 </div>
 
 <div class="schoolinfo"> 
     <div class="list-group">
           <p class="list-group-item list-group-item-action active practicetesttext">
-             High School Information 
+             Academic Information 
           </p>
-          <p class="list-group-item list-group-item-action">Name: North High School</p>
+          <p class="list-group-item list-group-item-action">Institution: North High School</p>
 	  <p class="list-group-item list-group-item-action">Year: 2024</p>
           <p class="list-group-item list-group-item-action">Weighted GPA: 4.0</p>
           <p class="list-group-item list-group-item-action">Unweighted GPA: 4.0</p>
@@ -31,10 +31,27 @@
 <div class="testinfo">
     <div class="list-group">
           <p class="list-group-item list-group-item-action active practicetesttext">
-             Previous Testing Information 
+             Standardized Tests and Scores 
           </p>
-          <p class="list-group-item list-group-item-action">Test 2</p>
-          <p class="list-group-item list-group-item-action">Test 3</p>
+	  <ul class="flex-container">
+		<li class="flex-item">Test Name</li>
+		<li class="flex-item">Date</li>
+		<li class="flex-item">Score</li>
+	  </ul>
+	  <div class="list-group-item list-group-item-action">
+	  	<ul class="flex-container">
+			<li class="flex-item">Test 1</li>
+			<li class="flex-item">01/01/01</li>
+			<li class="flex-item">1000</li>
+	  	</ul>
+	  </div>
+	  <div class="list-group-item list-group-item-action">
+	  	<ul class="flex-container">
+			<li class="flex-item">Test 2</li>
+			<li class="flex-item">01/01/01</li>
+			<li class="flex-item">1000</li>
+	  	</ul>
+	  </div>
         </div>
 </div>
 <% include partials/footer %>
