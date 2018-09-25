@@ -1,6 +1,6 @@
 .navbar {
     background-color: white;
-    margin:0; 
+    margin:0;
     /*height: 80px;*/
 }
 
@@ -134,6 +134,46 @@ div a:after {
     margin-top: 30px;
     margin-bottom: 50px;
     font-size: 1.5em;
+}
+
+#uploadtitle {
+    padding-top: 75px;
+    color: white;
+    font-size: 4em;
+    font-family: 'Roboto', sans-serif;
+    text-shadow: 2px 2px black;
+}
+
+#uploadsub {
+    padding-top: 25px;
+    padding-bottom: 25px;
+    color: white;
+    font-family: 'Roboto', sans-serif;
+    margin-left: 50px;
+    margin-right: 50px;
+}
+
+.uploadtxt {
+    margin-top: 30px;
+    margin-bottom: 50px;
+    font-size: 1.5em;
+}
+
+#uploadimg {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 60%;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+#uploadfield {
+    margin-bottom: 10px;
+}
+
+#uploadsubmit {
+    margin-top: 10px;
 }
 
 #math {
@@ -518,7 +558,7 @@ div a:after {
 
 .divider {
     width: 200px;
-    position: relative; 
+    position: relative;
     left: -470px;
     border: none;
     height: 1px;
@@ -526,8 +566,3 @@ div a:after {
     color: #333; /* old IE */
     background-color: #333; /* Modern Browsers */
 }
-
-
-
-
-
