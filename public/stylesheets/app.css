@@ -548,6 +548,8 @@ div a:after {
   flex-flow: row wrap;
   font-weight: bold;
   text-align: center;
+  width: 800px;
+  margin: auto;
 }
 
 .wrapper > * {
@@ -583,4 +585,16 @@ div a:after {
 
 body {
   padding: 2em; 
+}
+
+.schoolinfo {
+	margin: auto;
+	width: 800px;
+	text-align: center;
+}
+
+.testinfo {
+	margin: auto;
+	width: 800px;
+	text-align: center;
 }
