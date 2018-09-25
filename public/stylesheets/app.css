@@ -527,8 +527,6 @@ div a:after {
     background-color: #333; /* Modern Browsers */
 }
 
-
-
 #profiletitle {
      color: white;
      font-size: 4em;
@@ -537,11 +535,52 @@ div a:after {
 
 }
 
-.profilepic {
-      
+.profilepic {     
     background-image: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url('https://placekitten.com/g/');
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
     text-align: center;
+}
+
+.wrapper {
+  display: flex;  
+  flex-flow: row wrap;
+  font-weight: bold;
+  text-align: center;
+}
+
+.wrapper > * {
+  padding: 10px;
+  flex: 1 100%;
+}
+
+.main {
+  text-align: left;
+}
+
+.main h3 {
+  font-family: 'Roboto', sans-serif;
+  color: black;
+  font-weight: bold;
+}
+
+.aside-1 {
+  background: #D3D3D3;
+}
+
+@media all and (min-width: 600px) {
+  .aside { flex: 1 auto; }
+}
+
+@media all and (min-width: 800px) {
+  .main    { flex: 3 0px; }
+  .aside-1 { order: 1; } 
+  .main    { order: 2; }
+  .aside-2 { order: 3; }
+  .footer  { order: 4; }
+}
+
+body {
+  padding: 2em; 
 }
