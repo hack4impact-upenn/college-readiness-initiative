@@ -30,6 +30,11 @@ app.get("/admindashboard", function(req, res) {
   res.render("admindashboard");
 })
 
+// Test Admin Dashboard page
+app.get("/testadmindashboard", function(req, res) {
+  res.render("testadmindashboard");
+})
+
 // SAT Prep Page
 app.get("/satprep", function(req, res) {
   res.render("satprep");
