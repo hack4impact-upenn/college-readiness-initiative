@@ -526,3 +526,16 @@ div a:after {
     color: #333; /* old IE */
     background-color: #333; /* Modern Browsers */
 }
+
+#adminTitle {
+    padding-top: 75px;
+    color: white;
+    font-size: 4em;
+    font-family: 'Roboto', sans-serif;
+    text-shadow: 2px 2px black;
+}
+.cardRow {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
