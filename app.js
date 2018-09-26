@@ -31,6 +31,11 @@ app.get("/satprep", function(req, res) {
   res.render("satprep");
 })
 
+//Admin/Tutor's Student Page
+app.get("/admintables", function(req, res){
+  res.render("admintables");
+})
+
 // Full Practice Test Page
 app.get("/fulltests", function(req, res) {
   res.render("fulltests");
