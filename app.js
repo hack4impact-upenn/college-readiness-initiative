@@ -25,10 +25,6 @@ app.get("/about", function(req, res) {
   app.get("/boardmembers", function(req, res) {
     res.render("boardmembers");
   })
-// Admin Dashboard page
-app.get("/admindashboard", function(req, res) {
-  res.render("admindashboard");
-})
 
 // Test Admin Dashboard page
 app.get("/testadmindashboard", function(req, res) {
