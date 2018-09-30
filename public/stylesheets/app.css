@@ -527,18 +527,11 @@ div a:after {
     background-color: #333; /* Modern Browsers */
 }
 
-#adminTitle {
-    padding-top: 75px;
-    color: white;
-    font-size: 4em;
-    font-family: 'Roboto', sans-serif;
-    text-shadow: 2px 2px black;
+#welcomeAlert {
+    margin: 30px;
+    font-size: 18px;
 }
-.admingrid {
-    border-style: solid;
-    border-width: 0.5px;
-    border-radius: 5px;
-    width: 32%;
-    height: 400px;
-    padding-left: 5%;
+#welcomeAlert h4 {
+    font-size: 24px;
+    text-align: center;
 }
