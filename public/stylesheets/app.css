@@ -1,6 +1,6 @@
 .navbar {
     background-color: white;
-    margin:0; 
+    margin:0;
     /*height: 80px;*/
 }
 
@@ -518,7 +518,7 @@ div a:after {
 
 .divider {
     width: 200px;
-    position: relative; 
+    position: relative;
     left: -470px;
     border: none;
     height: 1px;
@@ -527,7 +527,25 @@ div a:after {
     background-color: #333; /* Modern Browsers */
 }
 
-
-
-
-
+#welcomeAlertAdmin {
+    margin-left: 1%;
+    margin-right: 1%;
+    font-size: 18px;
+}
+#welcomeAlertAdmin h4 {
+    font-size: 24px;
+    text-align: center;
+}
+.dashboardBoxes {
+    border-style: solid;
+    border-width: thin;
+    border-color: LightBlue;
+    border-radius: 21px 21px 21px 21px;
+    margin: 5px 5px 5px 5px;
+}
+#notificationsAdmin {
+    margin-left: 89%;
+    margin-bottom: 1%;
+    padding:5px;
+    font-size: 1.4em;
+}
