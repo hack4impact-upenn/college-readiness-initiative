@@ -6,23 +6,24 @@ mongoose.connect("mongodb://localhost/question_db"); // creates question_db data
 var questionSchema = new mongoose.Schema({
     description: String,
     knowledge: String,
-    test_num: String,   // Practice test #
-    calc: Boolean,      // whether calculator is allowed
+    test_num: String,   
+    calc: Boolean,      
     image_link: String,
-    difficulty: Number, // can be 1, 2, or 3
-    type: String,       // Ex: Charts, geometry
+    difficulty: Number, 
+    type: String,       
     question_num: Number,
-    category: String,   // Ex: Problem Solving, Heart of Algebra
+    category: String,   
     subcategory: String,
-    isMC: Boolean,      // true if MC, false if short response
-    answer: String      // Either a MC answer or the exact answer
+    isMC: Boolean,      
+    answer: String      
 });
 
 // Compile the questionSchema into a model, returning an object that
 //has methods that allow us to 
 var Question = mongoose.model("Question", questionSchema);
 
-function addFakeQuestions() {
+// Method that populates database with a fake question
+function addFakeQuestion() {
     Question.create({
         description: "Interpreting a graph",
         knowledge: "know how to label graphs correctly",
@@ -36,8 +37,31 @@ function addFakeQuestions() {
         subcategory: "Key Features of Graphs",
         isMC: true,      
         answer: "C"      
-    })
+    }, function(err, question) {
+        if (err) {
+            console.log(err);
+        }
+        else {
+            console.log("Added question to database");
+        }
+    });
 }
+
+// Method that displays questions in the database
+function viewQuestions() {
+    Question.find({}, function(err, questions){
+        if (err) {
+            console.log(err);
+        }
+        else {
+            console.log("Questions:");
+            console.log(questions);
+        }
+    });
+}
+
+addFakeQuestion();
+viewQuestions();
 
 
 
