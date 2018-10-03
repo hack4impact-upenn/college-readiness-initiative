@@ -2,7 +2,7 @@ var express = require("express");
 var app = express();
 var fs = require('fs');
 var path = require('path'); // needed for image paths
-app.set("view engine", "ejs"); 
+app.set("view engine", "ejs");
 app.use(express.static("public"));
 app.use(express.static("/images")); //needed for express to display images
 
@@ -42,7 +42,7 @@ app.get("/fulltests", function(req, res) {
         res.send(data);
       });
     })
-  
+
 // Math Practice Page
 app.get("/mathpractice", function(req, res) {
   res.render("math.ejs");
@@ -54,7 +54,7 @@ app.get("/mathpractice", function(req, res) {
         res.send(data);
       });
     })
-    
+
     app.get('/files/math/:folder/:worksheetnum', function (req, res) {
     var filePath = "/files/math/"+ req.params.folder + "/" + req.params.worksheetnum;
     fs.readFile(__dirname + filePath , function (err,data){
@@ -129,7 +129,7 @@ app.get("/geometry", function(req, res) {
   app.get("/geometryvids", function(req, res) {
     res.render("geometryvids");
   })
-  
+
 // Algebra 2 SOL
 app.get("/algebra2", function(req, res) {
   res.render("algebra2");
@@ -147,3 +147,6 @@ app.get("/volunteer", function(req, res) {
 app.listen(process.env.PORT || 3000, process.env.IP, function() {
   console.log("Server has started!")
 })
+
+app.get("/tutoring", function(req, res) {
+  res.render("tutoring");})
