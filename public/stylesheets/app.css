@@ -509,7 +509,9 @@ div a:after {
     margin-top: 50px;
     text-align: right;
     padding-right: 30px;
+    right:0;
     bottom: 0;
+    /* position:absolute; */
 }
 
 .vids {
@@ -526,7 +528,6 @@ div a:after {
     color: #333; /* old IE */
     background-color: #333; /* Modern Browsers */
 }
-
 
 #tutoringtitle {
     padding-top: 75px;
@@ -550,3 +551,4 @@ div a:after {
     margin-bottom: 50px;
     font-size: 1.5em;
 }
+
