@@ -13,5 +13,15 @@
   "scripts": {
     "start": "node app.js"
   },
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hack4impact/College-Readiness-Initiative.git"
+  },
+  "keywords": [],
+  "bugs": {
+    "url": "https://github.com/hack4impact/College-Readiness-Initiative/issues"
+  },
+  "homepage": "https://github.com/hack4impact/College-Readiness-Initiative#readme"
 }
