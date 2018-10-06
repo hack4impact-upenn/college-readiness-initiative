@@ -185,6 +185,12 @@ app.get("/volunteer", function (req, res) {
   res.render("volunteer");
 })
 
+// Admin Upload Page
+app.get("/adminupload", function (req, res) {
+  res.render("adminupload");
+})
+
+
 // ============
 // AUTH ROUTES
 // ============
