@@ -25,8 +25,6 @@ app.use(require("express-session")({
 }));
 app.use(passport.initialize());
 app.use(passport.session());
-
->>>>>>> 837c5f39af7ef7fa03a492b3ef1205903507c5ec
 app.use(express.static("public"));
 app.use(express.static("/images")); //needed for express to display images
 
@@ -59,9 +57,14 @@ app.get("/practice", isLoggedIn, function(req, res) {
 app.get("/about", function (req, res) {
   res.render("about");
 })
-// Board members page route
-app.get("/boardmembers", function (req, res) {
-  res.render("boardmembers");
+
+  // Board members page route
+  app.get("/boardmembers", function(req, res) {
+    res.render("boardmembers");
+  })
+// Admin Dashboard page
+app.get("/admindashboard", function(req, res) {
+  res.render("admindashboard");
 })
 
 // Test Admin Dashboard page
@@ -78,7 +81,6 @@ app.get("/satprep", function (req, res) {
 app.get("/fulltests", function (req, res) {
   res.render("fulltests");
 })
-<<<<<<< HEAD
     app.get('/files/fulltests/:testnum', function (req, res) {
     var filePath = "/files/fulltests/" + req.params.testnum;
     fs.readFile(__dirname + filePath , function (err,data){
@@ -86,21 +88,12 @@ app.get("/fulltests", function (req, res) {
         res.send(data);
       });
     })
-=======
-app.get('/files/fulltests/:testnum', function (req, res) {
-  var filePath = "/files/fulltests/" + req.params.testnum;
-  fs.readFile(__dirname + filePath, function (err, data) {
-    res.contentType("application/pdf");
-    res.send(data);
-  });
 })
->>>>>>> 837c5f39af7ef7fa03a492b3ef1205903507c5ec
 
 // Math Practice Page
 app.get("/mathpractice", function (req, res) {
   res.render("math.ejs");
 })
-<<<<<<< HEAD
     app.get('/files/math/tutorialsandworksheets/:folder/:worksheet', function (req, res) {
     var filePath = "/files/math/tutorialsandworksheets/"+ req.params.folder + "/" + req.params.worksheet;
     fs.readFile(__dirname + filePath , function (err,data){
@@ -116,23 +109,6 @@ app.get("/mathpractice", function (req, res) {
         res.send(data);
       });
     })
-=======
-app.get('/files/math/tutorialsandworksheets/:folder/:worksheet', function (req, res) {
-  var filePath = "/files/math/tutorialsandworksheets/" + req.params.folder + "/" + req.params.worksheet;
-  fs.readFile(__dirname + filePath, function (err, data) {
-    res.contentType("application/pdf");
-    res.send(data);
-  });
-})
-
-app.get('/files/math/:folder/:worksheetnum', function (req, res) {
-  var filePath = "/files/math/" + req.params.folder + "/" + req.params.worksheetnum;
-  fs.readFile(__dirname + filePath, function (err, data) {
-    res.contentType("application/pdf");
-    res.send(data);
-  });
-})
->>>>>>> 837c5f39af7ef7fa03a492b3ef1205903507c5ec
 
 // Reading Practice Page
 app.get("/readingpractice", function (req, res) {
@@ -196,17 +172,10 @@ app.get("/geometry", function (req, res) {
   res.render("geometry");
 })
 
-<<<<<<< HEAD
   // Geometry Videos
   app.get("/geometryvids", function(req, res) {
     res.render("geometryvids");
   })
-=======
-// Geometry Videos
-app.get("/geometryvids", function (req, res) {
-  res.render("geometryvids");
-})
->>>>>>> 837c5f39af7ef7fa03a492b3ef1205903507c5ec
 
 // Algebra 2 SOL
 app.get("/algebra2", function (req, res) {
