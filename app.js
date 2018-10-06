@@ -190,6 +190,10 @@ app.get("/adminupload", function (req, res) {
   res.render("adminupload");
 })
 
+//Student profile page
+app.get("/profile", function (req, res) {
+  res.render("profile");
+})
 
 // ============
 // AUTH ROUTES

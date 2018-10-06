@@ -545,3 +545,100 @@ div a:after {
     color: #333; /* old IE */
     background-color: #333; /* Modern Browsers */
 }
+
+#profiletitle {
+     color: white;
+     font-size: 4em;
+     font-family: 'Roboto', sans-serif;
+     text-shadow: 2px 2px black;
+
+}
+
+.profilepic {     
+    background-image: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url('https://placekitten.com/g/');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    text-align: center;
+}
+
+.wrapper {
+  display: flex;  
+  /*flex-flow: row wrap;*/
+  font-weight: bold;
+  text-align: center;
+  width: 800px;
+  margin: auto;
+}
+
+.wrapper > * {
+  padding: 10px;
+  flex: 1 100%;
+}
+
+.main {
+  text-align: left;
+}
+
+.main h3 {
+  font-family: 'Roboto', sans-serif;
+  color: black;
+  font-weight: bold;
+}
+
+.aside-1 {
+  background: #D3D3D3;
+}
+
+@media all and (min-width: 600px) {
+  .aside { flex: 1 auto; }
+}
+
+@media all and (min-width: 800px) {
+  .main    { flex: 3 0px; }
+  .aside-1 { order: 1; } 
+  .main    { order: 2; }
+  .aside-2 { order: 3; }
+  .footer  { order: 4; }
+}
+
+body {
+  padding: 2em; 
+}
+
+.schoolinfo {
+	margin: 10px auto;
+	width: 800px;
+	text-align: center;
+}
+
+.testinfo {
+	margin: auto;
+	width: 800px;
+	text-align: center;
+}
+
+@import "compass/css3";
+
+.flex-container {
+	display: -webkit-box;
+        display: -moz-box;
+        display: -ms-flexbox;
+        display: -webkit-flex;
+	display: flex;
+	width: 800px;
+	margin: auto;
+	justify-content: flex-start;
+	list-style: none;
+}
+
+.flex-item {
+	padding: 5px;
+	width: 260px;
+	margin-top: 10px;
+	text-align: left;
+	font-family: 'Roboto', sans-serif
+	color: black;
+	text-weight: 500;
+}
+
