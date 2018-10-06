@@ -70,10 +70,16 @@ app.get("/admintables", function(req, res){
   res.render("admintables");
 })
 
+// Question page
+app.get("/question", function(req, res) {
+    res.render("question");
+})
+
 // Full Practice Test Page
 app.get("/fulltests", function (req, res) {
   res.render("fulltests");
 })
+
 app.get('/files/fulltests/:testnum', function (req, res) {
   var filePath = "/files/fulltests/" + req.params.testnum;
   fs.readFile(__dirname + filePath, function (err, data) {
@@ -86,6 +92,7 @@ app.get('/files/fulltests/:testnum', function (req, res) {
 app.get("/mathpractice", function (req, res) {
   res.render("math.ejs");
 })
+
 app.get('/files/math/tutorialsandworksheets/:folder/:worksheet', function (req, res) {
   var filePath = "/files/math/tutorialsandworksheets/" + req.params.folder + "/" + req.params.worksheet;
   fs.readFile(__dirname + filePath, function (err, data) {
@@ -181,6 +188,16 @@ app.get("/algebra2vids", function (req, res) {
 // Volunteer Page
 app.get("/volunteer", function (req, res) {
   res.render("volunteer");
+})
+
+// Admin Upload Page
+app.get("/adminupload", function (req, res) {
+  res.render("adminupload");
+})
+
+//Student profile page
+app.get("/profile", function (req, res) {
+  res.render("profile");
 })
 
 // ============

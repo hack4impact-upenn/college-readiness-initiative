@@ -1,1 +1,4 @@
-package.json
+package-lock.json
+data/*
+node_modules/
+mongod
