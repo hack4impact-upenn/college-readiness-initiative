@@ -113,7 +113,7 @@ div a:after {
     text-align: center;
 }
 
-.pagetitle {
+#pagetitle {
     padding-top: 75px;
     color: white;
     font-size: 4em;
@@ -544,7 +544,7 @@ div a:after {
     /* Set the hr color */
     color: #333; /* old IE */
     background-color: #333; /* Modern Browsers */
-}
+} 
 
 #profiletitle {
      color: white;
@@ -564,7 +564,6 @@ div a:after {
 
 .wrapper {
   display: flex;  
-  /*flex-flow: row wrap;*/
   font-weight: bold;
   text-align: center;
   width: 800px;
@@ -584,11 +583,11 @@ div a:after {
   font-family: 'Roboto', sans-serif;
   color: black;
   font-weight: bold;
-}
+} */
 
 .aside-1 {
   background: #D3D3D3;
-}
+} 
 
 @media all and (min-width: 600px) {
   .aside { flex: 1 auto; }
@@ -600,11 +599,7 @@ div a:after {
   .main    { order: 2; }
   .aside-2 { order: 3; }
   .footer  { order: 4; }
-}
-
-body {
-  padding: 2em; 
-}
+} 
 
 .schoolinfo {
 	margin: 10px auto;
