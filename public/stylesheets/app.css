@@ -1,6 +1,6 @@
 .navbar {
     background-color: white;
-    margin:0; 
+    margin:0;
     /*height: 80px;*/
 }
 
@@ -113,7 +113,7 @@ div a:after {
     text-align: center;
 }
 
-#abouttitle {
+.pagetitle {
     padding-top: 75px;
     color: white;
     font-size: 4em;
@@ -121,7 +121,7 @@ div a:after {
     text-shadow: 2px 2px black;
 }
 
-#aboutsub {
+.pagesub {
     padding-top: 25px;
     padding-bottom: 25px;
     color: white;
@@ -130,10 +130,27 @@ div a:after {
     margin-right: 50px;
 }
 
-#abouttext {
+.pagetext {
     margin-top: 30px;
     margin-bottom: 50px;
     font-size: 1.5em;
+}
+
+#uploadimg {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 60%;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+#uploadfield {
+    margin-bottom: 10px;
+}
+
+#uploadsubmit {
+    margin-top: 10px;
 }
 
 #math {
@@ -509,7 +526,9 @@ div a:after {
     margin-top: 50px;
     text-align: right;
     padding-right: 30px;
+    right:0;
     bottom: 0;
+    /* position:absolute; */
 }
 
 .vids {
@@ -518,7 +537,7 @@ div a:after {
 
 .divider {
     width: 200px;
-    position: relative; 
+    position: relative;
     left: -470px;
     border: none;
     height: 1px;
@@ -622,3 +641,4 @@ body {
 	color: black;
 	text-weight: 500;
 }
+
