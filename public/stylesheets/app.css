@@ -113,7 +113,7 @@ div a:after {
     text-align: center;
 }
 
-#abouttitle {
+.pagetitle {
     padding-top: 75px;
     color: white;
     font-size: 4em;
@@ -121,7 +121,7 @@ div a:after {
     text-shadow: 2px 2px black;
 }
 
-#aboutsub {
+.pagesub {
     padding-top: 25px;
     padding-bottom: 25px;
     color: white;
@@ -130,30 +130,7 @@ div a:after {
     margin-right: 50px;
 }
 
-#abouttext {
-    margin-top: 30px;
-    margin-bottom: 50px;
-    font-size: 1.5em;
-}
-
-#uploadtitle {
-    padding-top: 75px;
-    color: white;
-    font-size: 4em;
-    font-family: 'Roboto', sans-serif;
-    text-shadow: 2px 2px black;
-}
-
-#uploadsub {
-    padding-top: 25px;
-    padding-bottom: 25px;
-    color: white;
-    font-family: 'Roboto', sans-serif;
-    margin-left: 50px;
-    margin-right: 50px;
-}
-
-.uploadtxt {
+.pagetext {
     margin-top: 30px;
     margin-bottom: 50px;
     font-size: 1.5em;
