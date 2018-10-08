@@ -1,6 +1,6 @@
 .navbar {
     background-color: white;
-    margin:0; 
+    margin:0;
     /*height: 80px;*/
 }
 
@@ -113,7 +113,7 @@ div a:after {
     text-align: center;
 }
 
-#abouttitle {
+#pagetitle {
     padding-top: 75px;
     color: white;
     font-size: 4em;
@@ -121,7 +121,7 @@ div a:after {
     text-shadow: 2px 2px black;
 }
 
-#aboutsub {
+.pagesub {
     padding-top: 25px;
     padding-bottom: 25px;
     color: white;
@@ -130,10 +130,27 @@ div a:after {
     margin-right: 50px;
 }
 
-#abouttext {
+.pagetext {
     margin-top: 30px;
     margin-bottom: 50px;
     font-size: 1.5em;
+}
+
+#uploadimg {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 60%;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+#uploadfield {
+    margin-bottom: 10px;
+}
+
+#uploadsubmit {
+    margin-top: 10px;
 }
 
 #math {
@@ -520,14 +537,14 @@ div a:after {
 
 .divider {
     width: 200px;
-    position: relative; 
+    position: relative;
     left: -470px;
     border: none;
     height: 1px;
     /* Set the hr color */
     color: #333; /* old IE */
     background-color: #333; /* Modern Browsers */
-}
+} 
 
 #profiletitle {
      color: white;
@@ -547,7 +564,6 @@ div a:after {
 
 .wrapper {
   display: flex;  
-  /*flex-flow: row wrap;*/
   font-weight: bold;
   text-align: center;
   width: 800px;
@@ -567,11 +583,11 @@ div a:after {
   font-family: 'Roboto', sans-serif;
   color: black;
   font-weight: bold;
-}
+} */
 
 .aside-1 {
   background: #D3D3D3;
-}
+} 
 
 @media all and (min-width: 600px) {
   .aside { flex: 1 auto; }
@@ -583,11 +599,7 @@ div a:after {
   .main    { order: 2; }
   .aside-2 { order: 3; }
   .footer  { order: 4; }
-}
-
-body {
-  padding: 2em; 
-}
+} 
 
 .schoolinfo {
 	margin: 10px auto;
@@ -624,3 +636,4 @@ body {
 	color: black;
 	text-weight: 500;
 }
+

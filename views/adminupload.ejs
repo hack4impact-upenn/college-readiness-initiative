@@ -1,0 +1,48 @@
+<% include partials/header %>
+
+<div class="jumbotron notebookpic">
+    <h1 id="pagetitle">Upload Scattergram Data</h1>
+    <h2 class="pagesub">Upload CSV of Admin.</h2>
+</div>
+<div class="container pagetext">
+    <h2>Instructions for Uploading Admin Data</h2>
+    <p>To add more data to the college scattergrams, create an excel sheet with
+        the following columns in order:</p>
+    <p><b><em>All columns are required.</em></b></p>
+    <ol>
+        <li>Admin name</li>
+        <li>Email</li>
+        <li>Address</li>
+        <li>Birthday</li>
+        <li>Hobby</li>
+        <li>Favorite Sport</li>
+    </ol>
+
+    <div>
+       <img id="uploadimg" src="https://cdn.fileinfo.com/img/ss/lg/csv_18.jpg"/>
+    </div>
+
+    <!-- <p>For the "Application Status" column, possible entries are:</p>
+    <ul>
+       <li>Accepted</li>
+       <li>Denied</li>
+       <li>Waitlisted/Deferred (Withdrew App)</li>
+       <li>Waitlisted/Deferred (Accepted)</li>
+       <li>Waitlisted/Deferred (Denied)</li>
+    </ul> -->
+
+    <p>Double check your spelling – if admin's information
+         is misspelled, their data will not be included in the scattergram.
+         When you are finished entering all the data, download your excel sheet
+         as a CSV file, then upload it to this portal and click "Submit."</p>
+
+    <h2>Upload CSV File</h2>
+    <p>Select a File to Upload</p>
+    <input id="uploadfield" type="text" placeholder="Your File Name...">
+    <button class="btn btn-default" type="button">Browse...</button>
+    <div>
+        <button id="uploadsubmit" class="btn btn-primary btn-lg" type="submit">Submit</button>
+    </div>
+</div>
+
+<% include partials/footer %>
