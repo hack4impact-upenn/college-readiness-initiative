@@ -1,5 +1,6 @@
 var mongoose = require("mongoose");
 var passportLocalMongoose = require("passport-local-mongoose");
+var options = { discriminatorKey: 'kind' }
 
 var UserSchema = new mongoose.Schema({
     username: String,
@@ -9,14 +10,15 @@ var UserSchema = new mongoose.Schema({
     	required: true,
     	enum: ["Admin", "Student", "Tutor"]
     }
-});
+},
+    options);
 
 UserSchema.plugin(passportLocalMongoose);
 
 // module.exports = mongoose.model("User", UserSchema);
 var User = mongoose.model("User", UserSchema);
 module.exports = User;
-var options = {discriminatorKey: 'kind'}
+
 
 // Creating a StudentSchema that inherits data fields of UserSchema. If we set
 // any UserSchema's variable (username/password) in this constructor, it will
