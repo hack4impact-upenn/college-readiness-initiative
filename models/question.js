@@ -21,6 +21,7 @@ var questionSchema = new mongoose.Schema({
 // Compile the questionSchema into a model, returning an object that
 //has methods that allow us to 
 var Question = mongoose.model("Question", questionSchema);
+module.exports = mongoose.model('Question', questionSchema);
 
 // Method that populates database with a fake question
 function addFakeQuestion() {
