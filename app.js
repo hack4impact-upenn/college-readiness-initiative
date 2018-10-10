@@ -70,6 +70,7 @@ app.get("/satprep", function (req, res) {
 app.get("/admintables", function(req, res){
   res.render("admintables");
 })
+
 // Question page
 app.get("/question", function(req, res) {
     res.render("question");
