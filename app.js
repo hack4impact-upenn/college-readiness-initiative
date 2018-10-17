@@ -248,3 +248,8 @@ function isLoggedIn(req, res, next) {
 app.listen(process.env.PORT || 3000, process.env.IP, function () {
   console.log("Server has started!")
 })
+
+//Upload question page
+app.get("/questionupload", function (req, res) {
+  res.render("questionupload");
+})
