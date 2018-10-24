@@ -60,6 +60,19 @@ app.get("/boardmembers", function (req, res) {
   res.render("boardmembers");
 })
 
+// Answer Keys page route
+app.get("/answerkeys", function(req, res) {
+    db.collection('question_db').find().toArray(function(err, questions) {
+        console.log(questions);
+    })
+    // function(err, db) {
+    //     var questions = db.collection('Question').find();
+    // }, function() {
+    //     res.render("answerkeys", {questions: questions});
+    // }
+
+})
+
 // SAT Prep Page
 app.get("/satprep", function (req, res) {
   res.render("satprep");

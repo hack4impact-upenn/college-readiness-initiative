@@ -1,1 +1,2 @@
-mongod --dbpath=data --nojournal
+currDir="$(pwd)"
+mongod --dbpath=${currDir}/data --nojournal
