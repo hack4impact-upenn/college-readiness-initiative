@@ -69,6 +69,8 @@ var Admin = User.discriminator('Admin', AdminSchema);
 // Method that populates database with a fake User
 function addFakeStudent() {
     Student.create({
+    	username: "melissagu",
+    	password: "hack4impact",
     	first_name: "Melissa",
 		last_name: "Gu",
 		school: "University of Richmond",
@@ -105,5 +107,12 @@ function viewStudents() {
     });
 }
 
-addFakeStudent();
+function removeStudent(){
+	Student.deleteOne({first_name: 'Melissa'}, function (err) {
+  if (err) return handleError(err);
+})
+}
+
+//addFakeStudent();
 viewStudents();
+removeStudent();
