@@ -1,11 +1,13 @@
 var mongoose = require("mongoose");
+var User = require('./User.js');
+// UserSchema = mongoose.model('User').schema;
 
 mongoose.connect("mongodb://localhost/session_db");
 
 var sessionSchema = new mongoose.Schema({
-	date: new Date(),
-	Student: new User(),
-	Tutor: new User()
+	date: Date,
+	Student: User,
+	Tutor: User
 
 });
 
