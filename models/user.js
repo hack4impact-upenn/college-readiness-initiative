@@ -108,7 +108,7 @@ function viewStudents() {
 }
 
 function removeStudent(){
-	Student.deleteOne({first_name: 'Melissa'}, function (err) {
+	Student.deleteOne({username: 'melissagu'}, function (err) {
   if (err) return handleError(err);
 })
 }
