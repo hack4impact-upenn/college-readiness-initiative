@@ -59,5 +59,3 @@ function parseCSV(url) {
 //make sure the URL is set to download a CSV
 //also, this is a temporary URL for testing
 //var testURL = 'https://docs.google.com/spreadsheets/d/1vxBFJ1hNUa-FppSxs9zJObv5bPrKD-PCSFUNZ0E_XDY/export?format=csv&gid=1174560920';
-
-//parseCSV(testURL);
