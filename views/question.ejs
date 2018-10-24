@@ -1,0 +1,60 @@
+<!-- render image top center of page -->
+<!-- radio buttons a b c d e with random answers or w/e -->
+<!-- route it so that typing /question pulls up the page -->
+<!-- look into bootstrap, i should be getting an email about it soon -->
+
+<% include partials/header %>
+
+<!-- title, not sure if needed. should reflec which sat/sol you are taking -->
+
+<div class="jumbotron notebookpic">
+    <h1 id="pagetitle">Question</h1>
+    <h2 class="pagesub">Questions were meant to be answered!</h2>
+</div>
+
+<!-- this part loads an image (a pdf?) of the question, or in this case, a kitten -->
+
+<div align="center">
+ <img src="http://placekitten.com/300/460", alt="Question Image">
+</div>
+
+<!-- radio buttons -->
+
+<form class="form-horizontal">
+<fieldset> 
+  <div class="form-group">
+   <label class="col-xs-3 control-label">Answer:</label>
+   <div class="col-xs-9">
+    <div class="radio">
+     <label>
+      <input id="inlineradio1" name="sampleinlineradio" value="option1" type="radio">
+      a</label>
+    </div>
+    <div class="radio">
+     <label>
+      <input id="inlineradio1" name="sampleinlineradio" value="option2" type="radio">
+      b</label>
+    </div>
+    <div class="radio">
+     <label>
+      <input id="inlineradio1" name="sampleinlineradio" value="option3" type="radio">
+      c</label>
+    </div>
+    <div class="radio">
+     <label>
+      <input id="inlineradio1" name="sampleinlineradio" value="option4" type="radio">
+      d</label>
+    </div>
+    <div class="radio">
+     <label>
+      <input id="inlineradio1" name="sampleinlineradio" value="option5" type="radio">
+      e</label>
+    </div>
+   </div>
+  </div>
+ </fieldset>
+</form>
+
+
+
+<% include partials/footer %>

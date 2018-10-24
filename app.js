@@ -11,10 +11,7 @@ mongoose.connect("mongodb://localhost/college_readiness_initiative", { useNewUrl
 mongoose.Promise = global.Promise;
 
 var app = express();
-var fs = require('fs');
-var path = require('path'); // needed for image paths
 app.set("view engine", "ejs");
-
 app.use(bodyParser.urlencoded({extended: true}));
 
 // PASSPORT CONFIGURATION
@@ -68,37 +65,44 @@ app.get("/satprep", function (req, res) {
   res.render("satprep");
 })
 
+// Question page
+app.get("/question", function(req, res) {
+    res.render("question");
+})
+
 // Full Practice Test Page
 app.get("/fulltests", function (req, res) {
   res.render("fulltests");
 })
-    app.get('/files/fulltests/:testnum', function (req, res) {
-    var filePath = "/files/fulltests/" + req.params.testnum;
-    fs.readFile(__dirname + filePath , function (err,data){
-        res.contentType("application/pdf");
-        res.send(data);
-      });
-    })
+
+app.get('/files/fulltests/:testnum', function (req, res) {
+  var filePath = "/files/fulltests/" + req.params.testnum;
+  fs.readFile(__dirname + filePath, function (err, data) {
+    res.contentType("application/pdf");
+    res.send(data);
+  });
+})
 
 // Math Practice Page
 app.get("/mathpractice", function (req, res) {
   res.render("math.ejs");
 })
-    app.get('/files/math/tutorialsandworksheets/:folder/:worksheet', function (req, res) {
-    var filePath = "/files/math/tutorialsandworksheets/"+ req.params.folder + "/" + req.params.worksheet;
-    fs.readFile(__dirname + filePath , function (err,data){
-        res.contentType("application/pdf");
-        res.send(data);
-      });
-    })
 
-    app.get('/files/math/:folder/:worksheetnum', function (req, res) {
-    var filePath = "/files/math/"+ req.params.folder + "/" + req.params.worksheetnum;
-    fs.readFile(__dirname + filePath , function (err,data){
-        res.contentType("application/pdf");
-        res.send(data);
-      });
-    })
+app.get('/files/math/tutorialsandworksheets/:folder/:worksheet', function (req, res) {
+  var filePath = "/files/math/tutorialsandworksheets/" + req.params.folder + "/" + req.params.worksheet;
+  fs.readFile(__dirname + filePath, function (err, data) {
+    res.contentType("application/pdf");
+    res.send(data);
+  });
+})
+
+app.get('/files/math/:folder/:worksheetnum', function (req, res) {
+  var filePath = "/files/math/" + req.params.folder + "/" + req.params.worksheetnum;
+  fs.readFile(__dirname + filePath, function (err, data) {
+    res.contentType("application/pdf");
+    res.send(data);
+  });
+})
 
 // Reading Practice Page
 app.get("/readingpractice", function (req, res) {
@@ -162,10 +166,10 @@ app.get("/geometry", function (req, res) {
   res.render("geometry");
 })
 
-  // Geometry Videos
-  app.get("/geometryvids", function(req, res) {
-    res.render("geometryvids");
-  })
+// Geometry Videos
+app.get("/geometryvids", function (req, res) {
+  res.render("geometryvids");
+})
 
 // Algebra 2 SOL
 app.get("/algebra2", function (req, res) {
@@ -181,8 +185,14 @@ app.get("/volunteer", function (req, res) {
   res.render("volunteer");
 })
 
-app.get("/adminupload", function(req, res) {
-    res.render("adminupload");
+// Admin Upload Page
+app.get("/adminupload", function (req, res) {
+  res.render("adminupload");
+})
+
+//Student profile page
+app.get("/profile", function (req, res) {
+  res.render("profile");
 })
 
 // ============
@@ -236,6 +246,5 @@ function isLoggedIn(req, res, next) {
 }
 
 app.listen(process.env.PORT || 3000, process.env.IP, function () {
-
   console.log("Server has started!")
 })
