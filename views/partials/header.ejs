@@ -10,22 +10,6 @@
         <link rel="stylesheet" type="text/css" href="/stylesheets/app.css">
         <link href="https://fonts.googleapis.com/css?family=Roboto:100" rel="stylesheet">
         <script src="https://use.fontawesome.com/a0335568e4.js"></script>
-        <script>
-          // jQuery(function($) {
-          // $('.navbar .dropdown').hover(function() {
-          // $(this).find('.dropdown-menu').first().stop(true, true).delay(250).slideDown();
-
-          // }, function() {
-          // $(this).find('.dropdown-menu').first().stop(true, true).delay(100).slideUp();
-
-          // });
-
-          // $('.navbar .dropdown > a').click(function(){
-          // location.href = this.href;
-          // });
-
-          // });
-        </script>
     </head>
     <body>
 
@@ -82,13 +66,6 @@
             <li><a href="#">Signed in as <%= currentUser.username %></a></li>    
             <li><a href="/logout">Logout</a></li>
         <% } %>
-        <!-- <li class="dropdown">
-          <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Student <span class="caret"></span></a>
-          <ul class="dropdown-menu">
-            <li><a onclick=" window.open('https://docs.google.com/forms/d/e/1FAIpQLSddYBzbZqe3q61ya-qxeMOV9S1YYUiehHUdrJg-tujgoqA4vA/viewform?usp=sf_link')" role="button">New Student Sign Up</a></li>
-            <li><a onclick=" window.open('https://docs.google.com/forms/d/e/1FAIpQLScjpn-RbijDSqrf97oIDwgarG3fHchl4bWxRARqYfN530vfBA/viewform?usp=sf_link')" role="button">Returning Student Sign in</a></li>
-          </ul>
-        </li> -->
         <li><a href="/volunteer">Volunteer</a></li>
         </li>
       </ul>

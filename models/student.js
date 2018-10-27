@@ -24,7 +24,7 @@ var StudentSchema = new mongoose.Schema({
     // only has maps of <String, String>. Thoughts?
     current_questions: [{
         current_category: String,
-        currrent_question: [{
+        current_question: [{
             type: mongoose.Schema.Types.ObjectId,
             ref: 'Question'
         }]

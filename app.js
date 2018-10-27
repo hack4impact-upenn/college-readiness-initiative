@@ -31,13 +31,15 @@ app.use(express.static("public"));
 app.use(express.static("/images")); //needed for express to display images
 
 
+passport.use('tutor', new LocalStrategy(Tutor.authenticate()));
+passport.serializeUser(Tutor.serializeUser());
+passport.deserializeUser(Tutor.deserializeUser());
+
 passport.use('student', new LocalStrategy(Student.authenticate()));
 passport.serializeUser(Student.serializeUser());
 passport.deserializeUser(Student.deserializeUser());
 
-passport.use('tutor', new LocalStrategy(Tutor.authenticate()));
-passport.serializeUser(Tutor.serializeUser());
-passport.deserializeUser(Tutor.deserializeUser());
+
 
 passport.use('admin', new LocalStrategy(Admin.authenticate()));
 passport.serializeUser(Admin.serializeUser());
@@ -45,6 +47,7 @@ passport.deserializeUser(Admin.deserializeUser());
 
 app.use(function (req, res, next) {
   res.locals.currentUser = req.user;
+  console.log("current user: " + req.user);
   next();
 });
 
@@ -211,7 +214,10 @@ app.get("/profile", function (req, res) {
 // AUTH ROUTES
 // ============
 
-// show register form
+// show register forms
+app.get("/register", function(req, res) {
+  res.render("register");
+});
 app.get("/register/:userType", function(req, res) {
   res.render("register" + req.params.userType);
 });
@@ -259,7 +265,11 @@ app.post("/register/:userType", function(req, res) {
   }
 });
 
-// show login form
+// show login forms
+app.get("/login", function (req, res) {
+  res.render("login");
+});
+
 app.get("/login/:userType", function(req, res) {
   res.render("login" + req.params.userType);
 });
@@ -268,21 +278,21 @@ app.get("/login/:userType", function(req, res) {
 app.post("/login/student", passport.authenticate('student',
   {
     successRedirect: "/",
-    failureRedirect: "/login/Student"
+    failureRedirect: "/login/student"
 
   }), function (req, res) {
 });
 app.post("/login/tutor", passport.authenticate('tutor',
   {
     successRedirect: "/",
-    failureRedirect: "/login/Tutor"
+    failureRedirect: "/login/tutor"
 
   }), function (req, res) {
 });
 app.post("/login/admin", passport.authenticate('admin',
   {
     successRedirect: "/",
-    failureRedirect: "/login/Admin"
+    failureRedirect: "/login/admin"
 
   }), function (req, res) {
 });
