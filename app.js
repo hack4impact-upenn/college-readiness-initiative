@@ -5,6 +5,7 @@ var express       = require("express"),
     Student       = require("./models/student"),
     Admin         = require("./models/admin"),
     Tutor         = require("./models/tutor"),
+    School        = require("./models/school"),
     LocalStrategy = require("passport-local"),
     fs            = require('fs'),
     path          = require('path'); // needed for image paths
@@ -219,7 +220,14 @@ app.get("/register", function(req, res) {
   res.render("register");
 });
 app.get("/register/:userType", function(req, res) {
-  res.render("register" + req.params.userType);
+  if (req.params.userType == "student") {
+    School.find({}, function (err, data) {
+      res.render("registerstudent", { schools: data });
+    })
+  }
+  else {
+    res.render("register" + req.params.userType);
+  }
 });
 
 // handle sign up logic
