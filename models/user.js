@@ -1,5 +1,6 @@
 var mongoose = require("mongoose");
 var passportLocalMongoose = require("passport-local-mongoose");
+var options = { discriminatorKey: 'kind' }
 
 var options = { discriminatorKey: 'kind' };
 var UserSchema = new mongoose.Schema({
@@ -10,7 +11,8 @@ var UserSchema = new mongoose.Schema({
     	required: true,
     	enum: ["Admin", "Student", "Tutor"]
     }
-}, options);
+},
+    options);
 
 UserSchema.plugin(passportLocalMongoose);
 
@@ -70,6 +72,8 @@ var Admin = User.discriminator('Admin', AdminSchema);
 function addFakeStudent() {
 	console.log("inside addFakeStudent()");
     Student.create({
+    	username: "melissagu",
+    	password: "hack4impact",
     	first_name: "Melissa",
 		last_name: "Gu",
 		school: "University of Richmond",
@@ -106,5 +110,12 @@ function viewStudents() {
     });
 }
 
-addFakeStudent();
+function removeStudent(){
+	Student.deleteOne({username: 'melissagu'}, function (err) {
+  if (err) return handleError(err);
+})
+}
+
+//addFakeStudent();
 viewStudents();
+removeStudent();
