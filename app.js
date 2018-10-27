@@ -22,7 +22,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(require("express-session")({
   secret: "any string can go here",
   resave: false,
-  saveUnitialized: false,
+  saveUninitialized: false,
 }));
 app.use(passport.initialize());
 app.use(passport.session());
@@ -221,7 +221,8 @@ app.post("/register/:userType", function(req, res) {
   var type = req.params.userType;
   var newUser;
   if (type == "student") {
-    newUser = new Student({ username: req.body.username });
+    newUser = new Student({ username: req.body.username,
+                            school: req.body.school });
     Student.register(newUser, req.body.password, function(err, user){
       if (err) {
         console.log(err);
@@ -259,15 +260,29 @@ app.post("/register/:userType", function(req, res) {
 });
 
 // show login form
-app.get("/login", function(req, res) {
-  res.render("login");
+app.get("/login/:userType", function(req, res) {
+  res.render("login" + req.params.userType);
 });
 
 // handle login logic
-app.post("/login", passport.authenticate("local",
+app.post("/login/student", passport.authenticate('student',
   {
     successRedirect: "/",
-    failureRedirect: "/login"
+    failureRedirect: "/login/Student"
+
+  }), function (req, res) {
+});
+app.post("/login/tutor", passport.authenticate('tutor',
+  {
+    successRedirect: "/",
+    failureRedirect: "/login/Tutor"
+
+  }), function (req, res) {
+});
+app.post("/login/admin", passport.authenticate('admin',
+  {
+    successRedirect: "/",
+    failureRedirect: "/login/Admin"
 
   }), function (req, res) {
 });
