@@ -1,0 +1,27 @@
+<% include ./partials/header %>
+
+<h1>Student Sign Up!</h1>
+<p>whyyy</p>
+<p><%= schools %></p>
+<% schools.forEach(function(school) { %>
+    <p>sos</p>
+    <p><%= school.name %></p>
+<% }) %>
+
+<form action="/register/student" method="post">
+    <input type="text" name="username" placeholder="username">
+    <input type="password" name="password" placeholder="password">
+    <!-- <input type ="text" name="school" placeholder="School Name"> -->
+
+    <div class="form-check">
+        <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios1" value="option1" checked>
+            <% schools.forEach(function(school) { %>
+                <label class="form-check-label" for="gridRadios1"></label>
+                    Something
+                    <%= school.name %>
+                </label>
+            <% }) %> 
+    </div>
+    <button>Sign up!</button>
+</form>
+<% include ./partials/footer %>

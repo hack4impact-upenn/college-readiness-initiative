@@ -1,23 +1,27 @@
 var mongoose = require("mongoose");
-var User = require('./User.js');
-// UserSchema = mongoose.model('User').schema;
+var Student = require('./student.js');
+var Tutor = require('./tutor.js');
+mongoose.connect("mongodb://localhost:27017/session_db");
 
-mongoose.connect("mongodb://localhost/session_db");
-
-var sessionSchema = new mongoose.Schema({
+var SessionSchema = new mongoose.Schema({
 	date: Date,
-	Student: User,
-	Tutor: User
-
+	student: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Student'
+    },
+	tutor: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Tutor'
+    }
 });
 
-var Session = mongoose.model("session", sessionSchema);
+var Session = mongoose.model("Session", SessionSchema);
 
 function addFakeSession() {
     Session.create({
         date: new Date('December 17, 1996'),
-        Student: new User("student", "studentPassword"),
-        Tutor: new User("tutor", "tutorPassword")
+        Student: new Student("student", "studentPassword"),
+        Tutor: new Tutor("tutor", "tutorPassword")
     }, function(err, session) {
         if (err) {
             console.log(err);
