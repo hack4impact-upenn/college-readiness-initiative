@@ -12,7 +12,6 @@ var express       = require("express"),
 
 mongoose.connect('mongodb://localhost:27017/college_readiness_initiative', { useNewUrlParser: true });
 
-// mongoose.connect("mongodb://localhost/college_readiness_initiative", { useNewUrlParser: true });
 mongoose.Promise = global.Promise;
 
 var app = express();
@@ -31,16 +30,13 @@ app.use(passport.session());
 app.use(express.static("public"));
 app.use(express.static("/images")); //needed for express to display images
 
-
-passport.use('tutor', new LocalStrategy(Tutor.authenticate()));
-passport.serializeUser(Tutor.serializeUser());
-passport.deserializeUser(Tutor.deserializeUser());
-
 passport.use('student', new LocalStrategy(Student.authenticate()));
 passport.serializeUser(Student.serializeUser());
 passport.deserializeUser(Student.deserializeUser());
 
-
+passport.use('tutor', new LocalStrategy(Tutor.authenticate()));
+passport.serializeUser(Tutor.serializeUser());
+passport.deserializeUser(Tutor.deserializeUser());
 
 passport.use('admin', new LocalStrategy(Admin.authenticate()));
 passport.serializeUser(Admin.serializeUser());
