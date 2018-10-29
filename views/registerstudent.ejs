@@ -2,10 +2,11 @@
 
 <h1>Student Sign Up!</h1>
 <p>whyyy</p>
-            <% schools.forEach(function(school) { %>
-                <p>sos</p>
-                <p><%= school.name %></p>
-            <% }) %>
+<p><%= schools %></p>
+<% schools.forEach(function(school) { %>
+    <p>sos</p>
+    <p><%= school.name %></p>
+<% }) %>
 
 <form action="/register/student" method="post">
     <input type="text" name="username" placeholder="username">

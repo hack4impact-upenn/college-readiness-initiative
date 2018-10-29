@@ -222,7 +222,16 @@ app.get("/register", function(req, res) {
 app.get("/register/:userType", function(req, res) {
   if (req.params.userType == "student") {
     School.find({}, function (err, data) {
-      res.render("registerstudent", { schools: data });
+      if (err) {
+        console.log(err);
+      }
+      else {
+        console.log("inside else");
+        data.forEach(function(school) {
+          console.log(school);
+        });
+        res.render("registerstudent", { schools: data });
+      }
     })
   }
   else {
