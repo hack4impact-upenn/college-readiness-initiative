@@ -49,54 +49,47 @@ module.exports = Student;
 
 
 
-// // Method that populates database with a fake User
-// function addFakeStudent() {
-//     console.log("inside addFakeStudent()");
-//     Student.create({
-//         username: "melissagu",
-//         password: "hack4impact",
-//         first_name: "Melissa",
-//         last_name: "Gu",
-//         school: "University of Richmond",
-//         year: 2020,
-//         past_sat_score: 1600,
-//         new_sat_score: 1600,
-//         num_questions_completed: 4,
-//         test_date: Date.now(),
-//         categories_completed: ["Problem Solving", "Arithmetic"],
-//         current_questions: [],
-//         correct_questions: [],
-//         missed_questions: [],
-//         to_review_questions: []
-//     }, function (err, question) {
-//         if (err) {
-//             console.log(err);
-//         }
-//         else {
-//             console.log("Added Student to database");
-//         }
-//     });
-// }
+// Method that populates database with a fake User
+function addFakeStudent() {
+    console.log("inside addFakeStudent()");
+    Student.create({
+        username: "johnsmith",
+        password: "hack4impact",
+        first_name: "John",
+        last_name: "Smith",
+        school: "John Marshall",
+        year: 2020,
+        past_sat_score: 1600,
+        new_sat_score: 1600,
+        num_questions_completed: 4,
+        test_date: Date.now(),
+        categories_completed: ["Problem Solving", "Arithmetic"],
+        current_questions: [],
+        correct_questions: [],
+        missed_questions: [],
+        to_review_questions: []
+    }, function (err, question) {
+        if (err) {
+            console.log(err);
+        }
+        else {
+            console.log("Added Student to database");
+        }
+    });
+}
 
-// // Method that displays questions in the database
-// function viewStudents() {
-//     Student.find({}, function (err, students) {
-//         if (err) {
-//             console.log(err);
-//         }
-//         else {
-//             console.log("Students:");
-//             console.log(students);
-//         }
-//     });
-// }
+// Method that displays questions in the database
+function viewStudents() {
+    Student.find({}, function (err, students) {
+        if (err) {
+            console.log(err);
+        }
+        else {
+            console.log("Students:");
+            console.log(students);
+        }
+    });
+}
 
-// function removeStudent() {
-//     Student.deleteOne({ username: 'melissagu' }, function (err) {
-//         if (err) return handleError(err);
-//     })
-// }
-
-// //addFakeStudent();
+// addFakeStudent();
 // viewStudents();
-// removeStudent();

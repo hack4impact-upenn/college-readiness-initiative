@@ -16,19 +16,24 @@ var SessionSchema = new mongoose.Schema({
 });
 
 var Session = mongoose.model("Session", SessionSchema);
+module.exports = Session;
 
 function addFakeSession() {
-    Session.create({
-        date: new Date('December 17, 1996'),
-        Student: new Student("student", "studentPassword"),
-        Tutor: new Tutor("tutor", "tutorPassword")
-    }, function(err, session) {
-        if (err) {
-            console.log(err);
-        }
-        else {
-            console.log("Added session to database");
-        }
+    Student.findOne({}, function(err, foundStudent) {
+        Tutor.findOne({}, function(err, foundTutor) {
+            Session.create({
+                date: new Date(),
+                student: foundStudent,
+                tutor: foundTutor
+            }, function(err, session) {
+                if (err) {
+                    console.log(err);
+                }
+                else {
+                    console.log(session);
+                }
+            });
+        });
     });
 }
 
