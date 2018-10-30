@@ -1,7 +1,4 @@
 <% include partials/header %>
-<head>
-	<script src='../models/parse_csv.js' type="text/javascript"></script>
-</head>
 
 <div class="jumbotron notebookpic">
     <h1 id="pagetitle">Upload Test Questions</h1>
@@ -32,12 +29,15 @@
     	    <input type="text" class="form-control" id="URL" placeholder="Enter URL">
 	</div>
 	<br />
-        <button type="submit" class="btn btn-primary" onclick="submitURL(document.getElementById('URL').value)">Submit</button>
+        <button type="submit" class="btn btn-primary" onclick="submitURL()">Submit</button>
 	</form>
 
-	<script>
-		function submitURL(url) {
-		    parseCSV(url);
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/4.6.1/papaparse.min.js"></script>
+	<script type="text/javascript" src='/models/parseCSV.js'></script>
+	<script type="text/javascript">
+		function submitURL() {
+		    var url = document.getElementById("URL").value; //pull URL
+		    parseCSV(url); //pass to parseCSV() to add to database
 		    window.alert("Submitted " + url + " successfully!");
 		    document.getElementById("submitURL").reset();
 		}

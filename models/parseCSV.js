@@ -1,6 +1,5 @@
-var mongoose = require("mongoose"); //ensures interaction with DB previously made
-
 function parseCSV(url) {
+	var mongoose = require("mongoose"); //ensures interaction with DB
 	var parsedData; //array to contain the parsed data to turn into documents
 	
 	Papa.parse(url, { //using Papa Parse
@@ -16,6 +15,7 @@ function parseCSV(url) {
 		step: undefined, //streaming not necessary, file not large enough
 		complete: function(results) { //store results of parse (callback)
 			parsedData = results.data;
+			console.log("Finished!", results.data);
 		},
 		skipEmptyLines: true, //skip empty rows
 		chunk: undefined, //step is being used; don't chunk (bad practice)
@@ -29,7 +29,7 @@ function parseCSV(url) {
 	//skipping parsedData[0], as it contains headers
 	for(var i = 1; i < parsedData.length; i++) {
 		//create Question document
-		let q = new QuestionModel({
+		var q = new QuestionModel({
 			description: parsedData[i][0],
 			knowledge: parsedData[i][1],
 			test_num: parsedData[i][2],
@@ -40,7 +40,7 @@ function parseCSV(url) {
 			question_num: Number(parsedData[i][7]),
 			category: parsedData[i][8],
 			subcategory: parsedData[i][9],
-			isMC: parsedData[i][10] === 'A' || parsedData[i][10] === 'B' || parsedData[i][10] === 'C' || parsedData[i][10] === 'D',
+			isMC: (parsedData[i][10] === 'A') || (parsedData[i][10] === 'B') || (parsedData[i][10] === 'C') || (parsedData[i][10] === 'D'),
 			answer: parsedData[i][10]
 		
 		});

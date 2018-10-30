@@ -25,6 +25,7 @@ app.use(passport.session());
 
 app.use(express.static("public"));
 app.use(express.static("/images")); //needed for express to display images
+app.use("/models", express.static(__dirname + '/models')); //needed for upload question script(?)
 
 
 passport.use(new LocalStrategy(User.authenticate()));
