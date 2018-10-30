@@ -92,4 +92,4 @@ function viewStudents() {
 }
 
 // addFakeStudent();
-// viewStudents();
+viewStudents();

@@ -6,7 +6,7 @@ mongoose.connect("mongodb://localhost:27017/admin_db");
 
 var AdminSchema = new mongoose.Schema({
     username: String,
-    password: String,
+    password: String
 
 });
 
@@ -35,5 +35,5 @@ function populateDB() {
     });
 }
 
-populateDB();
+//populateDB();
 //removeUser();
