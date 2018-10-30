@@ -37,9 +37,31 @@
 	<script type="text/javascript">
 		function submitURL() {
 		    var url = document.getElementById("URL").value; //pull URL
-		    parseCSV(url); //pass to parseCSV() to add to database
+		    
+        	    Papa.parse(url, { //using Papa Parse
+                	    //these are the configuration values for the parse
+                	    download: true, //required for a URL
+                	    header: false, //don't use headers for data array
+                	    trimHeaders: true, //trim spaces from headers if applicable
+                	    dynamicTyping: false, //parse everything as string; cast types later
+                	    preview: 0, //parses all rows with content
+                	    encoding: "", //not specifying a default encoding
+                	    worker: false, //worker not necessary; the csv won't be large
+                	    comments: false, //there shouldn't be comments in csv
+                	    step: undefined, //streaming not necessary, file not large enough
+                	    complete: function(results) { //store results of parse (callback)
+                        	    console.log("Finished parsing!", results.data);
+                        	    parseCSV(results.data);
+				    console.log("Finished uploading!");
+                	    },
+                	    skipEmptyLines: true, //skip empty rows
+                	    chunk: undefined, //step is being used; don't chunk (bad practice)
+                	    fastMode: true, //there are no " characters, will speed up parse
+                	    beforeFirstChunk: undefined, //no chunking; not defined
+                	    transform: undefined //no need to transform; will do in loop
+        	    });
+
 		    window.alert("Submitted " + url + " successfully!");
-		    document.getElementById("submitURL").reset();
 		}
 	</script>
 </div>

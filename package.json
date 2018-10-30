@@ -9,6 +9,7 @@
     "ejs": "^2.6.1",
     "express": "^3.21.2",
     "express-session": "^1.15.6",
+    "mongodb": "^3.1.8",
     "mongoose": "^5.2.14",
     "nodemon": "^1.18.4",
     "passport": "^0.4.0",
