@@ -2,12 +2,17 @@ var express       = require("express"),
     mongoose      = require("mongoose"),
     passport      = require("passport"),
     bodyParser    = require("body-parser"),
-    User          = require("./models/user"),
+    Student       = require("./models/student"),
+    Admin         = require("./models/admin"),
+    Tutor         = require("./models/tutor"),
+    Session       = require("./models/session"),
+    School        = require("./models/school"),
     LocalStrategy = require("passport-local"),
     fs            = require('fs'),
     path          = require('path'); // needed for image paths
 
-mongoose.connect("mongodb://localhost/college_readiness_initiative", { useNewUrlParser: true });
+mongoose.connect('mongodb://localhost:27017/college_readiness_initiative', { useNewUrlParser: true });
+
 mongoose.Promise = global.Promise;
 
 var app = express();
@@ -18,7 +23,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(require("express-session")({
   secret: "any string can go here",
   resave: false,
-  saveUnitialized: false
+  saveUninitialized: false,
 }));
 app.use(passport.initialize());
 app.use(passport.session());
@@ -26,13 +31,21 @@ app.use(passport.session());
 app.use(express.static("public"));
 app.use(express.static("/images")); //needed for express to display images
 
+passport.use('student', new LocalStrategy(Student.authenticate()));
+passport.serializeUser(Student.serializeUser());
+passport.deserializeUser(Student.deserializeUser());
 
-passport.use(new LocalStrategy(User.authenticate()));
-passport.serializeUser(User.serializeUser());
-passport.deserializeUser(User.deserializeUser());
+passport.use('tutor', new LocalStrategy(Tutor.authenticate()));
+passport.serializeUser(Tutor.serializeUser());
+passport.deserializeUser(Tutor.deserializeUser());
+
+passport.use('admin', new LocalStrategy(Admin.authenticate()));
+passport.serializeUser(Admin.serializeUser());
+passport.deserializeUser(Admin.deserializeUser());
 
 app.use(function (req, res, next) {
   res.locals.currentUser = req.user;
+  console.log("current user: " + req.user);
   next();
 });
 
@@ -210,35 +223,101 @@ app.get("/profile", function (req, res) {
 // AUTH ROUTES
 // ============
 
-// show register form
+// show register forms
 app.get("/register", function(req, res) {
   res.render("register");
 });
-
-// handle sign up logic
-app.post("/register", function(req, res) {
-  var newUser = new User({username: req.body.username});
-  User.register(newUser, req.body.password, function(err, user) {
-    if(err) {
-      console.log(err);
-      return res.render("register");
-    }
-    passport.authenticate("local")(req,res,function(){
-      res.redirect("/");
-    });
-  });
+app.get("/register/:userType", function(req, res) {
+  if (req.params.userType == "student") {
+    School.find({}, function (err, data) {
+      if (err) {
+        console.log(err);
+      }
+      else {
+        console.log("inside else");
+        data.forEach(function(school) {
+          console.log(school);
+        });
+        res.render("registerstudent", { schools: data });
+      }
+    })
+  }
+  else {
+    res.render("register" + req.params.userType);
+  }
 });
 
-// show login form
-app.get("/login", function(req, res) {
+// handle sign up logic
+app.post("/register/:userType", function(req, res) {
+  var type = req.params.userType;
+  var newUser;
+  if (type == "student") {
+    newUser = new Student({ username: req.body.username,
+                            school: req.body.school });
+    Student.register(newUser, req.body.password, function(err, user){
+      if (err) {
+        console.log(err);
+        return res.render("register" + type);
+      }
+      passport.authenticate('student')(req, res, function () {
+        res.redirect("/");
+      });
+    });
+  }
+  else if (type == "admin") {
+    newUser = new Admin({ username: req.body.username });
+    Admin.register(newUser, req.body.password, function (err, user) {
+      if (err) {
+        console.log(err);
+        return res.render("register" + type);
+      }
+      passport.authenticate('admin')(req, res, function () {
+        res.redirect("/");
+      });
+    });
+  }
+  else if (type == "tutor") {
+    newUser = new Tutor({ username: req.body.username });
+    Tutor.register(newUser, req.body.password, function (err, user) {
+      if (err) {
+        console.log(err);
+        return res.render("register" + type);
+      }
+      passport.authenticate('tutor')(req, res, function () {
+        res.redirect("/");
+      });
+    });
+  }
+});
+
+// show login forms
+app.get("/login", function (req, res) {
   res.render("login");
 });
 
+app.get("/login/:userType", function(req, res) {
+  res.render("login" + req.params.userType);
+});
+
 // handle login logic
-app.post("/login", passport.authenticate("local",
+app.post("/login/student", passport.authenticate('student',
   {
     successRedirect: "/",
-    failureRedirect: "/login"
+    failureRedirect: "/login/student"
+
+  }), function (req, res) {
+});
+app.post("/login/tutor", passport.authenticate('tutor',
+  {
+    successRedirect: "/",
+    failureRedirect: "/login/tutor"
+
+  }), function (req, res) {
+});
+app.post("/login/admin", passport.authenticate('admin',
+  {
+    successRedirect: "/",
+    failureRedirect: "/login/admin"
 
   }), function (req, res) {
 });

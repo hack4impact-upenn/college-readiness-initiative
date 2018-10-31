@@ -1,0 +1,10 @@
+<% include ./partials/header %>
+<h1>Tutor Login!</h1>
+
+<form action="/login/tutor" + userType method="POST">
+    <input type="text" name="username" placeholder="username">
+    <input type="password" name="password" placeholder="password">
+    <input type="submit" value="Login">
+</form>
+
+<% include ./partials/footer %>
