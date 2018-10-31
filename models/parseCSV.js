@@ -5,7 +5,7 @@ window.parseCSV = function(file) {
 	Papa.parse(file, { //using Papa Parse
 	//these are the configuration values for the parse
 		delimiter: "", //auto detect
-		newline: "", //auto detect
+		newline: "", //autonot URL
 		download: false, //required for a URL
 		header: false, //don't use headers for data array
 		trimHeaders: true, //trim spaces from headers if applicable
