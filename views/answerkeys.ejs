@@ -10,14 +10,14 @@
 
 
 <% questions.forEach(function(question){ %>
-  <p>Yes!</p>
+  <h3><%= question.description %></h3>
+  <p><%= question.knowledge %></p>
+  <p><%= question.test_num %></p>
+  <p><%= question.difficulty %></p>
+  <img src="<%= question.image_link %>">
+  <hr>
+  <br>
 <% }) %>
-
-<!-- <% for (var i = 0; i <3; i++) { %>
-  Hello!
-  <% } %>
-
-
 
 </div>
 
