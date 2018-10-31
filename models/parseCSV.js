@@ -1,4 +1,5 @@
 window.parseCSV = function(url) {
+
 	var arr; //array later used to insert quesitons
 
 	Papa.parse(url, { //using Papa Parse
@@ -13,38 +14,37 @@ window.parseCSV = function(url) {
 		encoding: "", //not specifying a default encoding
 		worker: false, //worker not necessary;
 		comments: false, //there shouldn't be comments in csv
-		step: function(results) { //necessary to avoid max stack capacity
+		complete: function(results) { //file shouldn't be so large as to break the site
 			console.log("Finished parsing!", results.data);
-			arr = results.data;
+			arr = results.data; //assign results to manipulation array
 			
-			var MongoClient = require('mongodb').MongoClient;
-			MongoClient.connect('mongodb://localhost:27017/question_db', function(err,db) { //open and connect to DB
-				if(err) throw err;
-				console.log("Connected successfully to " + db.databaseName);
-				if(arr[0][0] != "Description") { //avoid parsing header row
-					db.collection('test_questions').insertOne({ //the array will have only one row
-						description: arr[0][0],
-						knowledge: arr[0][1],
-						test_num: arr[0][2],
-						calc: arr[0][3] == 'W',
-						image_link: arr[0][4],
-						difficulty: Number(arr[0][5]),
-						type: arr[0][6],
-						question_num: Number(arr[0][7]),
-						category: arr[0][8],
-						subcategory: arr[0][9],
-						isMC: (arr[0][10] == 'A') || (arr[0][10] == 'B') || (arr[0][10] == 'C') || (arr[0][10] == 'D'),
-						answer: arr[0][10]
-					}, function(err,res) {
-						if(err) throw err;
-						console.log("Document " + i + " inserted!");
-						db.close();
-					});
-				}
-			});
+			var mongoose = require('mongoose');
+			var question = require('./question.js'); //get questions schema
+
+			for(var i = 1; i < arr.length; i++) { //avoid parsing header row
+				var q = new Question({ //create question
+					description: arr[i][0],
+					knowledge: arr[i][1],
+					test_num: arr[i][2],
+					calc: arr[i][3] == 'W',
+					image_link: arr[i][4],
+					difficulty: Number(arr[i][5]),
+					type: arr[i][6],
+					question_num: Number(arr[i][7]),
+					category: arr[i][8],
+					subcategory: arr[i][9],
+					isMC: (arr[i][10] == 'A') || (arr[i][10] == 'B') || (arr[i][10] == 'C') || (arr[i][10] == 'D'),
+					answer: arr[i][10]
+				});
+				
+				q.save(function(err,doc) { //saves question
+					if(err) throw err;
+					console.log("Document " + i + " inserted!");
+					console.log(doc);
+				});
+			}
 			console.log("Finished uploading!");
 		},
-		complete: undefined, //file too large for complete callback
 		skipEmptyLines: true, //skip empty rows
 		chunk: undefined, //step is being used; don't chunk (bad practice)
 		fastMode: true, //there are no " characters, will speed up parse
@@ -55,4 +55,5 @@ window.parseCSV = function(url) {
 
 //make sure the URL is set to download a CSV
 //also, this is a temporary URL for testing
-//var testURL = 'https://docs.google.com/spreadsheets/d/1vxBFJ1hNUa-FppSxs9zJObv5bPrKD-PCSFUNZ0E_XDY/export?format=csv&gid=1174560920';
+var testURL = 'https://docs.google.com/spreadsheets/d/1vxBFJ1hNUa-FppSxs9zJObv5bPrKD-PCSFUNZ0E_XDY/export?format=csv&gid=1174560920';
+window.parseCSV(testURL);
