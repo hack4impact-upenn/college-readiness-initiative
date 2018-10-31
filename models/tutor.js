@@ -19,28 +19,17 @@ module.exports = Tutor;
 function addFakeTutor() {
     console.log("inside addFakeTutor()");
     Tutor.create({
-        username: "johnnymith",
-        password: "12345",
-        first_name: "Johnny",
-        last_name: "Mith",
-        tutee_username: "johnsmith"
-    }, function (err, question) {
+        username: "tutor_username",
+        password: "password",
+        first_name: "John",
+        last_name: "Smith",
+        tutee_username: "student_username"
+    }, function (err, tutor) {
         if (err) {
             console.log(err);
         }
         else {
-            console.log("Added Tutor to database");
-        }
-    });
-}
-
-function removeUser() {
-    Admin.deleteOne({ username: 'username' }, function (err) {
-        if (err) {
-            return handleError(err);
-        }
-        else {
-            console.log("Removed Tutor from database:");
+            console.log("Added Tutor: " + tutor.username);
         }
     });
 }
@@ -57,5 +46,17 @@ function viewTutors() {
     });
 }
 
-// addFakeStudent();
-// viewStudents();
+function removeTutor(username) {
+    Tutor.deleteOne({ username: username }, function (err) {
+        if (err) {
+            console.log(err);
+        }
+        else {
+            console.log("Removed Tutor from database:");
+        }
+    });
+}
+
+// // addFakeTutor();
+// viewTutors();
+// removeTutor("tutor_username");

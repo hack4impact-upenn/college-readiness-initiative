@@ -1,39 +1,47 @@
 var mongoose = require("mongoose");
 var passportLocalMongoose = require("passport-local-mongoose");
 mongoose.connect("mongodb://localhost:27017/admin_db");
-//var connection = mongoose.createConnection("mongodb://localhost:27017/admin_db");
-//var db = mongoose.connection;
 
 var AdminSchema = new mongoose.Schema({
     username: String,
     password: String
-
 });
 
 AdminSchema.plugin(passportLocalMongoose);
 var Admin = mongoose.model("Admin", AdminSchema);
-//var Admin = connection.model("Admin", AdminSchema);
 module.exports = Admin;
 
-function removeUser() {
-    Admin.deleteOne({ username: 'username' }, function (err) {
-        if (err) return handleError(err);
-    });
-}
-
-function populateDB() {
+function addFakeAdmin() {
     Admin.create({
-        username: "username",
+        username: "admin_username",
         password: "password"
-    }, function (err, question) {
+    }, function (err, admin) {
         if (err) {
             console.log(err);
         }
         else {
-            console.log("Added test");
+            console.log("Added admin " + admin.username);
         }
     });
 }
 
-//populateDB();
-//removeUser();
+function viewAdmins() {
+    Admin.find({}, function (err, admins) {
+        console.log(admins);
+    });
+}
+
+function removeAdmin(username) {
+    Admin.deleteOne({ username: username }, function (err) {
+        if (err) {
+            console.log(err);
+        } 
+        else {
+            console.log("Removed Admin: " + username);
+        }
+    });
+}
+
+// addFakeAdmin();
+// viewAdmins();
+// removeAdmin("admin_username");

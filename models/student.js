@@ -53,10 +53,10 @@ module.exports = Student;
 function addFakeStudent() {
     console.log("inside addFakeStudent()");
     Student.create({
-        username: "johnsmith",
-        password: "hack4impact",
-        first_name: "John",
-        last_name: "Smith",
+        username: "student_username",
+        password: "password",
+        first_name: "Bob",
+        last_name: "Student",
         school: "John Marshall",
         year: 2020,
         past_sat_score: 1600,
@@ -91,5 +91,17 @@ function viewStudents() {
     });
 }
 
+function removeStudent(username) {
+    Student.deleteOne({username: username}, function(err) {
+        if (err) {
+            console.log(err);
+        }
+        else {
+            console.log("Removed Student: " + username);
+        }
+    });
+}
+
 // addFakeStudent();
-viewStudents();
+// removeStudent("student_username");
+// viewStudents();
