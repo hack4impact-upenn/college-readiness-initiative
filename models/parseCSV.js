@@ -16,8 +16,8 @@ window.parseCSV = function(url) {
 		comments: false, //there shouldn't be comments in csv
 		complete: function(results) { //file shouldn't be so large as to break the site
 			console.log("Finished parsing!", results.data);
-			arr = results.data; //assign results to manipulation array
-			
+			return results.data; //assign results to manipulation array
+			/*
 			var mongoose = require('mongoose');
 			var question = require('./question.js'); //get questions schema
 
@@ -43,7 +43,7 @@ window.parseCSV = function(url) {
 					console.log(doc);
 				});
 			}
-			console.log("Finished uploading!");
+			console.log("Finished uploading!");*/
 		},
 		skipEmptyLines: true, //skip empty rows
 		chunk: undefined, //step is being used; don't chunk (bad practice)
