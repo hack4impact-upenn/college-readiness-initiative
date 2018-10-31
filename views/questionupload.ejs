@@ -1,5 +1,5 @@
 <% include partials/header %>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/4.6.1/papaparse.min.js"></script>
 <div class="jumbotron notebookpic">
     <h1 id="pagetitle">Upload Test Questions</h1>
     <h2 class="pagesub">Upload CSV of Test Questions</h2>
@@ -26,21 +26,22 @@
     <h2><u>Upload CSV File</u></h2>
     <form action="/questionupload" method="post">
 		<div class="input-group mb-3">
-				<input type="text" class="form-control" name="URL" placeholder="Enter URL">
+				<input type="file" id="fileItem">
+				<!-- <input type="text" class="form-control" name="URL" placeholder="Enter URL"> -->
 		</div>
 		<br />
-		<button type="submit" class="btn btn-primary" onclick="submitURL()">Submit</button>
+		<button type="submit" class="btn btn-primary" >Submit</button>
 	</form>
 
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/4.6.1/papaparse.min.js"></script>
-	<script type="text/javascript" src='/models/bundle.js'></script>
-	<script type="text/javascript">
+	
+	<!-- <script type="text/javascript" src='/models/bundle.js'></script> -->
+	<!-- <script type="text/javascript">
 		function submitURL() {
 		    var url = document.getElementById("URL").value; //pull URL
 		    parseCSV(url);
 		    window.alert("Submitted " + url + " successfully!");
 		}
-	</script>
+	</script> -->
 </div>
 
 

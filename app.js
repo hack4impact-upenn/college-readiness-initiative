@@ -8,6 +8,7 @@ var express       = require("express"),
     Session       = require("./models/session"),
     School        = require("./models/school"),
     LocalStrategy = require("passport-local"),
+    parseCSV      = require("./models/parseCSV"),
     fs            = require('fs'),
     path          = require('path'); // needed for image paths
 
@@ -335,7 +336,7 @@ app.get("/questionupload", function (req, res) {
 })
 
 app.post("/questionupload", function(req, res) {
-  var url = req.body.URL;
-  var questionArray = parseCSV(url);
+  var file = document.getElementById('fileItem').files[0];
+  var questionArray = parseCSV(file);
   insertQuestions(questionArray);
 });
