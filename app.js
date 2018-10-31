@@ -333,3 +333,9 @@ app.listen(process.env.PORT || 3000, process.env.IP, function () {
 app.get("/questionupload", function (req, res) {
   res.render("questionupload");
 })
+
+app.post("/questionupload", function(req, res) {
+  var url = req.body.URL;
+  var questionArray = parseCSV(url);
+  insertQuestions(questionArray);
+});
