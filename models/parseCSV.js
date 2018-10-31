@@ -29,11 +29,6 @@ var parseCSV = function parseCSV(file) {
 
 //make sure the URL is set to download a CSV
 //also, this is a temporary URL for testing
-<<<<<<< HEAD
 var testURL = 'https://docs.google.com/spreadsheets/d/1vxBFJ1hNUa-FppSxs9zJObv5bPrKD-PCSFUNZ0E_XDY/export?format=csv&gid=1174560920';
 // window.parseCSV(testURL);
 module.exports = parseCSV;
-=======
-//var testURL = 'https://docs.google.com/spreadsheets/d/1vxBFJ1hNUa-FppSxs9zJObv5bPrKD-PCSFUNZ0E_XDY/export?format=csv&gid=1174560920';
-//window.parseCSV(testURL);
->>>>>>> c28a7c05bd7a55f3f8089aff01080e3a6b8ffc40
