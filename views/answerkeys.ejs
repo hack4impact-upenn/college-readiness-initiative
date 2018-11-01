@@ -6,18 +6,24 @@
     <h2 class="pagesub">All Problems and Answers.</h2>
 </div>
 <div class="container pagetext">
-    <h2>Questions and Answers: </h2>
+    <table class="table">
+       <thead>
+           <tr>
+               <th scope="col">Question</th>
+               <th scope="col">Answer</th>
+               <th scope="col">Category</th>
+           </tr>
+       </thead>
+        <% questions.forEach(function(question){ %>
+            <tr>
+                <td><img src="<%= question.image_link %>" width="600px"></td>
+                <td><%= question.answer %></td>
+                <td><%= question.category %></td>
+            </tr>
+        <% }) %>
+    </table>
 
-
-<% questions.forEach(function(question){ %>
-  <h3><%= question.description %></h3>
-  <p><%= question.knowledge %></p>
-  <p><%= question.test_num %></p>
-  <p><%= question.difficulty %></p>
-  <img src="<%= question.image_link %>">
-  <hr>
-  <br>
-<% }) %>
+    
 
 </div>
 
