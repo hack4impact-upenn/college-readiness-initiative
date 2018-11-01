@@ -73,6 +73,17 @@ app.get("/boardmembers", function (req, res) {
   res.render("boardmembers");
 })
 
+fs.readdirSync(__dirname + '/models').forEach(function(filename) {
+    if(~filename.indexOf('.js')) require(__dirname + '/models/' + filename)
+})
+
+// Answer Keys page route
+app.get("/answerkeys", function(req, res) {
+    mongoose.model('Question').find(function(err, questions) {
+        res.render("answerkeys", {questions: questions});
+    });
+})
+
 // SAT Prep Page
 app.get("/satprep", function (req, res) {
   res.render("satprep");
