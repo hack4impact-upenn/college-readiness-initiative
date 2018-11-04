@@ -42,6 +42,6 @@ function removeAdmin(username) {
     });
 }
 
-// addFakeAdmin();
-// viewAdmins();
+addFakeAdmin();
+viewAdmins();
 // removeAdmin("admin_username");
