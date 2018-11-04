@@ -1,0 +1,13 @@
+<% include partials/header %>
+<div class="jumbotron profilepic">
+  <h1 id="profiletitle">Admin Dashboard</h1>
+</div>
+
+<div class="profileinfo">
+	<% admins.forEach(function (admin) { %>
+    <%= admin.username %> <!-- note you defined the field as Name not name -->
+	<% }) %>
+</div>
+
+
+<% include partials/footer %>
