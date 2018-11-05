@@ -1,0 +1,30 @@
+
+<% include partials/header %>
+
+<div class="jumbotron notebookpic">
+    <h1 id="pagetitle">Answer Keys</h1>
+    <h2 class="pagesub">All Problems and Answers.</h2>
+</div>
+<div class="container pagetext">
+    <table class="table">
+       <thead>
+           <tr>
+               <th scope="col">Question</th>
+               <th scope="col">Answer</th>
+               <th scope="col">Category</th>
+           </tr>
+       </thead>
+        <% questions.forEach(function(question){ %>
+            <tr>
+                <td><img src="<%= question.image_link %>" width="600px"></td>
+                <td><%= question.answer %></td>
+                <td><%= question.category %></td>
+            </tr>
+        <% }) %>
+    </table>
+
+    
+
+</div>
+
+<% include partials/footer %>
