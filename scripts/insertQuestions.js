@@ -1,24 +1,25 @@
 var insertQuestions = function insertQuestions(arr) {
 	var mongoose = require('mongoose');
-	var QuestionModel = require('../models/question');
+	var QuestionModel = require('../models/question.js');
 
     for (var i = 1; i < arr.length; i++) {
-        let q = new QuestionModel({
-            description: arr[i][0],
-            knowledge: arr[i][1],
-            test_num: arr[i][2],
-            calc: arr[i][3] == 'W',
-            image_link: arr[i][4],
-            difficulty: Number(arr[i][5]),
-            type: arr[i][6],
-            question_num: Number(arr[i][7]),
-            category: arr[i][8],
-            subcategory: arr[i][9],
-            isMC: (arr[i][10] == 'A') || (arr[i][10] == 'B') || (arr[i][10] == 'C') || (arr[i][10] == 'D'),
-            answer: arr[i][10]
-        });
-	q.save();
-        console.log("Added question " + i + " to database");
+        var newQ = new QuestionModel;
+           newQ.description = arr[i][0];
+           newQ.knowledge = arr[i][1];
+           newQ.test_num = arr[i][2];
+           newQ.calc = arr[i][3] == 'W';
+           newQ.image_link = arr[i][4];
+           newQ.difficulty = Number(arr[i][5]);
+           newQ.type = arr[i][6];
+           newQ.question_num = Number(arr[i][7]);
+           newQ.category = arr[i][8];
+           newQ.subcategory = arr[i][9];
+           newQ.isMC = (arr[i][10] == 'A') || (arr[i][10] == 'B') || (arr[i][10] == 'C') || (arr[i][10] == 'D');
+           newQ.answer = arr[i][10];
+
+	newQ.save(function() {
+		console.log("Added question " + i + " to database");
+	});
     }
     console.log("Finished uploading!");
 }
