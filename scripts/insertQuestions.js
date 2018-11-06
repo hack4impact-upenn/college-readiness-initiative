@@ -17,8 +17,8 @@ var insertQuestions = function insertQuestions(arr) {
            newQ.isMC = (arr[i][10] == 'A') || (arr[i][10] == 'B') || (arr[i][10] == 'C') || (arr[i][10] == 'D');
            newQ.answer = arr[i][10];
 
-	newQ.save(function() {
-		console.log("Added question " + i + " to database");
+	newQ.save(function(err) {
+		if(err) throw err;
 	});
     }
     console.log("Finished uploading!");
