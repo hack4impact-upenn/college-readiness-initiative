@@ -3,11 +3,14 @@
   <h1 id="profiletitle">Admin Dashboard</h1>
 </div>
 
+
 <div class="profileinfo">
 	<% admins.forEach(function (admin) { %>
-    <%= admin.username %> <!-- note you defined the field as Name not name -->
+		<%= admin.username %> 
+		<%= admin.password %>
 	<% }) %>
 </div>
+
 
 
 <% include partials/footer %>

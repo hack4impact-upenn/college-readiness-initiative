@@ -546,6 +546,11 @@ div a:after {
     background-color: #333; /* Modern Browsers */
 } 
 
+.profileinfo {
+    padding:5px;
+    white-space: pre-wrap;
+}
+
 #profiletitle {
      color: white;
      font-size: 4em;
