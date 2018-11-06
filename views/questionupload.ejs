@@ -24,24 +24,13 @@
     <p>When you are finished entering all of your data, generate a URL to download your file and enter it in the field below. Click "Submit" to upload the questions within the file.</p>
 
     <h2><u>Upload CSV File</u></h2>
-    <form action="/questionupload" method="post">
+    <form name="upload" action="/questionupload" method="post">
 		<div class="input-group mb-3">
-				<input type="file" id="fileItem" name="fileItem">
-				<!-- <input type="text" class="form-control" name="URL" placeholder="Enter URL"> -->
+				<input type="text" name="URL" placeholder="Enter URL">
 		</div>
 		<br />
-		<button type="submit" class="btn btn-primary" >Submit</button>
+		<input type="submit"></button>
 	</form>
-
-	
-	<!-- <script type="text/javascript" src='/models/bundle.js'></script> -->
-	<!-- <script type="text/javascript">
-		function submitURL() {
-		    var url = document.getElementById("URL").value; //pull URL
-		    parseCSV(url);
-		    window.alert("Submitted " + url + " successfully!");
-		}
-	</script> -->
 </div>
 
 

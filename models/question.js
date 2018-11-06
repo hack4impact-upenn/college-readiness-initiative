@@ -72,7 +72,7 @@ function addFakeQuestion() {
 
 // Method that displays questions in the database
 function viewQuestions() {
-    Question.find({}, function(err, questions){
+    QuestionModel.find({}, function(err, questions){
         if (err) {
             console.log(err);
         }

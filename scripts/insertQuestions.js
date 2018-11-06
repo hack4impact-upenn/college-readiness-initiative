@@ -1,7 +1,9 @@
 var insertQuestions = function insertQuestions(arr) {
-    for (var i = 1; i < arr.length; i++) {
+	var mongoose = require('mongoose');
+	var QuestionModel = require('../models/question');
 
-        Question.create({
+    for (var i = 1; i < arr.length; i++) {
+        let q = new QuestionModel({
             description: arr[i][0],
             knowledge: arr[i][1],
             test_num: arr[i][2],
@@ -14,14 +16,11 @@ var insertQuestions = function insertQuestions(arr) {
             subcategory: arr[i][9],
             isMC: (arr[i][10] == 'A') || (arr[i][10] == 'B') || (arr[i][10] == 'C') || (arr[i][10] == 'D'),
             answer: arr[i][10]
-        }, function (err, question) {
-            if (err) {
-                console.log(err);
-            }
-            else {
-                console.log("Added " + i + " question to database");
-            }
         });
+	q.save();
+        console.log("Added question " + i + " to database");
     }
+    console.log("Finished uploading!");
 }
+
 module.exports = insertQuestions;

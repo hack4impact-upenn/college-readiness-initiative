@@ -9,10 +9,9 @@ var express       = require("express"),
     School        = require("./models/school"),
     LocalStrategy = require("passport-local"),
     parseCSV      = require("./scripts/parseCSV"),
-    insertQuestions = require("./scripts/insertQuestions"),
+    //insertQuestions = require("./scripts/insertQuestions"),
     fs            = require('fs'),
-    path          = require('path'), // needed for image paths,
-    Busboy = require('connect-busboy')
+    path          = require('path') // needed for image paths,
 
 mongoose.connect('mongodb://localhost:27017/college_readiness_initiative', { useNewUrlParser: true });
 
@@ -21,7 +20,6 @@ mongoose.Promise = global.Promise;
 var app = express();
 app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({extended: true}));
-app.use(Busboy());
 
 // PASSPORT CONFIGURATION
 app.use(require("express-session")({
@@ -349,20 +347,7 @@ app.get("/questionupload", function (req, res) {
   res.render("questionupload");
 })
 
-app.post("/questionupload", function(req, res) {
-
-  var filepath = "./questions.csv";
-  parseCSV(filepath);
-  // var busboy = new Busboy({ headers: req.headers });
-  // busboy.on('file', function (fieldname, file, filename, encoding, mimetype) {
-  //   var saveTo = path.join('.', filename);
-  //   console.log('Uploading: ' + saveTo);
-  //   file.pipe(fs.createWriteStream(saveTo));
-  // });
-  // busboy.on('finish', function () {
-  //   console.log('Upload complete');
-  //   res.writeHead(200, { 'Connection': 'close' });
-  //   res.end("That's all folks!");
-  // });
-  // return req.pipe(busboy);
+app.post("/questionupload", bodyParser.urlencoded({extended: true}), function(req, res) {
+  var url = req.body.URL;
+  parseCSV(url);
 });
