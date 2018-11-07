@@ -49,6 +49,3 @@ function viewSessions() {
         }
     });
 }
-
-// addFakeSession();
-// viewSessions();

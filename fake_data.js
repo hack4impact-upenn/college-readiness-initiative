@@ -5,7 +5,7 @@ var Tutor = require('./models/tutor.js');
 var Admin = require('./models/admin.js');
 var Session = require('./models/session.js');
 var School = require('./models/school.js');
-mongoose.connect('mongodb://localhost:27017/college_readiness_initiative', { useNewUrlParser: true });
+var db = mongoose.connect('mongodb://localhost:27017/college_readiness_initiative', { useNewUrlParser: true });
 
 // Generates 4 schools
 function addFakeSchools() {
@@ -14,12 +14,17 @@ function addFakeSchools() {
     schools.forEach(school => {
         School.create({
             name: school
+        }, function(err) {
+            if (err) {
+                console.log(err);
+            }
         });
     });
 }
 
 // Generates 10 fake students
 function addFakeStudents() {
+    console.log("inside add fake students");
     for (var i = 0; i < 10; i++) {
         var random_school = School.findOne({}, function (err, res) {
             console.log("School:" + res.name);
@@ -49,6 +54,7 @@ function addFakeStudents() {
 
 // Generates 5 fake tutors
 function addFakeTutors() {
+    console.log("inside add tutors");
     for (var i = 0; i < 5; i++) {
         var random_tutee = Student.findOne({}).name;
         Tutor.create({
@@ -75,38 +81,57 @@ function addAdminAccount() {
 }
 
 // Generates 10 tutoring sessions
-function addFakeSessions() {    
+function addFakeSessions() {
+    console.log("inside add fake sessions");
     for (var i = 0; i < 10; i++) {
         var randomStudent = Student.findOne({}, function(err, randomStudent) {
-            var randomTutor = Tutor.findOne({}, function(err, randomTutor) {
-                Session.create({
-                    date: Date.now(),
-                    student: randomStudent._id,
-                    tutor: randomTutor._id,
-                }, function (err, session) {
+            if (err) {
+                console.log(err);
+            } else {
+                var randomTutor = Tutor.findOne({}, function (err, randomTutor) {
                     if (err) {
                         console.log(err);
                     } else {
-                        console.log(session);
-                        console.log("Student: " + session.student.toString());
-                        console.log("Tutor: " + session.tutor.toString());
+                        Session.create({
+                            date: Date.now(),
+                            student: randomStudent._id,
+                            tutor: randomTutor._id,
+                        }, function (err, session) {
+                            if (err) {
+                                console.log(err);
+                            } else {
+                                console.log(session);
+                                console.log("Student: " + session.student.toString());
+                                console.log("Tutor: " + session.tutor.toString());
+                            }
+                        });
                     }
                 });
-            });
+            }
         });
     }
 }
-// addFakeSchools(function(err) {
-//     if (err) {
-//         console.log(err);
-//     } else {
-//         addFakeStudents();
-//     }
-// });
-// addFakeStudents();
-// addFakeTutors();
-// addAdminAccount();
-addFakeSessions();
 
+// Generates fake schools, students, tutors, sessions, and admin
+function generateFakes() {
+    addFakeSchools(function(err, res) {
+        addFakeStudents(function(err, res) {
+            addFakeTutors(function(err, res) {
+                addFakeSessions();
+            });
+        });
+    });
+    addAdminAccount();
+}
+
+// generateFakes();
+
+function clear_db() {
+    db.getCollectionNames().forEach(function(collection_name) {
+        db[collection_name].remove()
+    });
+}
+
+clear_db();
 
 
