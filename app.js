@@ -220,6 +220,16 @@ app.get("/profile", function (req, res) {
   res.render("profile");
 })
 
+// Admin Dashboard Page
+app.get('/admindashboard', function (req, res) {
+    Admin.find({}, function (err, admins) {
+        res.render('admindashboard.ejs', {
+            user: req.user,
+            admins: admins
+        });
+    });
+});
+
 // ============
 // AUTH ROUTES
 // ============
