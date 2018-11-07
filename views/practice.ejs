@@ -3,6 +3,7 @@
     <h1 id="hometitle">Practice</h1>
 </div>
 <h1><%= student.username %></h1>
+<% console.log(student); %>
 <% questions.forEach(function(question){ %>
         <img src="<%= question.image_link %>" width="600px">
         <h1><%= question.answer %></h1>

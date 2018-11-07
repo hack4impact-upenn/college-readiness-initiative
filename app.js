@@ -64,9 +64,7 @@ app.get("/", function (req, res) {
 // Practice page
 app.get("/practice", isLoggedIn, function(req, res) {
   var student = req.user;
-  Question.find(function (err, questions) {
-    res.render("practice", {questions: questions, student: student});
-  });
+  res.render("practice", {questions: student.missed_questions, student: student});
 })
 
 // About page route
@@ -257,17 +255,30 @@ app.post("/register/:userType", function(req, res) {
   var type = req.params.userType;
   var newUser;
   if (type == "student") {
-    newUser = new Student({ username: req.body.username,
-                            school: req.body.school });
-    Student.register(newUser, req.body.password, function(err, user){
+    Question.find({}, function(err, questions) {
       if (err) {
         console.log(err);
-        return res.render("register" + type);
+      } else {
+        newUser = new Student({
+          username: req.body.username,
+          school: req.body.school,
+          name: req.body.name,
+          year: req.body.year,
+          past_sat_score: req.body.score,
+          missed_questions: questions
+        });
+        Student.register(newUser, req.body.password, function (err, user) {
+          if (err) {
+            console.log(err);
+            return res.render("register" + type);
+          }
+          passport.authenticate('student')(req, res, function () {
+            res.redirect("/");
+          });
+        });
       }
-      passport.authenticate('student')(req, res, function () {
-        res.redirect("/");
-      });
-    });
+    })
+    
   }
   else if (type == "admin") {
     newUser = new Admin({ username: req.body.username });
@@ -282,7 +293,8 @@ app.post("/register/:userType", function(req, res) {
     });
   }
   else if (type == "tutor") {
-    newUser = new Tutor({ username: req.body.username });
+    newUser = new Tutor({ username: req.body.username,
+                          name: req.body.name });
     Tutor.register(newUser, req.body.password, function (err, user) {
       if (err) {
         console.log(err);

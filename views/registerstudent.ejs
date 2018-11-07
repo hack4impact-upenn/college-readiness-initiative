@@ -15,7 +15,7 @@
         </div>
         <div class="form-group">
             <label for="inputSchool">School</label>
-            <select id="inputSchool" class="form-control">
+            <select id="inputSchool" class="form-control" name="school">
                 <% schools.forEach(function(school) { %>
                 <option>
                     <%= school.name %>
@@ -24,16 +24,16 @@
             </select>
         </div>
             <div class="form-group">
-                <label for="nameInput">Full Name</label>
+                <label for="nameInput" name="name">Full Name</label>
                 <input type="text" class="form-control" id="nameInput" name="name" placeholder="Enter full name">
             </div>
             <div class="form-group">
-                <label for="yearInput">Graduation Year</label>
-                <input type="text" class="form-control" id="yearInput" name="name" placeholder="Enter graduation year (e.g. 2021)">
+                <label for="yearInput" name="year">Graduation Year</label>
+                <input type="text" class="form-control" id="yearInput" name="year" placeholder="Enter graduation year (e.g. 2021)">
             </div>
             <div class="form-group">
-                <label for="scoreInput">SAT Score</label>
-                <input type="text" class="form-control" id="scoreInput" name="name" placeholder="Enter most recent SAT score (if applicable)">
+                <label for="scoreInput" name="score">SAT Score</label>
+                <input type="text" class="form-control" id="scoreInput" name="score" placeholder="Enter most recent SAT score (if applicable)">
             </div>
         <button class="btn btn-primary mb-2">Sign up!</button>
     </form>
