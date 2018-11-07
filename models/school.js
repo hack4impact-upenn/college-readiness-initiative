@@ -1,32 +1,12 @@
 var mongoose = require("mongoose");
-mongoose.connect("mongodb://localhost:27017/school_db"); // creates school_db database
+mongoose.connect('mongodb://localhost:27017/college_readiness_initiative', { useNewUrlParser: true });
 
 
 var schoolSchema = new mongoose.Schema({
-    name: String
+    name: {type: String, unique: true}
 });
 var School = mongoose.model("School", schoolSchema);
 module.exports = School;
-
-function addFakeSchools() {
-    var schools = new Array();
-    schools[0] = 'John Marshall';
-    schools[1] = 'Huguenot';
-    schools[2] = 'Thomas Jefferson';
-
-    schools.forEach(school => {
-        School.create({
-            name: school
-        }, function (err, school) {
-            if (err) {
-                console.log(err);
-            }
-            else {
-                console.log("Added " + school + " to database");
-            }
-        });
-    });
-}
 
 // Method that displays questions in the database
 function viewSchools() {
@@ -41,6 +21,4 @@ function viewSchools() {
     });
 }
 
-viewSchools();
-
-// addFakeSchools();
+// viewSchools();

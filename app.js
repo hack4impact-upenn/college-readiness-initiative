@@ -6,6 +6,7 @@ var express       = require("express"),
     Admin         = require("./models/admin"),
     Tutor         = require("./models/tutor"),
     Session       = require("./models/session"),
+    Question      = require("./models/question")
     School        = require("./models/school"),
     LocalStrategy = require("passport-local"),
     parseCSV      = require("./scripts/parseCSV"),
@@ -62,7 +63,8 @@ app.get("/", function (req, res) {
 
 // Practice page
 app.get("/practice", isLoggedIn, function(req, res) {
-  res.render("practice");
+  var student = req.user;
+  res.render("practice", {questions: student.missed_questions, student: student});
 })
 
 // About page route
@@ -80,9 +82,14 @@ fs.readdirSync(__dirname + '/models').forEach(function(filename) {
 
 // Answer Keys page route
 app.get("/answerkeys", function(req, res) {
-    mongoose.model('Question').find(function(err, questions) {
+    Question.find(function(err, questions) {
         res.render("answerkeys", {questions: questions});
     });
+})
+
+// Tutoring Page (Ask student whether they are with a tutor)
+app.get("/tutoring", function(req, res) {
+    res.render("tutoring");
 })
 
 // SAT Prep Page
@@ -240,18 +247,13 @@ app.get("/register", function(req, res) {
 });
 app.get("/register/:userType", function(req, res) {
   if (req.params.userType == "student") {
-    School.find({}, function (err, data) {
+    School.find({}, function (err, schools) {
       if (err) {
         console.log(err);
+      } else {
+        res.render("registerstudent", { schools: schools });
       }
-      else {
-        console.log("inside else");
-        data.forEach(function(school) {
-          console.log(school);
-        });
-        res.render("registerstudent", { schools: data });
-      }
-    })
+    });
   }
   else {
     res.render("register" + req.params.userType);
@@ -263,17 +265,30 @@ app.post("/register/:userType", function(req, res) {
   var type = req.params.userType;
   var newUser;
   if (type == "student") {
-    newUser = new Student({ username: req.body.username,
-                            school: req.body.school });
-    Student.register(newUser, req.body.password, function(err, user){
+    Question.find({}, function(err, questions) {
       if (err) {
         console.log(err);
-        return res.render("register" + type);
+      } else {
+        newUser = new Student({
+          username: req.body.username,
+          school: req.body.school,
+          name: req.body.name,
+          year: req.body.year,
+          past_sat_score: req.body.score,
+          missed_questions: questions
+        });
+        Student.register(newUser, req.body.password, function (err, user) {
+          if (err) {
+            console.log(err);
+            return res.render("register" + type);
+          }
+          passport.authenticate('student')(req, res, function () {
+            res.redirect("/");
+          });
+        });
       }
-      passport.authenticate('student')(req, res, function () {
-        res.redirect("/");
-      });
-    });
+    })
+    
   }
   else if (type == "admin") {
     newUser = new Admin({ username: req.body.username });
@@ -288,7 +303,8 @@ app.post("/register/:userType", function(req, res) {
     });
   }
   else if (type == "tutor") {
-    newUser = new Tutor({ username: req.body.username });
+    newUser = new Tutor({ username: req.body.username,
+                          name: req.body.name });
     Tutor.register(newUser, req.body.password, function (err, user) {
       if (err) {
         console.log(err);
