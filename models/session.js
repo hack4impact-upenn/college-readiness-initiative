@@ -1,6 +1,7 @@
 var mongoose = require("mongoose");
 var Student = require('./student.js');
 var Tutor = require('./tutor.js');
+mongoose.connect('mongodb://localhost:27017/college_readiness_initiative', { useNewUrlParser: true });
 
 var SessionSchema = new mongoose.Schema({
 	date: Date,

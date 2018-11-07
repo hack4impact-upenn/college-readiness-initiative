@@ -1,9 +1,11 @@
 var mongoose = require("mongoose");
 var passportLocalMongoose = require("passport-local-mongoose");
+mongoose.connect('mongodb://localhost:27017/college_readiness_initiative', { useNewUrlParser: true });
+
 
 var StudentSchema = new mongoose.Schema({
     // Login info
-    username: String,
+    username: {type: String, unique: true},
     password: String,
 
     // Student info

@@ -1,7 +1,26 @@
+var mongoose = require('mongoose');
 var faker = require('faker');
 var Student = require('./models/student.js');
 var School = require('./models/school.js');
+mongoose.connect('mongodb://localhost:27017/college_readiness_initiative', { useNewUrlParser: true });
 
+function addFakeSchools() {
+    var schools = ["John Marshall High School", "Huguenot High School",
+                   "Armstrong High School", "Thomas Jefferson High School"];
+    schools.forEach(school => {
+        School.create({
+            name: school
+        }, function(err, school){
+            console.log(err);
+            if (err) {
+                console.log(err);
+            }
+            else {
+                console.log("Added school: " + school);
+            }
+        });
+    });
+}
 
 function addFakeStudents() {
     for (var i = 0; i < 4; i++) {
@@ -31,6 +50,11 @@ function addFakeStudents() {
         });
     }
 }
-
-addFakeStudents();
+addFakeSchools(function(err) {
+    if (err) {
+        console.log(err);
+    } else {
+        addFakeStudents();
+    }
+});
 
