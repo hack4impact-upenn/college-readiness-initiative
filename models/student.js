@@ -129,6 +129,6 @@ function removeStudent(username) {
     });
 }
 
-// addFakeStudent();
-// removeStudent("student_username");
-// viewStudents();
+//addFakeStudent();
+//removeStudent("student_username");
+viewStudents();
