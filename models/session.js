@@ -50,5 +50,5 @@ function viewSessions() {
     });
 }
 
-addFakeSession();
-viewSessions();
+// addFakeSession();
+// viewSessions();
