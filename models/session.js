@@ -52,7 +52,3 @@ function viewSessions() {
 
 addFakeSession();
 viewSessions();
-
-module.exports = {
-	addFakeSession: addFakeSession
-}
