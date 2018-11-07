@@ -1,0 +1,23 @@
+<% include partials/header %>
+
+
+<h1>Analytics</h1>
+<h2>Total Tutoring Sessions</h2>
+
+<table >
+  <tr>
+    <td>Students tutored this week: </td>
+    <td> : <%= weeklyOutput %>  </td>
+
+  </tr>
+  <tr>
+    <td>Students tutored this month: </td>
+    <td> <%= monthlyOutput %>  </td>
+  </tr>
+  <tr>
+    <td>Students tutored this week: </td>
+    <td> <%= yearlyOutput %> </td>
+  </tr>
+</table>
+
+<% include partials/footer %>

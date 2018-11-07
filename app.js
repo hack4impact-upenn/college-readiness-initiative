@@ -352,6 +352,37 @@ function isLoggedIn(req, res, next) {
   res.redirect("/login");
 }
 
+
+//analytics route
+app.get("/analytics", function(req, res) {
+    var today = new Date();
+    var week = new Date(today.getFullYear(), today.getMonth(), today.getDate()-7);
+    var month = new Date(today.getFullYear(), today.getMonth()-1, today.getDate());
+    var year = new Date(today.getFullYear()-1, today.getMonth(), today.getDate());
+
+    Promise.all([
+        Session.count({      date: {
+        $gt: week,
+        $lt: today 
+            }
+       }),
+        Session.count({ date: {
+        $gt: month,
+        $lt: today 
+            }
+  }),
+        Session.count({ date: {
+          $gt: year,
+          $lt: today
+        }
+      })
+]).then( ([ weeklyOutput, monthlyOutput , yearlyOutput]) => {
+  res.render("analytics", {weeklyOutput: weeklyOutput, monthlyOutput: monthlyOutput, yearlyOutput:yearlyOutput});
+});
+    
+})
+
+
 app.listen(process.env.PORT || 3000, process.env.IP, function () {
   console.log("Server has started!")
 })
