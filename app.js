@@ -6,6 +6,7 @@ var express       = require("express"),
     Admin         = require("./models/admin"),
     Tutor         = require("./models/tutor"),
     Session       = require("./models/session"),
+    Question      = require("./models/question")
     School        = require("./models/school"),
     LocalStrategy = require("passport-local"),
     parseCSV      = require("./scripts/parseCSV"),
@@ -80,7 +81,7 @@ fs.readdirSync(__dirname + '/models').forEach(function(filename) {
 
 // Answer Keys page route
 app.get("/answerkeys", function(req, res) {
-    mongoose.model('Question').find(function(err, questions) {
+    Question.find(function(err, questions) {
         res.render("answerkeys", {questions: questions});
     });
 })
