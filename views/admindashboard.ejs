@@ -1,5 +1,5 @@
 <% include partials/header %>
-<div class="jumbotron profilepic">
+<div class="jumbotron notebookpic">
   <h1 id="profiletitle">Admin Dashboard</h1>
 </div>
 
@@ -11,6 +11,13 @@
 	<% }) %>
 </div>
 
-
-
+<div class="container">
+	<div class="card">
+		<div class="card-body">
+			<h5 class="card-title">Upload Questions via CSV</h5>
+			<p class="card-text">Use a download link to a CSV file to upload questions to the question database.</p>
+			<a href="/questionupload" class="btn btn-primary">Upload Questions</a>
+		</div>
+	</div>
+</div>
 <% include partials/footer %>
