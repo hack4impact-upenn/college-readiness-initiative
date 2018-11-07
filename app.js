@@ -375,9 +375,26 @@ app.get("/analytics", function(req, res) {
           $gt: year,
           $lt: today
         }
+      }),
+        Session.distinct().count({ date: {
+          $gt: week,
+          $lt: today
+        }
+      }),
+        Session.distinct().count({ date: {
+          $gt: month,
+          $lt: today
+        }
+      }),
+        Session.distinct().count({ date: {
+          $gt: year,
+          $lt: today
+        }
       })
-]).then( ([ weeklyOutput, monthlyOutput , yearlyOutput]) => {
-  res.render("analytics", {weeklyOutput: weeklyOutput, monthlyOutput: monthlyOutput, yearlyOutput:yearlyOutput});
+]).then( ([ weeklyOutput, monthlyOutput , yearlyOutput,
+            student_weekly, student_monthly, student_yearly]) => {
+  res.render("analytics", {weeklyOutput: weeklyOutput, monthlyOutput: monthlyOutput, yearlyOutput:yearlyOutput,
+                           student_weekly: student_weekly, student_monthly: student_monthly, student_yearly: student_yearly});
 });
     
 })

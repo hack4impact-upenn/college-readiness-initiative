@@ -6,17 +6,36 @@
 
 <table >
   <tr>
-    <td>Students tutored this week: </td>
-    <td> : <%= weeklyOutput %>  </td>
+    <td>This week: </td>
+    <td> <%= weeklyOutput %>  </td>
 
   </tr>
   <tr>
-    <td>Students tutored this month: </td>
+    <td>This month: </td>
     <td> <%= monthlyOutput %>  </td>
   </tr>
   <tr>
-    <td>Students tutored this week: </td>
+    <td>This year: </td>
     <td> <%= yearlyOutput %> </td>
+  </tr>
+</table>
+
+
+<h2>Students Tutored</h2>
+
+<table >
+  <tr>
+    <td>This week: </td>
+    <td> : <%= student_weekly %>  </td>
+
+  </tr>
+  <tr>
+    <td>This month: </td>
+    <td> <%= student_monthly %>  </td>
+  </tr>
+  <tr>
+    <td>This year: </td>
+    <td> <%= student_yearly %> </td>
   </tr>
 </table>
 
