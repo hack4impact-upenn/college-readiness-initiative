@@ -38,41 +38,37 @@ passport.use('admin', new LocalStrategy(Admin.authenticate()));
 
 passport.serializeUser(function(user, done){
   var key = {
-    id = user.username,
-    type = user.user_type
+    id : user.username,
+    type : user.type
   }
+  console.log(key);
   done(null, key);
 });
 passport.deserializeUser(function(key, done) {
   var Model = key.type;
+  console.log(Model);
   if (Model === "student") {
     Model.findOne({
       _id: key.id
     }, '-salt -password', function(err, user) {
       done(err, user);
-    }
+    });
   }
   else if (Model === "tutor") {
     Model.findOne({
       _id: key.id
     }, '-salt -password', function(err, user) {
       done(err, user);
-    }
+    });
   }
   else if (Model === "admin") {
     Model.findOne({
       _id: key.id
     }, '-salt -password', function(err, user) {
       done(err, user);
-    }
+    });
   }
 });
-
-passport.serializeUser(Tutor.serializeUser());
-passport.deserializeUser(Tutor.deserializeUser());
-
-passport.serializeUser(Admin.serializeUser());
-passport.deserializeUser(Admin.deserializeUser());
 
 app.use(function (req, res, next) {
   res.locals.currentUser = req.user;
