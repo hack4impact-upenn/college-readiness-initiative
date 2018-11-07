@@ -90,11 +90,6 @@ app.get("/tutoring", function(req, res) {
     res.render("tutoring");
 })
 
-app.get("/withtutor", function(req, res) {
-    Session.addFakeSession();
-    res.render("tutoring");
-})
-
 // SAT Prep Page
 app.get("/satprep", function (req, res) {
   res.render("satprep");
