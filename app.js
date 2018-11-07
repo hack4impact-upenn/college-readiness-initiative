@@ -63,7 +63,10 @@ app.get("/", function (req, res) {
 
 // Practice page
 app.get("/practice", isLoggedIn, function(req, res) {
-  res.render("practice");
+  var student = req.user;
+  Question.find(function (err, questions) {
+    res.render("practice", {questions: questions, student: student});
+  });
 })
 
 // About page route
@@ -236,18 +239,13 @@ app.get("/register", function(req, res) {
 });
 app.get("/register/:userType", function(req, res) {
   if (req.params.userType == "student") {
-    School.find({}, function (err, data) {
+    School.find({}, function (err, schools) {
       if (err) {
         console.log(err);
+      } else {
+        res.render("registerstudent", { schools: schools });
       }
-      else {
-        console.log("inside else");
-        data.forEach(function(school) {
-          console.log(school);
-        });
-        res.render("registerstudent", { schools: data });
-      }
-    })
+    });
   }
   else {
     res.render("register" + req.params.userType);
