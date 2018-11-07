@@ -85,6 +85,11 @@ app.get("/answerkeys", function(req, res) {
     });
 })
 
+// Tutoring Page (Ask student whether they are with a tutor)
+app.get("/tutoring", function(req, res) {
+    res.render("tutoring");
+})
+
 // SAT Prep Page
 app.get("/satprep", function (req, res) {
   res.render("satprep");
