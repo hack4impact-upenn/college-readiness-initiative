@@ -348,4 +348,5 @@ app.get("/questionupload", function (req, res) {
 app.post("/questionupload", bodyParser.urlencoded({extended: true}), function(req, res) {
   var url = req.body.URL;
   parseCSV(url);
+  res.redirect("/");
 });
