@@ -33,14 +33,44 @@ app.use(express.static("public"));
 app.use(express.static("/images")); //needed for express to display images
 
 passport.use('student', new LocalStrategy(Student.authenticate()));
-passport.serializeUser(Student.serializeUser());
-passport.deserializeUser(Student.deserializeUser());
-
 passport.use('tutor', new LocalStrategy(Tutor.authenticate()));
+passport.use('admin', new LocalStrategy(Admin.authenticate()));
+
+passport.serializeUser(function(user, done){
+  var key = {
+    id = user.username,
+    type = user.user_type
+  }
+  done(null, key);
+});
+passport.deserializeUser(function(key, done) {
+  var Model = key.type;
+  if (Model === "student") {
+    Model.findOne({
+      _id: key.id
+    }, '-salt -password', function(err, user) {
+      done(err, user);
+    }
+  }
+  else if (Model === "tutor") {
+    Model.findOne({
+      _id: key.id
+    }, '-salt -password', function(err, user) {
+      done(err, user);
+    }
+  }
+  else if (Model === "admin") {
+    Model.findOne({
+      _id: key.id
+    }, '-salt -password', function(err, user) {
+      done(err, user);
+    }
+  }
+});
+
 passport.serializeUser(Tutor.serializeUser());
 passport.deserializeUser(Tutor.deserializeUser());
 
-passport.use('admin', new LocalStrategy(Admin.authenticate()));
 passport.serializeUser(Admin.serializeUser());
 passport.deserializeUser(Admin.deserializeUser());
 

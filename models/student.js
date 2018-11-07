@@ -6,6 +6,7 @@ var StudentSchema = new mongoose.Schema({
     // Login info
     username: String,
     password: String,
+    user_type: String,
 
     // Student info
     first_name: String,
@@ -55,6 +56,7 @@ function addFakeStudent() {
     Student.create({
         username: "student_username",
         password: "password",
+        user_type: "student",
         first_name: "Bob",
         last_name: "Student",
         school: "John Marshall",

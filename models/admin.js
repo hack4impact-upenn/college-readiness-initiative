@@ -4,7 +4,8 @@ var db = mongoose.connect("mongodb://localhost:27017/admin_db");
 
 var AdminSchema = new mongoose.Schema({
     username: String,
-    password: String
+    password: String,
+    user_type: String
 });
 
 AdminSchema.plugin(passportLocalMongoose);
@@ -14,7 +15,8 @@ module.exports = Admin;
 function addFakeAdmin() {
     Admin.create({
         username: "admin_username",
-        password: "password"
+        password: "password",
+        user_type: "admin"
     }, function (err, admin) {
         if (err) {
             console.log(err);

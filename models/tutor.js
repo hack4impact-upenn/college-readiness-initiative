@@ -6,6 +6,7 @@ mongoose.connect("mongodb://localhost:27017/tutor_db");
 var TutorSchema = new mongoose.Schema({
     username: String,
     password: String,
+    user_type: String,
     first_name: String,
     last_name: String,
     tutee_username: String
@@ -21,6 +22,7 @@ function addFakeTutor() {
     Tutor.create({
         username: "tutor_username",
         password: "password",
+        user_type: "tutor",
         first_name: "John",
         last_name: "Smith",
         tutee_username: "student_username"
