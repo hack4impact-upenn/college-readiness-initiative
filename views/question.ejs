@@ -12,16 +12,20 @@
     <h2 class="pagesub">Questions were meant to be answered!</h2>
 </div>
 
-<!-- this part loads an image (a pdf?) of the question, or in this case, a kitten -->
+<!-- Next button -->
+<!--<a class="btn btn-primary"
+        href="/question/<%=//Number(question.question_num)+1%>"
+        role="button">Next</a>-->
 
-<div align="center">
- <img src="http://placekitten.com/300/460", alt="Question Image">
-</div>
+<!-- this part loads an image (a pdf?) of the question, or in this case, a kitten -->
+<!--<div align="center">
+        <img src= <%= //questions[0].image_link %>, alt="Question Image">
+</div>-->
 
 <!-- radio buttons -->
 
 <form class="form-horizontal">
-<fieldset> 
+<fieldset>
   <div class="form-group">
    <label class="col-xs-3 control-label">Answer:</label>
    <div class="col-xs-9">
@@ -54,7 +58,5 @@
   </div>
  </fieldset>
 </form>
-
-
 
 <% include partials/footer %>

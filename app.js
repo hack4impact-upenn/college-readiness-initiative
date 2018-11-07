@@ -1,15 +1,15 @@
 var express       = require("express"),
-    mongoose      = require("mongoose"),
-    passport      = require("passport"),
-    bodyParser    = require("body-parser"),
-    Student       = require("./models/student"),
-    Admin         = require("./models/admin"),
-    Tutor         = require("./models/tutor"),
-    Session       = require("./models/session"),
-    School        = require("./models/school"),
-    LocalStrategy = require("passport-local"),
-    fs            = require('fs'),
-    path          = require('path'); // needed for image paths
+  mongoose      = require("mongoose"),
+  passport      = require("passport"),
+  bodyParser    = require("body-parser"),
+  Student       = require("./models/student"),
+  Admin         = require("./models/admin"),
+  Tutor         = require("./models/tutor"),
+  Session       = require("./models/session"),
+  School        = require("./models/school"),
+  LocalStrategy = require("passport-local"),
+  fs            = require('fs'),
+  path          = require('path'); // needed for image paths
 
 mongoose.connect('mongodb://localhost:27017/college_readiness_initiative', { useNewUrlParser: true });
 
@@ -74,14 +74,14 @@ app.get("/boardmembers", function (req, res) {
 })
 
 fs.readdirSync(__dirname + '/models').forEach(function(filename) {
-    if(~filename.indexOf('.js')) require(__dirname + '/models/' + filename)
+  if(~filename.indexOf('.js')) require(__dirname + '/models/' + filename)
 })
 
 // Answer Keys page route
 app.get("/answerkeys", function(req, res) {
-    mongoose.model('Question').find(function(err, questions) {
-        res.render("answerkeys", {questions: questions});
-    });
+  mongoose.model('Question').find(function(err, questions) {
+    res.render("answerkeys", {questions: questions});
+  });
 })
 
 // SAT Prep Page
@@ -90,8 +90,18 @@ app.get("/satprep", function (req, res) {
 })
 
 // Question page
-app.get("/question", function(req, res) {
-    res.render("question");
+app.get("/question/:question_num", function(req, res) {
+  var question_num = req.params.question_num;
+  console.log("QuestionNum: " + question_num);
+  mongoose.model("Question").find({},
+    function(err, questions) {
+      if(err) {
+        console.log("error");
+        res.redirect("/question/0");
+      }
+      console.log(questions);
+      res.render("question", {questions: questions});
+  });
 })
 
 // Full Practice Test Page
@@ -253,7 +263,7 @@ app.post("/register/:userType", function(req, res) {
   var newUser;
   if (type == "student") {
     newUser = new Student({ username: req.body.username,
-                            school: req.body.school });
+      school: req.body.school });
     Student.register(newUser, req.body.password, function(err, user){
       if (err) {
         console.log(err);
@@ -306,21 +316,21 @@ app.post("/login/student", passport.authenticate('student',
     failureRedirect: "/login/student"
 
   }), function (req, res) {
-});
+  });
 app.post("/login/tutor", passport.authenticate('tutor',
   {
     successRedirect: "/",
     failureRedirect: "/login/tutor"
 
   }), function (req, res) {
-});
+  });
 app.post("/login/admin", passport.authenticate('admin',
   {
     successRedirect: "/",
     failureRedirect: "/login/admin"
 
   }), function (req, res) {
-});
+  });
 
 // logout route
 app.get("/logout", function(req, res) {

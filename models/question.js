@@ -33,7 +33,7 @@ function addFakeQuestion() {
         image_link: "http://www.catster.com/wp-content/uploads/2017/08/A-fluffy-cat-looking-funny-surprised-or-concerned.jpg",
         difficulty: 1,
         type: "Charts",
-        question_num: 7,
+        question_num: 0,
         category: "Problem Solving",
         subcategory: "Key Features of Graphs",
         isMC: true,
@@ -47,7 +47,7 @@ function addFakeQuestion() {
         image_link: "https://www.ptable.com/Images/periodic%20table.png",
         difficulty: 4,
         type: "Graphs",
-        question_num: 3,
+        question_num: 1,
         category: "Algorithms",
         subcategory: "Graph Theory",
         isMC: true,
@@ -61,7 +61,7 @@ function addFakeQuestion() {
         image_link: "https://assets3.thrillist.com/v1/image/2754967/size/tmg-article_tall;jpeg_quality=20.jpg",
         difficulty: 2,
         type: "Arrays",
-        question_num: 4,
+        question_num: 2,
         category: "Array Computing",
         subcategory: "Comp sci techniques",
         isMC: true,
@@ -82,6 +82,6 @@ function viewQuestions() {
     });
 }
 
-// addFakeQuestion();
+//addFakeQuestion();
 
 viewQuestions();
