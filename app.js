@@ -8,8 +8,9 @@ var express       = require("express"),
     Session       = require("./models/session"),
     School        = require("./models/school"),
     LocalStrategy = require("passport-local"),
+    parseCSV      = require("./scripts/parseCSV"),
     fs            = require('fs'),
-    path          = require('path'); // needed for image paths
+    path          = require('path') // needed for image paths,
 
 mongoose.connect('mongodb://localhost:27017/college_readiness_initiative', { useNewUrlParser: true });
 
@@ -338,3 +339,14 @@ function isLoggedIn(req, res, next) {
 app.listen(process.env.PORT || 3000, process.env.IP, function () {
   console.log("Server has started!")
 })
+
+//Upload question page
+app.get("/questionupload", function (req, res) {
+  res.render("questionupload");
+})
+
+app.post("/questionupload", bodyParser.urlencoded({extended: true}), function(req, res) {
+  var url = req.body.URL;
+  parseCSV(url);
+  res.redirect("/");
+});
