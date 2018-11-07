@@ -1,5 +1,4 @@
 var mongoose = require("mongoose");
-mongoose.connect("mongodb://localhost:27017/school_db"); // creates school_db database
 
 
 var schoolSchema = new mongoose.Schema({

@@ -1,6 +1,5 @@
 var mongoose = require("mongoose");
 var passportLocalMongoose = require("passport-local-mongoose");
-mongoose.connect("mongodb://localhost:27017/student_db");
 
 var StudentSchema = new mongoose.Schema({
     // Login info

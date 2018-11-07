@@ -1,7 +1,6 @@
 var mongoose = require("mongoose");
 var Student = require('./student.js');
 var Tutor = require('./tutor.js');
-mongoose.connect("mongodb://localhost:27017/session_db");
 
 var SessionSchema = new mongoose.Schema({
 	date: Date,
