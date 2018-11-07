@@ -41,6 +41,6 @@ function viewSchools() {
     });
 }
 
-viewSchools();
+// viewSchools();
 
 // addFakeSchools();

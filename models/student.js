@@ -8,8 +8,7 @@ var StudentSchema = new mongoose.Schema({
     password: String,
 
     // Student info
-    first_name: String,
-    last_name: String,
+    name: String,
     school: String,
     year: Number,
     past_sat_score: Number,
@@ -48,15 +47,42 @@ var Student = mongoose.model("Student", StudentSchema);
 module.exports = Student;
 
 
+function insertStudent(username, password, name, school, year, past_sat_score,
+                       new_sat_score, num_questions_completed, test_date,
+                       categories_completed, current_questions, 
+                       correct_questions, missed_questions, to_review_questions) {
+    Student.create({
+        username: username,
+        password: password,
+        name: name,
+        school: school,
+        year: year,
+        past_sat_score: past_sat_score,
+        new_sat_score: new_sat_score,
+        num_questions_completed: num_questions_completed,
+        test_date: test_date,
+        categories_completed: categories_completed,
+        current_questions: current_questions,
+        correct_questions: correct_questions,
+        missed_questions: missed_questions,
+        to_review_questions: to_review_questions
+    }, function (err, student) {
+        if (err) {
+            console.log(err);
+        }
+        else {
+            console.log("Added Student to database" + student);
+        }
+    });
+}
 
-// Method that populates database with a fake User
+// Method that inserts student into database
 function addFakeStudent() {
     console.log("inside addFakeStudent()");
     Student.create({
         username: "student_username",
         password: "password",
-        first_name: "Bob",
-        last_name: "Student",
+        name: "Bob",
         school: "John Marshall",
         year: 2020,
         past_sat_score: 1600,
