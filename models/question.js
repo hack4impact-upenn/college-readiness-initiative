@@ -8,7 +8,10 @@ var questionSchema = new mongoose.Schema({
     knowledge: String,
     test_num: String,
     calc: Boolean,
-    image_link: String,
+    image_link: {
+	type: String,
+	unique: true
+    },
     difficulty: Number,
     type: String,
     question_num: Number,
