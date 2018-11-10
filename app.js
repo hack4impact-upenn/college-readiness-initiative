@@ -10,6 +10,7 @@ var express       = require("express"),
     School        = require("./models/school"),
     LocalStrategy = require("passport-local"),
     parseCSV      = require("./scripts/parseCSV"),
+    uploadSchool  = require("./scripts/uploadSchool"),
     fs            = require('fs'),
     path          = require('path') // needed for image paths,
 
@@ -364,5 +365,16 @@ app.get("/questionupload", function (req, res) {
 app.post("/questionupload", bodyParser.urlencoded({extended: true}), function(req, res) {
   var url = req.body.URL;
   parseCSV(url);
+  res.redirect("/");
+});
+
+//Upload school name page
+app.get("/schoolupload", function (req, res) {
+  res.render("schoolupload");
+})
+
+app.post("/schoolupload", bodyParser.urlencoded({extended: true}), function(req, res) {
+  var name = req.body.schoolNAME;
+  uploadSchool(name);
   res.redirect("/");
 });
