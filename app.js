@@ -361,32 +361,32 @@ app.get("/analytics", function(req, res) {
     var year = new Date(today.getFullYear()-1, today.getMonth(), today.getDate());
 
     Promise.all([
-        Session.count({      date: {
+        Session.countDocuments({      date: {
         $gt: week,
         $lt: today 
             }
        }),
-        Session.count({ date: {
+        Session.countDocuments({ date: {
         $gt: month,
         $lt: today 
             }
   }),
-        Session.count({ date: {
+        Session.countDocuments({ date: {
           $gt: year,
           $lt: today
         }
       }),
-        Session.distinct().count({ date: {
+        Session.distinct().countDocuments({ date: {
           $gt: week,
           $lt: today
         }
       }),
-        Session.distinct().count({ date: {
+        Session.distinct().countDocuments({ date: {
           $gt: month,
           $lt: today
         }
       }),
-        Session.distinct().count({ date: {
+        Session.distinct().countDocuments({ date: {
           $gt: year,
           $lt: today
         }

@@ -1,42 +1,47 @@
 <% include partials/header %>
-
-
-<h1>Analytics</h1>
-<h2>Total Tutoring Sessions</h2>
-
-<table >
-  <tr>
-    <td>This week: </td>
-    <td> <%= weeklyOutput %>  </td>
-
-  </tr>
-  <tr>
-    <td>This month: </td>
-    <td> <%= monthlyOutput %>  </td>
-  </tr>
-  <tr>
-    <td>This year: </td>
-    <td> <%= yearlyOutput %> </td>
-  </tr>
-</table>
-
-
-<h2>Students Tutored</h2>
-
-<table >
-  <tr>
-    <td>This week: </td>
-    <td> : <%= student_weekly %>  </td>
-
-  </tr>
-  <tr>
-    <td>This month: </td>
-    <td> <%= student_monthly %>  </td>
-  </tr>
-  <tr>
-    <td>This year: </td>
-    <td> <%= student_yearly %> </td>
-  </tr>
-</table>
+  <div class="jumbotron mathpic">
+    <h1 id="math">Analytics</h1>
+  </div>
+<div class="container">
+  <table class="table">
+    <thead class="thead-dark">
+      <th>Total Tutoring Sessions</th>
+    </thead>
+    <tbody>
+      <tr>
+        <td>This week: </td>
+        <td><%= weeklyOutput %></td>
+      </tr>
+      <tr>
+        <td>This month: </td>
+        <td><%= monthlyOutput %></td>
+      </tr>
+      <tr>
+        <td>This year: </td>
+        <td><%= yearlyOutput %></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  <table class="table">
+    <thead>
+      <th>Students Tutored</th>
+    </thead>
+    <tbody>
+      <tr>
+        <td>This week: </td>
+        <td><%= student_weekly %></td>
+      </tr>
+      <tr>
+        <td>This month: </td>
+        <td><%= student_monthly %></td>
+      </tr>
+      <tr>
+        <td>This year: </td>
+        <td><%= student_yearly %></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
 
 <% include partials/footer %>
