@@ -19,7 +19,7 @@ function addFakeTutor() {
     Tutor.create({
         username: "tutor_username",
         password: "password",
-        name: "John",
+        name: "Tutor1",
         tutee_username: "student_username"
     }, function (err, tutor) {
         if (err) {

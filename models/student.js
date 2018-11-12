@@ -81,9 +81,9 @@ function insertStudent(username, password, name, school, year, past_sat_score,
 function addFakeStudent() {
     console.log("inside addFakeStudent()");
     Student.create({
-        username: "student_username",
+        username: "student_username4",
         password: "password",
-        name: "Bob",
+        name: "Prateek Bhakta IV",
         school: "John Marshall",
         year: 2020,
         past_sat_score: 1600,
