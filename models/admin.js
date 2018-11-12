@@ -4,7 +4,8 @@ mongoose.connect('mongodb://localhost:27017/college_readiness_initiative', { use
 
 var AdminSchema = new mongoose.Schema({
     username: {type: String, unique: true},
-    password: String
+    password: String,
+    name: String
 });
 
 AdminSchema.plugin(passportLocalMongoose);
@@ -14,7 +15,8 @@ module.exports = Admin;
 function addFakeAdmin() {
     Admin.create({
         username: "admin_username",
-        password: "password"
+        password: "password",
+        name: "Admin1"
     }, function (err, admin) {
         if (err) {
             console.log(err);
@@ -42,6 +44,6 @@ function removeAdmin(username) {
     });
 }
 
-//addFakeAdmin();
+addFakeAdmin();
 viewAdmins();
 //removeAdmin("admin_username");

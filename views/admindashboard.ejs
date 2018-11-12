@@ -1,14 +1,19 @@
 <% include partials/header %>
 <div class="jumbotron notebookpic">
-  <h1 id="profiletitle">Admin Dashboard</h1>
+  <h1 id="profiletitle">Welcome to your Admin Dashboard</h1>
 </div>
 
 
 <div class="profileinfo">
-	<% admins.forEach(function (admin) { %>
-		<%= admin.username %> 
-		<%= admin.password %>
-	<% }) %>
+	<div class="wrapper">
+		<aside class="aside aside-1"><img src="https://placekitten.com/200/300" /></aside>
+		<article class="main">
+			<h3><%= admins[0].name %></h3> <!--first admin in db-->
+			<h3><%= admins[0].username %></h3>
+			<h3>(123) 456-7890</h3>
+			<h3>Address</h3>
+		</article>
+	</div>
 </div>
 
 <div class="container">
@@ -19,7 +24,7 @@
 		</div>
 	</div>
 </div>
-
+<br>
 <div class="container">
 	<div class="card">
 		<div class="card-body">
@@ -29,4 +34,5 @@
 		</div>
 	</div>
 </div>
+
 <% include partials/footer %>

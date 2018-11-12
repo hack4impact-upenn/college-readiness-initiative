@@ -239,8 +239,8 @@ app.get('/admindashboard', function (req, res) {
 
 // User Directory Page
 app.get("/userdirectory", function (req, res) {
-  var students={}; //Create Empty order Object
-  var tutors={}; //Create Empty product Object
+  var students={}; 
+  var tutors={};
   Student.find({}, function (err, allstudents) {
         students = allstudents;
   });
