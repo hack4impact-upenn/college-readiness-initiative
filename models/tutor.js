@@ -17,10 +17,10 @@ module.exports = Tutor;
 function addFakeTutor() {
     console.log("inside addFakeTutor()");
     Tutor.create({
-        username: "tutor_username",
+        username: "tutor_username3",
         password: "password",
-        name: "Tutor1",
-        tutee_username: "student_username"
+        name: "Tutor3",
+        tutee_username: "student_username2"
     }, function (err, tutor) {
         if (err) {
             console.log(err);
@@ -54,6 +54,6 @@ function removeTutor(username) {
     });
 }
 
-// addFakeTutor();
-// viewTutors();
+//addFakeTutor();
+viewTutors();
 // removeTutor("tutor_username");

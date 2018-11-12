@@ -239,11 +239,17 @@ app.get('/admindashboard', function (req, res) {
 
 // User Directory Page
 app.get("/userdirectory", function (req, res) {
-  Student.find({}, function (err, students) {
-    res.render("userdirectory.ejs", {
-        user: req.user,
-        students: students
-    });
+  var students={}; //Create Empty order Object
+  var tutors={}; //Create Empty product Object
+  Student.find({}, function (err, allstudents) {
+        students = allstudents;
+  });
+  Tutor.find({}, function (err, alltutors) {
+        tutors = alltutors;
+        res.render("userdirectory", {
+            students: students,
+            tutors: tutors
+        });
   });
 });
 
