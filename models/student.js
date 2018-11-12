@@ -47,7 +47,6 @@ StudentSchema.plugin(passportLocalMongoose);
 var Student = mongoose.model("Student", StudentSchema);
 module.exports = Student;
 
-
 function insertStudent(username, password, name, school, year, past_sat_score,
                        new_sat_score, num_questions_completed, test_date,
                        categories_completed, current_questions, 

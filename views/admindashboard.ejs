@@ -24,13 +24,68 @@
 		</div>
 	</div>
 </div>
+
 <br>
+
 <div class="container">
 	<div class="card">
 		<div class="card-body">
 			<h5 class="card-title">Upload Questions via CSV</h5>
 			<p class="card-text">Use a download link to a CSV file to upload questions to the question database.</p>
 			<a href="/questionupload" class="btn btn-primary">Upload Questions</a>
+		</div>
+	</div>
+</div>
+
+<br>
+
+<!-- Add School Functionality -->
+<div class="container">
+		<div class="card">
+			<div class="card-body">
+				<h5 class="card-title">Add School</h5>
+	<!-- Button trigger modal -->
+	<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Add</button>
+	
+	<!-- Modal -->
+	<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+		<div class="modal-header">
+			<h5 class="modal-title" id="exampleModalLabel">To add a school:</h5>
+			<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+		<div class="modal-body">
+			<div class="input-group mb-3">
+					<div class="input-group-prepend">
+						<span class="input-group-text">School Name</span>
+					</div>
+					<input type="text" class="form-control" placeholder="Name of School" aria-label="Name of School" aria-describedby="basic-addon1">
+					<div class="input-group-prepend">
+						<span class="input-group-text">City</span>
+					</div>
+					<input type="text" class="form-control" placeholder="City" aria-label="City" aria-describedby="basic-addon1">
+					<div class="input-group-prepend">
+						<span class="input-group-text">Zip Code</span>
+					</div>
+					<input type="text" class="form-control" placeholder="Zip Code" aria-label="Zip Code" aria-describedby="basic-addon1">			</div>
+			<div class="input-group">
+		</div>
+		<div class="modal-footer">
+			<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+			<button type="button" class="btn btn-primary" onclick="myFunction()">Add School</button>
+			<p id="demo"></p>
+			<script>
+				function myFunction() { 
+					document.getElementById("demo").innerHTML = "Hello World"; }
+			</script>
+		</div>
+		</div>
+	</div>
+	</div>
+	</div>
 		</div>
 	</div>
 </div>

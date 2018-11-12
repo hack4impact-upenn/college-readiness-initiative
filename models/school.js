@@ -8,6 +8,20 @@ var schoolSchema = new mongoose.Schema({
 var School = mongoose.model("School", schoolSchema);
 module.exports = School;
 
+// Method that inserts school in the database
+function addFakeSchool() {
+    School.create({
+        name: "John Marshall",
+    }, function (err, question) {
+        if (err) {
+            console.log(err);
+        }
+        else {
+            console.log("Added School to database");
+        }
+    });
+}
+
 // Method that displays questions in the database
 function viewSchools() {
     School.find({}, function (err, schools) {
@@ -21,4 +35,17 @@ function viewSchools() {
     });
 }
 
-// viewSchools();
+function removeSchool(name) {
+    School.deleteOne({name: name}, function(err) {
+        if (err) {
+            console.log(err);
+        }
+        else {
+            console.log("Removed School: " + name);
+        }
+    });
+}
+
+// addFakeSchool();
+viewSchools();
+// removeSchool();
