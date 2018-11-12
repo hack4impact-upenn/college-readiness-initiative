@@ -641,3 +641,15 @@ div a:after {
 	color: black;
 	text-weight: 500;
 }
+
+.tabletitle {
+    margin-left: 30px;
+    text-align: left;
+}
+.table {
+    margin-left: 30px;
+    margin-right: 30px;
+    border: 1px solid rgba(0, 0, 0, 0.125);
+    border-radius: 0.25rem;
+    padding: 1.25rem;
+}
