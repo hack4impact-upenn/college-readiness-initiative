@@ -10,7 +10,7 @@ var questionSchema = new mongoose.Schema({
     calc: Boolean,
     image_link: {
 	type: String,
-	unique: true
+	unique: true,
     },
     difficulty: Number,
     type: String,
