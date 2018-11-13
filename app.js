@@ -87,6 +87,12 @@ app.get("/answerkeys", function(req, res) {
     });
 })
 
+app.get("/studentlist", function(req, res) {
+    Student.find(function(err, students) {
+        res.send(students);
+    })
+})
+
 // Tutoring Page (Ask student whether they are with a tutor)
 app.get("/tutoring", function(req, res) {
     res.render("tutoring");
@@ -265,7 +271,8 @@ app.post("/register/:userType", function(req, res) {
           name: req.body.name,
           year: req.body.year,
           past_sat_score: req.body.score,
-          missed_questions: questions
+          missed_questions: questions,
+          last_log_in: Date.now()
         });
         Student.register(newUser, req.body.password, function (err, user) {
           if (err) {
@@ -278,7 +285,7 @@ app.post("/register/:userType", function(req, res) {
         });
       }
     })
-    
+
   }
   else if (type == "admin") {
     newUser = new Admin({ username: req.body.username });
@@ -318,12 +325,26 @@ app.get("/login/:userType", function(req, res) {
 
 // handle login logic
 app.post("/login/student", passport.authenticate('student',
-  {
-    successRedirect: "/",
-    failureRedirect: "/login/student"
-
-  }), function (req, res) {
+  { failureRedirect: "/login/student" }),
+    function (req, res) {
+      var query = {
+            'username': req.user.username
+        };
+        var update = {
+            last_log_in: Date.now()
+        };
+        var options = {
+            new: true
+        };
+        Student.findOneAndUpdate(query, update, options, function(err, user) {
+            if (err) {
+                console.log(err);
+            }
+        });
+        console.log("Welcome " + req.user.username);
+        res.redirect("/");
 });
+
 app.post("/login/tutor", passport.authenticate('tutor',
   {
     successRedirect: "/",
@@ -363,12 +384,12 @@ app.get("/analytics", function(req, res) {
     Promise.all([
         Session.countDocuments({      date: {
         $gt: week,
-        $lt: today 
+        $lt: today
             }
        }),
         Session.countDocuments({ date: {
         $gt: month,
-        $lt: today 
+        $lt: today
             }
   }),
         Session.countDocuments({ date: {
@@ -396,7 +417,7 @@ app.get("/analytics", function(req, res) {
   res.render("analytics", {weeklyOutput: weeklyOutput, monthlyOutput: monthlyOutput, yearlyOutput:yearlyOutput,
                            student_weekly: student_weekly, student_monthly: student_monthly, student_yearly: student_yearly});
 });
-    
+
 })
 
 
