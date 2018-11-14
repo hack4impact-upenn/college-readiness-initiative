@@ -1,6 +1,6 @@
 var mongoose = require("mongoose"); // install mongoose, which allows us to write
                                     // JS that interacts with database
-mongoose.connect("mongodb://localhost:27017/question_db"); // creates question_db database
+mongoose.connect('mongodb://localhost:27017/college_readiness_initiative', { useNewUrlParser: true });
 
 // This is a schema, a plan for what a question in our database looks like:
 var questionSchema = new mongoose.Schema({
@@ -8,7 +8,10 @@ var questionSchema = new mongoose.Schema({
     knowledge: String,
     test_num: String,
     calc: Boolean,
-    image_link: String,
+    image_link: {
+	type: String,
+	unique: true,
+    },
     difficulty: Number,
     type: String,
     question_num: Number,
@@ -20,8 +23,8 @@ var questionSchema = new mongoose.Schema({
 
 // Compile the questionSchema into a model, returning an object that
 //has methods that allow us to interact with Mongo database
-var Question = mongoose.model("Question", questionSchema);
-module.exports = Question;
+var QuestionModel = mongoose.model('Questions', questionSchema);
+module.exports = QuestionModel;
 
 // Method that populates database with a fake question
 function addFakeQuestion() {
@@ -69,9 +72,10 @@ function addFakeQuestion() {
     });
 }
 
+
 // Method that displays questions in the database
 function viewQuestions() {
-    Question.find({}, function(err, questions){
+    QuestionModel.find({}, function(err, questions){
         if (err) {
             console.log(err);
         }

@@ -1,15 +1,18 @@
 var express       = require("express"),
-  mongoose      = require("mongoose"),
-  passport      = require("passport"),
-  bodyParser    = require("body-parser"),
-  Student       = require("./models/student"),
-  Admin         = require("./models/admin"),
-  Tutor         = require("./models/tutor"),
-  Session       = require("./models/session"),
-  School        = require("./models/school"),
-  LocalStrategy = require("passport-local"),
-  fs            = require('fs'),
-  path          = require('path'); // needed for image paths
+    mongoose      = require("mongoose"),
+    passport      = require("passport"),
+    bodyParser    = require("body-parser"),
+    Student       = require("./models/student"),
+    Admin         = require("./models/admin"),
+    Tutor         = require("./models/tutor"),
+    Session       = require("./models/session"),
+    Question      = require("./models/question")
+    School        = require("./models/school"),
+    LocalStrategy = require("passport-local"),
+    parseCSV      = require("./scripts/parseCSV"),
+    uploadSchool  = require("./scripts/uploadSchool"),
+    fs            = require('fs'),
+    path          = require('path') // needed for image paths,
 
 mongoose.connect('mongodb://localhost:27017/college_readiness_initiative', { useNewUrlParser: true });
 
@@ -61,7 +64,8 @@ app.get("/", function (req, res) {
 
 // Practice page
 app.get("/practice", isLoggedIn, function(req, res) {
-  res.render("practice");
+  var student = req.user;
+  res.render("practice", {questions: student.missed_questions, student: student});
 })
 
 // About page route
@@ -79,9 +83,14 @@ fs.readdirSync(__dirname + '/models').forEach(function(filename) {
 
 // Answer Keys page route
 app.get("/answerkeys", function(req, res) {
-  mongoose.model('Question').find(function(err, questions) {
-    res.render("answerkeys", {questions: questions});
-  });
+    Question.find(function(err, questions) {
+        res.render("answerkeys", {questions: questions});
+    });
+})
+
+// Tutoring Page (Ask student whether they are with a tutor)
+app.get("/tutoring", function(req, res) {
+    res.render("tutoring");
 })
 
 // SAT Prep Page
@@ -239,18 +248,13 @@ app.get("/register", function(req, res) {
 });
 app.get("/register/:userType", function(req, res) {
   if (req.params.userType == "student") {
-    School.find({}, function (err, data) {
+    School.find({}, function (err, schools) {
       if (err) {
         console.log(err);
+      } else {
+        res.render("registerstudent", { schools: schools });
       }
-      else {
-        console.log("inside else");
-        data.forEach(function(school) {
-          console.log(school);
-        });
-        res.render("registerstudent", { schools: data });
-      }
-    })
+    });
   }
   else {
     res.render("register" + req.params.userType);
@@ -262,17 +266,30 @@ app.post("/register/:userType", function(req, res) {
   var type = req.params.userType;
   var newUser;
   if (type == "student") {
-    newUser = new Student({ username: req.body.username,
-      school: req.body.school });
-    Student.register(newUser, req.body.password, function(err, user){
+    Question.find({}, function(err, questions) {
       if (err) {
         console.log(err);
-        return res.render("register" + type);
+      } else {
+        newUser = new Student({
+          username: req.body.username,
+          school: req.body.school,
+          name: req.body.name,
+          year: req.body.year,
+          past_sat_score: req.body.score,
+          missed_questions: questions
+        });
+        Student.register(newUser, req.body.password, function (err, user) {
+          if (err) {
+            console.log(err);
+            return res.render("register" + type);
+          }
+          passport.authenticate('student')(req, res, function () {
+            res.redirect("/");
+          });
+        });
       }
-      passport.authenticate('student')(req, res, function () {
-        res.redirect("/");
-      });
-    });
+    })
+    
   }
   else if (type == "admin") {
     newUser = new Admin({ username: req.body.username });
@@ -287,7 +304,8 @@ app.post("/register/:userType", function(req, res) {
     });
   }
   else if (type == "tutor") {
-    newUser = new Tutor({ username: req.body.username });
+    newUser = new Tutor({ username: req.body.username,
+                          name: req.body.name });
     Tutor.register(newUser, req.body.password, function (err, user) {
       if (err) {
         console.log(err);
@@ -345,6 +363,76 @@ function isLoggedIn(req, res, next) {
   res.redirect("/login");
 }
 
+
+//analytics route
+app.get("/analytics", function(req, res) {
+    var today = new Date();
+    var week = new Date(today.getFullYear(), today.getMonth(), today.getDate()-7);
+    var month = new Date(today.getFullYear(), today.getMonth()-1, today.getDate());
+    var year = new Date(today.getFullYear()-1, today.getMonth(), today.getDate());
+
+    Promise.all([
+        Session.countDocuments({      date: {
+        $gt: week,
+        $lt: today 
+            }
+       }),
+        Session.countDocuments({ date: {
+        $gt: month,
+        $lt: today 
+            }
+  }),
+        Session.countDocuments({ date: {
+          $gt: year,
+          $lt: today
+        }
+      }),
+        Session.distinct().countDocuments({ date: {
+          $gt: week,
+          $lt: today
+        }
+      }),
+        Session.distinct().countDocuments({ date: {
+          $gt: month,
+          $lt: today
+        }
+      }),
+        Session.distinct().countDocuments({ date: {
+          $gt: year,
+          $lt: today
+        }
+      })
+]).then( ([ weeklyOutput, monthlyOutput , yearlyOutput,
+            student_weekly, student_monthly, student_yearly]) => {
+  res.render("analytics", {weeklyOutput: weeklyOutput, monthlyOutput: monthlyOutput, yearlyOutput:yearlyOutput,
+                           student_weekly: student_weekly, student_monthly: student_monthly, student_yearly: student_yearly});
+});
+    
+})
+
+
 app.listen(process.env.PORT || 3000, process.env.IP, function () {
   console.log("Server has started!")
 })
+
+//Upload question page
+app.get("/questionupload", function (req, res) {
+  res.render("questionupload");
+})
+
+app.post("/questionupload", bodyParser.urlencoded({extended: true}), function(req, res) {
+  var url = req.body.URL;
+  parseCSV(url);
+  res.redirect("/");
+});
+
+//Upload school name page
+app.get("/schoolupload", function (req, res) {
+  res.render("schoolupload");
+})
+
+app.post("/schoolupload", bodyParser.urlencoded({extended: true}), function(req, res) {
+  var name = req.body.schoolNAME;
+  uploadSchool(name);
+  res.redirect("/");
+});
