@@ -3,6 +3,9 @@ var request = require("request");
 var insertQuestions = require("./insertQuestions")
 
 var parseCSV = function parseCSV(url) {
+	var re = /edit\#/;
+	url = url.replace(re, 'export?format=csv&');
+
 	var qArr = []; //array that will hold question data
 	request.get(url) //gets URL
 		.pipe(new StringStream()) //pipes to stream

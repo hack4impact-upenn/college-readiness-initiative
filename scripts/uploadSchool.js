@@ -5,9 +5,9 @@ var uploadSchool = function uploadSchool(inName) {
         var sch = new SchoolModel;
             sch.name = inName;
 
-        sch.save(function(err) {
-                if(err) throw err;
-        });
+        sch.save().catch(error => {
+		console.log(error);	
+	});
     	
 	console.log("Finished uploading!");
 }
