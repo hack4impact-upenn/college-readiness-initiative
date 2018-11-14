@@ -47,7 +47,7 @@ passport.deserializeUser(Admin.deserializeUser());
 
 app.use(function (req, res, next) {
   res.locals.currentUser = req.user;
-  console.log("current user: " + req.user);
+  // console.log("current user: " + req.user);
   next();
 });
 
@@ -62,9 +62,11 @@ app.get("/", function (req, res) {
 })
 
 // Practice page
-app.get("/practice", isLoggedIn, function(req, res) {
-  var student = req.user;
-  res.render("practice", {questionIDs: student.current_questions, student: student});
+// Allows student to select type
+app.get("/practicetype", isLoggedIn, function(req, res) {
+  Question.find().distinct('type', function(err, questionTypes) {
+    res.render("practicetype", {questionTypes: questionTypes});
+  });
 })
 
 // About page route
@@ -98,8 +100,13 @@ app.get("/satprep", function (req, res) {
 })
 
 // Question page
-app.get("/question", function(req, res) {
-    res.render("question");
+app.get("/question/:type", function (req, res) {
+  var questionType = req.params.type.toUpperCase();
+  Question.findOne({type: questionType}, function(err, question) {
+    if (err) console.log(err);
+    console.log(question);
+    res.render("question", { question: question }); 
+  });
 })
 
 // Full Practice Test Page
