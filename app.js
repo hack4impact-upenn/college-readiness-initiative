@@ -89,7 +89,7 @@ app.get("/answerkeys", function(req, res) {
 
 app.get("/studentlist", function(req, res) {
     Student.find(function(err, students) {
-        res.send(students);
+        res.render("studentlist", {students: students});
     })
 })
 
