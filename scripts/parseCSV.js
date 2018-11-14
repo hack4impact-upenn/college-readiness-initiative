@@ -6,10 +6,7 @@ var parseCSV = function parseCSV(url) {
 	var qArr = []; //array that will hold question data
 	request.get(url) //gets URL
 		.pipe(new StringStream()) //pipes to stream
-		.CSVParse({delimiter: ",",
-			   quoteChar: '"',
-			   escapeChar: '"',
-			   dynamicTyping: false}) //parses CSV
+		.CSVParse() //parses CSV
 		.consume(function(object){ //callback (for each row)
 				qArr.push(object);
 		})
