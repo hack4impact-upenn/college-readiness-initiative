@@ -23,11 +23,8 @@ var StudentSchema = new mongoose.Schema({
     // Having a real map might be more efficient (O(1)) but it seems Mongoose
     // only has maps of <String, String>. Thoughts?
     current_questions: [{
-        current_category: String,
-        current_question: [{
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'Question'
-        }]
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Question'
     }],
     correct_questions: [{
         type: mongoose.Schema.Types.ObjectId,

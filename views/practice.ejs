@@ -4,8 +4,8 @@
 </div>
 <h1><%= student.username %></h1>
 <% console.log(student); %>
-<% questions.forEach(function(question){ %>
-        <img src="<%= question.image_link %>" width="600px">
+<% questionsIDs.forEach(function(questionID){ %>
+        <img src="<%= questionID.image_link %>" width="600px">
         <h1><%= question.answer %></h1>
        <h1><%= question.category %></h1>
 <% }) %>
