@@ -1,11 +1,15 @@
 <% include partials/header %>
 <div class="jumbotron pencilpic">
-    <h1 id="hometitle">Practice</h1>
+    <h1 id="hometitle">Select a Category:</h1>
+</div>
+<div class="container">
+    <% questionTypes.forEach(function(type){ %>
+        <h1><%var link = "/question/" + type %></h1>
+        <% console.log(link) %>
+        <h2><a href="<%= link %>"><%= type %></a></h2>
+    <% }) %>
 </div>
 
-<% questionTypes.forEach(function(type){ %>
-        <h1><%= type %></h1>
-<% }) %>
 
 
 <% include partials/footer %>

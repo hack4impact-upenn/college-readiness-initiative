@@ -101,7 +101,9 @@ app.get("/satprep", function (req, res) {
 
 // Question page
 app.get("/question/:type", function (req, res) {
-  var questionType = req.params.type.toUpperCase();
+  var questionType = req.params.type;
+  // var regExp = new RegExp(questionType + "$/i");
+  // console.log(regExp);
   Question.findOne({type: questionType}, function(err, question) {
     if (err) console.log(err);
     console.log(question);
