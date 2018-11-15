@@ -637,3 +637,7 @@ div a:after {
 	text-weight: 500;
 }
 
+.capitalize {
+    text-transform: capitalize;   
+}
+

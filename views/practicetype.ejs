@@ -3,11 +3,21 @@
     <h1 id="hometitle">Select a Category:</h1>
 </div>
 <div class="container">
-    <% questionTypes.forEach(function(type){ %>
-        <h1><%var link = "/question/" + type %></h1>
-        <% console.log(link) %>
-        <h2><a href="<%= link %>"><%= type %></a></h2>
-    <% }) %>
+    <div class="row">
+        <% questionTypes.forEach(function(type){ %>
+            <div class="col-lg-6 col-sm-12">
+                <% if (type == "solving equation/expression") {%>
+                    <% type = "solving equation%20expression" %>
+                    <% typeDisplay = "Solving Equations/Expressions" %>
+                <% } else {%>
+                    <% typeDisplay = type %>
+                <% } %>
+                <h1><%var link = "/question/" + type %></h1>
+                <h2><a href="<%= link %>" class="capitalize"><%= typeDisplay %></a></h2>
+            </div>
+        <% }) %>
+    </div>
+    
 </div>
 
 

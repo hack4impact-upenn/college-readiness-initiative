@@ -8,8 +8,9 @@
   <div align="center">
     <img src="<%= imageURL %>" , alt="Question Image">
   </div>
-  
-  <form action="/question"></form>
+  <% var postLink = "/question/" + link %>
+  <% console.log(postLink) %>
+  <form action="<%= postLink %>" method="post">
   <% if (question.isMC == true) { %>
   <div class="form-check">
     <input class="form-check-input" type="radio" name="answerA" id="radio1" value="option1" checked>
@@ -33,7 +34,8 @@
     <input class="form-control form-control-lg" type="text" name="answerInput" id="answerInput">
   </div>
   <% } %>
-  <button type="submit" class="btn btn-primary">Submit Answer</button>
+  <button class="btn btn-primary mb-2">Submit</button>
+  </form>
 </div>
 
 <% include partials/footer %>

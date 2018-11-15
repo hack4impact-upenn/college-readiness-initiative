@@ -102,12 +102,49 @@ app.get("/satprep", function (req, res) {
 // Question page
 app.get("/question/:type", function (req, res) {
   var questionType = req.params.type;
-  // var regExp = new RegExp(questionType + "$/i");
-  // console.log(regExp);
+  console.log(questionType);
+  if (questionType == "solving equation expression") {
+    questionType = "solving equation/expression"
+  }
   Question.findOne({type: questionType}, function(err, question) {
     if (err) console.log(err);
     console.log(question);
-    res.render("question", { question: question }); 
+    res.render("question", { question: question, link: req.params.type }); 
+  });
+})
+
+// Post method that redirects to solution page
+app.post("/question/:type", function(req, res) {
+  var type = req.params.type;
+  res.redirect("solution/" + type);
+})
+
+// Display solution to single question
+app.get("/solution/:type", isLoggedIn, function(req, res) {
+  var questionType = req.params.type;
+  Question.findOne({ type: questionType }, function (err, question) {
+    if (err) console.log(err);
+    console.log(question);
+    res.render("solution", { question: question, type: questionType });
+  });
+});
+
+// Insert question into correct database
+app.post("/solution/:type", function(req, res) {
+  var questionType = req.params.type;
+  Question.findOne({ type: questionType }, function (err, question) {
+    if (err) console.log(err);
+    console.log(question);
+    var ID = question._id;
+    console.log("ID: " + ID);
+    var currentStudent = req.user;
+    console.log("ARRAY: " + currentStudent.current_questions);
+    var indexOfID = currentStudent.current_questions.indexOf(ID);
+    console.log("INDEX: " + indexOfID);
+    if (indexOfID > -1) {
+      currentStudent.current_questions = currentStudent.current_questions.splice(indexOfID, 1);
+    }
+    res.render("question/" + questionType);
   });
 })
 
@@ -274,9 +311,7 @@ app.post("/register/:userType", function(req, res) {
           name: req.body.name,
           year: req.body.year,
           past_sat_score: req.body.score,
-          current_questions: questions.map(function(question) {
-            return question._id
-          })
+          current_questions: questions
         });
         Student.register(newUser, req.body.password, function (err, user) {
           if (err) {
