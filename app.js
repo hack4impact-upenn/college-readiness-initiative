@@ -65,7 +65,7 @@ app.get("/", function (req, res) {
 // Practice page
 app.get("/practice", isLoggedIn, function(req, res) {
   var student = req.user;
-  res.render("practice", {questions: student.missed_questions, student: student});
+  res.render("practice", {questionIDs: student.current_questions, student: student});
 })
 
 // About page route
@@ -272,6 +272,9 @@ app.post("/register/:userType", function(req, res) {
           name: req.body.name,
           year: req.body.year,
           past_sat_score: req.body.score,
+          current_questions: questions.map(function(question) {
+            return question._id
+          })
           missed_questions: questions,
           last_log_in: Date.now()
         });
