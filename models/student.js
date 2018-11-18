@@ -34,7 +34,8 @@ var StudentSchema = new mongoose.Schema({
     to_review_questions: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Question'
-    }]
+    }],
+    last_log_in: {type: Date, default: Date.now}
 });
 
 StudentSchema.plugin(passportLocalMongoose);
@@ -44,8 +45,8 @@ module.exports = Student;
 
 function insertStudent(username, password, name, school, year, past_sat_score,
                        new_sat_score, num_questions_completed, test_date,
-                       categories_completed, current_questions, 
-                       correct_questions, missed_questions, to_review_questions) {
+                       categories_completed, current_questions,
+                       correct_questions, missed_questions, to_review_questions, lastLogIn) {
     Student.create({
         username: username,
         password: password,
@@ -60,7 +61,8 @@ function insertStudent(username, password, name, school, year, past_sat_score,
         current_questions: current_questions,
         correct_questions: correct_questions,
         missed_questions: missed_questions,
-        to_review_questions: to_review_questions
+        to_review_questions: to_review_questions,
+        lastLogIn: lastLogIn
     }, function (err, student) {
         if (err) {
             console.log(err);
