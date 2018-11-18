@@ -20,7 +20,6 @@ var parseCSV = function parseCSV(url) {
 			insertQuestions(qArr);
 		})
 		.then(function() {
-			console.log("inside second then()");
     			StudentModel.find(function(err, students) {
 				students.forEach(function(student) {
 					console.log("calling insertStudentQuestions");
