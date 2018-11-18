@@ -318,7 +318,6 @@ app.post("/register/:userType", function(req, res) {
           name: req.body.name,
           year: req.body.year,
           past_sat_score: req.body.score,
-          current_questions: questions,
           current_questions: questions.map(function(question) {
             return question._id
           }),

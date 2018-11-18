@@ -1,6 +1,8 @@
 var {StringStream} = require("scramjet");
 var request = require("request");
-var insertQuestions = require("./insertQuestions")
+var insertQuestions = require("./insertQuestions");
+var insertStudentQuestions = require("./insertStudentQuestions");
+var StudentModel = require("../models/student");
 
 var parseCSV = function parseCSV(url) {
 	var re = /edit\#/;
@@ -16,6 +18,15 @@ var parseCSV = function parseCSV(url) {
 		.then(function() {
 			console.log("Finished parsing!");
 			insertQuestions(qArr);
+		})
+		.then(function() {
+			console.log("inside second then()");
+    			StudentModel.find(function(err, students) {
+				students.forEach(function(student) {
+					console.log("calling insertStudentQuestions");
+					insertStudentQuestions(student);
+				});
+    			});
 		});
 }
 

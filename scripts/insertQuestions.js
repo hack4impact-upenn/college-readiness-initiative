@@ -22,6 +22,7 @@ var insertQuestions = function insertQuestions(arr) {
 	});
     }
     console.log("Finished uploading!");
+
 }
 
 module.exports = insertQuestions;
