@@ -8,7 +8,6 @@ var insertStudentQuestions = function insertStudentQuestions(student) {
 			if(!(questionType in student.current_questions)) {
 				student.current_questions[questionType] = [];
 			}
-			console.log("Student's current questions:" + JSON.stringify(student.current_questions));
 			QuestionModel.find({type: questionType}, function(err, questions) {
 				if(err) console.log(err);
 				console.log("inserting " + questionType + " questions");

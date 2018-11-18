@@ -4,3 +4,4 @@ node_modules/
 mongod
 *.csv
 package.json
+*.swp
