@@ -13,8 +13,8 @@ var insertStudentQuestions = function insertStudentQuestions(student) {
 				if(err) console.log(err);
 				console.log("inserting " + questionType + " questions");
 				questions.forEach(function(question) {
-					console.log("Student's current questions:" + JSON.stringify(student.current_questions[questionType]));
 					student.current_questions[questionType].push(question._id);
+					console.log("Student's current questions:" + JSON.stringify(student.current_questions[questionType]));
 				});
 			});	
 		});
