@@ -22,10 +22,7 @@ var StudentSchema = new mongoose.Schema({
     // different then replace current_question with the saved question.
     // Having a real map might be more efficient (O(1)) but it seems Mongoose
     // only has maps of <String, String>. Thoughts?
-    current_questions: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Question'
-    }],
+    current_questions: {},
     correct_questions: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Question'
