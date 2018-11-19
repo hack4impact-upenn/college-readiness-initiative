@@ -252,6 +252,19 @@ app.get("/userdirectory", function (req, res) {
         });
   });
 });
+app.get('/delete/:username', function(req, res) {
+  var username = req.param("username");
+  Student.remove({
+      username: username 
+  }, function(err){
+      if (err) {
+          console.log(err)
+      }
+      else {
+          res.send("Removed Student username:" + username);
+      }
+  });
+});
 
 // ============
 // AUTH ROUTES

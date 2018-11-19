@@ -128,6 +128,15 @@ function removeStudent(username) {
     });
 }
 
+// exports.delete = function(req, res) {
+//     Student.findById( req.params.id, function ( err, students) {
+//         students.remove( function( err, students) {
+//         //   console.log("Destroyed: " + students + " successfully!");
+//         //   res.redirect( '/' );
+//         });
+//     });
+// };
+
 //addFakeStudent();
 //removeStudent("student_username");
 viewStudents();
