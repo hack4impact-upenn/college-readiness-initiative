@@ -252,18 +252,17 @@ app.get("/userdirectory", function (req, res) {
         });
   });
 });
-app.get('/delete/:username', function(req, res) {
+app.get("/student/:username", function(req, res) {
   var username = req.param("username");
-  Student.remove({
-      username: username 
-  }, function(err){
-      if (err) {
-          console.log(err)
-      }
-      else {
-          res.send("Removed Student username:" + username);
-      }
-  });
+  Student.removeStudent(username);
+  res.send("Removed Student:" + username);
+  res.redirect("/userdirectory");
+});
+app.get("/tutor/:username", function(req, res) {
+  var username = req.param("username");
+  Tutor.removeTutor(username);
+  res.send("Removed Tutor:" + username);
+  res.redirect("/userdirectory");
 });
 
 // ============

@@ -80,9 +80,9 @@ function insertStudent(username, password, name, school, year, past_sat_score,
 function addFakeStudent() {
     console.log("inside addFakeStudent()");
     Student.create({
-        username: "student_username4",
+        username: "student_username2",
         password: "password",
-        name: "Prateek Bhakta IV",
+        name: "Prateek Bhakta2",
         school: "John Marshall",
         year: 2020,
         past_sat_score: 1600,
@@ -128,15 +128,8 @@ function removeStudent(username) {
     });
 }
 
-// exports.delete = function(req, res) {
-//     Student.findById( req.params.id, function ( err, students) {
-//         students.remove( function( err, students) {
-//         //   console.log("Destroyed: " + students + " successfully!");
-//         //   res.redirect( '/' );
-//         });
-//     });
-// };
+module.exports.removeStudent = removeStudent;
 
-//addFakeStudent();
+addFakeStudent();
 //removeStudent("student_username");
 viewStudents();

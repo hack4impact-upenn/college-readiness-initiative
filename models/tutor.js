@@ -53,6 +53,7 @@ function removeTutor(username) {
         }
     });
 }
+module.exports.removeTutor = removeTutor;
 
 //addFakeTutor();
 viewTutors();

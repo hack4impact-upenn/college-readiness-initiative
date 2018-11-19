@@ -194,7 +194,9 @@ div a:after {
     font-family: 'Roboto', sans-serif;
     text-shadow: 2px 2px black;
 }
-
+#deleteLink {
+    color: red;
+}
 .worksheets {
     padding: 20px;
 }

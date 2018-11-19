@@ -31,11 +31,16 @@
 							<li><a href="/profile">View User Info</a></li>
 							<li><a href="#">Change account type</a></li>
 							<li class="divider"></li>
-							<li><a href="#">Delete this user</a></li>
+							<li><a id="deleteLink" href="student/<%= students[i].username %>" onclick="confirmation()">Delete this student</a></li>
+								<script>
+									function confirmation() {
+											confirm("Are you sure?");
+										}
+								</script>
 						</ul>
 					</div>
 				</td>
-	  </tr>
+		</tr>
 		<% }; %>
 	</tbody>
 </table>
@@ -68,7 +73,12 @@
 							<li><a href="/profile">View User Info</a></li>
 							<li><a href="#">Change account type</a></li>
 							<li class="divider"></li>
-							<li><a href="#">Delete this user</a></li>
+							<li><a id="deleteLink" href="tutor/<%= tutors[i].username %>" onclick="confirmation()">Delete this student</a></li>
+								<script>
+									function confirmation() {
+											confirm("Are you sure?");
+										}
+								</script>
 				<!--TRYING TO ADD LINK TO A BOOTSTRAP MODAL FOR CONFIRMATION OF DELETE/CHANGE ACCT TYPE-->
 						</ul>
 					</div>
@@ -77,7 +87,5 @@
 		<% }; %>
 	</tbody>
 </table>
-
-<a class="btn btn-raised btn-danger" href="delete/student_username">Delete</a>
 
 <% include partials/footer %>
