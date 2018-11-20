@@ -640,4 +640,12 @@ div a:after {
 .capitalize {
     text-transform: capitalize;   
 }
+.lb-lg {
+  font-size: 20px;
+}
+
+.practicetype {
+    padding-top: 50px;
+    padding-left: 100px;
+}
 

@@ -26,8 +26,9 @@ var insertNewStudentQuestions = function insertNewStudentQuestions(studentId) {
 					QuestionModel.find({type: 'solving equation/expression'}).select('._id').then(function(solvingQs) {
 						allQ.solving_equation_expression = solvingQs;
 						console.log('solving equation/expression: ' + allQ.solving_equation_expression);
-						StudentModel.findByIdAndUpdate(studentId, {current_questions: allQ}, function(err) {
+						StudentModel.findByIdAndUpdate(studentId, {current_questions: allQ}, function(err, student) {
 							if(err) console.log(err);
+							console.log(student);
 						});
 					});
 				});

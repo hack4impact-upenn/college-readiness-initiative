@@ -65,11 +65,23 @@ app.get("/", function (req, res) {
 })
 
 // Practice page
-// Allows student to select type
+// Allows student to select type of question and whether with tutor
 app.get("/practicetype", isLoggedIn, function(req, res) {
   Question.find().distinct('type', function(err, questionTypes) {
     res.render("practicetype", {questionTypes: questionTypes});
   });
+})
+
+app.post("/practicetype", isLoggedIn, function (req, res) {
+  questionType = req.body.questionType;
+  console.log("tutoring? : " + req.body.withTutor);
+  withTutor = req.body.withTutor;
+  if (withTutor) {
+    console.log("true");
+  } else {
+    console.log("false");
+  }
+  res.redirect("/question/" + questionType);  
 })
 
 // About page route
@@ -92,7 +104,7 @@ app.get("/answerkeys", function(req, res) {
     });
 })
 
-app.get("/studentlist", isAdmin, function(req, res) {
+app.get("/admin/studentlist", isAdmin, function(req, res) {
     Student.find(function(err, students) {
         res.render("studentlist", {students: students});
     })
@@ -373,10 +385,15 @@ app.post("/register/:userType", function(req, res) {
   if (type == "student") {
       newUser = new Student({
         username: req.body.username,
-        school: req.body.school,
         name: req.body.name,
+        school: req.body.school,
         year: req.body.year,
         past_sat_score: req.body.score,
+        new_sat_score: null,
+        num_questions_completed: 0,
+        current_questions: {},
+        correct_questions: {},
+        missed_questions: {},
         last_log_in: Date.now()
       });
       User.register(newUser, req.body.password, function (err, user) {
@@ -428,7 +445,7 @@ app.get("/login/:userType", function(req, res) {
 
 // handle login logic
 app.post("/login/student", passport.authenticate('local',
-  { failureRedirect: "/login/student"}),
+  { failureRedirect: "/login/student" }),
     function (req, res) {
       var query = {
             'username': req.user.username
@@ -458,7 +475,8 @@ app.post("/login/tutor", passport.authenticate('local',
 app.post("/login/admin", passport.authenticate('local',
   {
     successRedirect: "/",
-    failureRedirect: "/login/admin"
+    failureRedirect: "/login/admin",
+
 
   }), function (req, res) {
 });
