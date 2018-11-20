@@ -14,7 +14,8 @@ var express       = require("express"),
     insertStudentQs = require("./scripts/insertNewStudentQuestions"),
     moveCompletedQ = require("./scripts/moveCompletedQuestion"),
     fs            = require('fs'),
-    path          = require('path') // needed for image paths,
+    path          = require('path'), // needed for image paths
+    async         = require('async');
 
 mongoose.connect('mongodb://localhost:27017/college_readiness_initiative', { useNewUrlParser: true });
 
@@ -117,11 +118,18 @@ app.get("/question/:type", isLoggedIn, function (req, res) {
   else if (questionType == "word problem") {
     questionType = "word_problem";
   }
-  var questionId = req.user.current_questions[questionType][0];
-  Question.findOne({_id: questionId}, function(err, question) {
-    if (err) console.log(err);
-    res.render("question", { question: question, link: req.params.type }); 
-  });
+  if (req.user.current_questions[questionType].length == 0) {
+    // No questions left to do of this type
+    res.render("completedQuestionType", { type: req.params.type });
+  }
+  else {
+    var questionId = req.user.current_questions[questionType][0];
+    Question.findOne({ _id: questionId }, function (err, question) {
+      if (err) console.log(err);
+      console.log(question);
+      res.render("question", { question: question, link: req.params.type });
+    });
+  }
 })
 
 // Post method that redirects to solution page
@@ -163,7 +171,6 @@ function renderSolution(req, res) {
   });
 } 
 
-// Insert question into correct database
 app.post("/correctsolution/:type", function(req, res) {
   var questionType = req.params.type;
   var studentId = req.user._id;
@@ -171,13 +178,40 @@ app.post("/correctsolution/:type", function(req, res) {
   res.redirect("question/" + questionType);
 })
 
-// Insert question into correct database
 app.post("/incorrectsolution/:type", function (req, res) {
   var questionType = req.params.type;
   var studentId = req.user._id;
   moveCompletedQ(studentId, questionType, false);
   res.redirect("question/" + questionType);
 })
+
+app.get("/review/:type", isLoggedIn, function(req, res) {
+  var questionType = req.params.type;
+  var missed_Ids = req.user.missed_questions;
+  getMissedIds(missed_Ids).then(function (missed_qArr) {
+    var missed_qs = missed_qArr;
+    console.log("here!");
+    console.log(missed_qs);
+    res.render("review", { questionType: questionType, missed_qs: missed_qs });
+  });
+})
+
+async function getMissedIds(missed_Ids) {
+  missed_qs = []
+  for (const missedId of missed_Ids) {
+    await Question.findById(missedId._id, function (err, question) {
+      if (err) console.log(err);
+      else {
+        if (question != null) {
+          missed_qs.push(question);
+        }
+      }
+    });
+  }
+  console.log("returning");
+  return missed_qs;
+}
+
 
 // Full Practice Test Page
 app.get("/fulltests", function (req, res) {
