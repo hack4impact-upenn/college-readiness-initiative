@@ -364,28 +364,24 @@ app.post("/register/:userType", function(req, res) {
   var type = req.params.userType;
   var newUser;
   if (type == "student") {
-      if (err) {
-        console.log(err);
-      } else {
-        newUser = new Student({
-          username: req.body.username,
-          school: req.body.school,
-          name: req.body.name,
-          year: req.body.year,
-          past_sat_score: req.body.score,
-          last_log_in: Date.now()
+      newUser = new Student({
+        username: req.body.username,
+        school: req.body.school,
+        name: req.body.name,
+        year: req.body.year,
+        past_sat_score: req.body.score,
+        last_log_in: Date.now()
+      });
+      User.register(newUser, req.body.password, function (err, user) {
+        if (err) {
+          console.log(err);
+          return res.render("register" + type);
+        }
+        passport.authenticate('local')(req, res, function () {
+          insertStudentQs(user._id);
+          res.redirect("/");
         });
-        User.register(newUser, req.body.password, function (err, user) {
-          if (err) {
-            console.log(err);
-            return res.render("register" + type);
-          }
-          passport.authenticate('local')(req, res, function () {
-            insertStudentQs(user._id);
-            res.redirect("/");
-          });
-        });
-      }
+      });
   }
   else if (type == "admin") {
     newUser = new Admin({ username: req.body.username });
@@ -436,7 +432,7 @@ app.post("/login/student", passport.authenticate('local',
         var options = {
             new: true
         };
-        Student.findOneAndUpdate(query, update, options, function(err, user) {
+        Student.findOneAndUpdate( query, update, options, function(err, user) {
             if (err) {
                 console.log(err);
             }
