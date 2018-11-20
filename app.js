@@ -77,7 +77,12 @@ app.post("/practicetype", isLoggedIn, function (req, res) {
   console.log("tutoring? : " + req.body.withTutor);
   withTutor = req.body.withTutor;
   if (withTutor) {
-    console.log("true");
+    Session.create({
+      date: Date.now(),
+      studentId: req.user._id
+    }, function(err, session) {
+      if (err) console.log(err);
+    });
   } else {
     console.log("false");
   }
@@ -104,7 +109,7 @@ app.get("/answerkeys", function(req, res) {
     });
 })
 
-app.get("/admin/studentlist", isAdmin, function(req, res) {
+app.get("/studentlist", isAdmin, function(req, res) {
     Student.find(function(err, students) {
         res.render("studentlist", {students: students});
     })
@@ -135,7 +140,7 @@ app.get("/question/:type", isLoggedIn, function (req, res) {
   }
   else {
     var questionId = req.user.current_questions[questionType][0];
-    Question.findOne({ _id: questionId }, function (err, question) {
+    Question.findOne({ _id: questionId._id }, function (err, question) {
       if (err) console.log(err);
       console.log(question);
       res.render("question", { question: question, link: req.params.type });
@@ -512,7 +517,7 @@ function isAdmin(req, res, next) {
 
 
 //analytics route
-app.get("/analytics", function(req, res) {
+app.get("/analytics", isAdmin, function(req, res) {
     var today = new Date();
     var week = new Date(today.getFullYear(), today.getMonth(), today.getDate()-7);
     var month = new Date(today.getFullYear(), today.getMonth()-1, today.getDate());
