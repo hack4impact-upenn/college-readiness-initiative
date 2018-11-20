@@ -92,7 +92,7 @@ app.get("/answerkeys", function(req, res) {
     });
 })
 
-app.get("/studentlist", function(req, res) {
+app.get("/studentlist", isAdmin, function(req, res) {
     Student.find(function(err, students) {
         res.render("studentlist", {students: students});
     })
@@ -466,11 +466,27 @@ app.get("/logout", function(req, res) {
   res.redirect("/");
 });
 
+// permission page
+app.get("/permission", function(req, res) {
+  res.render("permission");
+});
+
 function isLoggedIn(req, res, next) {
   if(req.isAuthenticated()) {
     return next();
   }
   res.redirect("/login");
+}
+
+function isAdmin(req, res, next) {
+  if (req.isAuthenticated()) {
+    if (req.user.userType == "Admin") {
+      return next();
+    }
+    res.redirect("/permission");
+  }
+  res.redirect("/permission");
+  
 }
 
 
