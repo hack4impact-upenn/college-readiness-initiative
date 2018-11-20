@@ -17,27 +17,10 @@ var StudentSchema = new mongoose.Schema({
     num_questions_completed: Number,
     test_date: Date,
     categories_completed: [String],
-    // Acts as a map. Each time Student finishes a question, compare the category
-    // of the question we want to save to the categories available, and if id is
-    // different then replace current_question with the saved question.
-    // Having a real map might be more efficient (O(1)) but it seems Mongoose
-    // only has maps of <String, String>. Thoughts?
-    current_questions: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Question'
-    }],
-    correct_questions: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Question'
-    }],
-    missed_questions: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Question'
-    }],
-    to_review_questions: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Question'
-    }],
+    current_questions: {},
+    correct_questions: {},
+    missed_questions: {},
+    to_review_questions: {},
     last_log_in: {type: Date, default: Date.now}
 });
 

@@ -1,0 +1,29 @@
+<% include partials/header %>
+<script>
+    $(document).ready(function () {
+            $("button").click(function () {
+                $("#reviewAnswer").toggle();
+            });
+    });
+</script>
+<div class="container"></div>
+<div class="jumbotron geometrypic">
+    <h1 class="capitalize" id="math">Missed Questions: <%= questionType %></h1>
+</div>
+<% missed_qs.forEach(function(question) { %>
+    <!-- regex extracts imageID from google drive image -->
+    <% var regex = /^\/d\/(.+)/; %>
+    <% var imageID = question.image_link.match(/\/d\/(.+?)\/view/)[1]; %>
+    <% var imageURL = "https://drive.google.com/uc?export=view&id=" + imageID %>
+        <div align="center">
+            <img src="<%= imageURL %>" , alt="Question Image">
+            <br>
+            <button id="buttonId" class="btn btn-primary">Show answer</button>
+            <h4 id="reviewAnswer" style="display: none;">Correct answer: <%= question.answer %></h4>
+            <br>
+            <hr>
+        </div>
+<% }); %>
+</div>
+
+<% include partials/footer %>

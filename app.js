@@ -11,8 +11,11 @@ var express       = require("express"),
     LocalStrategy = require("passport-local"),
     parseCSV      = require("./scripts/parseCSV"),
     uploadSchool  = require("./scripts/uploadSchool"),
+    insertStudentQs = require("./scripts/insertNewStudentQuestions"),
+    moveCompletedQ = require("./scripts/moveCompletedQuestion"),
     fs            = require('fs'),
-    path          = require('path') // needed for image paths,
+    path          = require('path'), // needed for image paths
+    async         = require('async');
 
 mongoose.connect('mongodb://localhost:27017/college_readiness_initiative', { useNewUrlParser: true });
 
@@ -48,7 +51,7 @@ passport.deserializeUser(Admin.deserializeUser());
 
 app.use(function (req, res, next) {
   res.locals.currentUser = req.user;
-  console.log("current user: " + req.user);
+  // console.log("current user: " + req.user);
   next();
 });
 
@@ -63,9 +66,11 @@ app.get("/", function (req, res) {
 })
 
 // Practice page
-app.get("/practice", isLoggedIn, function(req, res) {
-  var student = req.user;
-  res.render("practice", {questionIDs: student.current_questions, student: student});
+// Allows student to select type
+app.get("/practicetype", isLoggedIn, function(req, res) {
+  Question.find().distinct('type', function(err, questionTypes) {
+    res.render("practicetype", {questionTypes: questionTypes});
+  });
 })
 
 // About page route
@@ -105,9 +110,107 @@ app.get("/satprep", function (req, res) {
 })
 
 // Question page
-app.get("/question", function(req, res) {
-    res.render("question");
+app.get("/question/:type", isLoggedIn, function (req, res) {
+  var questionType = req.params.type;
+  if (questionType == "solving equation expression") {
+    questionType = "solving_equation_expression";
+  }
+  else if (questionType == "word problem") {
+    questionType = "word_problem";
+  }
+  if (req.user.current_questions[questionType].length == 0) {
+    // No questions left to do of this type
+    res.render("completedQuestionType", { type: req.params.type });
+  }
+  else {
+    var questionId = req.user.current_questions[questionType][0];
+    Question.findOne({ _id: questionId }, function (err, question) {
+      if (err) console.log(err);
+      console.log(question);
+      res.render("question", { question: question, link: req.params.type });
+    });
+  }
 })
+
+// Post method that redirects to solution page
+app.post("/question/:type", isLoggedIn, processAnswer, renderSolution);
+
+function processAnswer(req, res, next) {
+  req.type = req.params.type;
+  if (req.type == "solving equation expression") {
+    req.type = "solving_equation_expression";
+  }
+  else if (req.type == "word problem") {
+    req.type = "word_problem";
+  }
+  if (req.body.answerMC != null) {
+    req.answer = req.body.answerMC;
+    console.log("answerMC: " + req.answer)
+  }
+  else {
+    req.answer = req.body.answerInput;
+    console.log("shortAns " + req.answer);
+  }
+  return next();
+}
+
+function renderSolution(req, res) {
+  var answer = req.answer;
+  var type = req.type;
+  var questionId = req.user.current_questions[type][0];
+  Question.findOne({ _id: questionId }, function (err, question) {
+    if (err) console.log(err);
+    console.log("solution: " + question.answer);
+    console.log("inputted answer: " + answer);
+    if (question.answer == answer) {
+      res.render("correctSolution", { question: question, type: type, answer: answer });
+    }
+    else {
+      res.render("incorrectSolution", { question: question, type: type, answer: answer });
+    }
+  });
+} 
+
+app.post("/correctsolution/:type", function(req, res) {
+  var questionType = req.params.type;
+  var studentId = req.user._id;
+  moveCompletedQ(studentId, questionType, true);
+  res.redirect("question/" + questionType);
+})
+
+app.post("/incorrectsolution/:type", function (req, res) {
+  var questionType = req.params.type;
+  var studentId = req.user._id;
+  moveCompletedQ(studentId, questionType, false);
+  res.redirect("question/" + questionType);
+})
+
+app.get("/review/:type", isLoggedIn, function(req, res) {
+  var questionType = req.params.type;
+  var missed_Ids = req.user.missed_questions;
+  getMissedQuestions(missed_Ids).then(function (missed_qArr) {
+    var missed_qs = missed_qArr;
+    console.log("here!");
+    console.log(missed_qs);
+    res.render("review", { questionType: questionType, missed_qs: missed_qs });
+  });
+})
+
+async function getMissedQuestions(missed_Ids) {
+  missed_qs = []
+  for (const missedId of missed_Ids) {
+    await Question.findById(missedId._id, function (err, question) {
+      if (err) console.log(err);
+      else {
+        if (question != null) {
+          missed_qs.push(question);
+        }
+      }
+    });
+  }
+  return missed_qs;
+}
+
 
 // Full Practice Test Page
 app.get("/fulltests", function (req, res) {
@@ -225,7 +328,7 @@ app.get("/volunteer", function (req, res) {
 })
 
 // Admin Upload Page
-app.get("/adminupload", function (req, res) {
+app.get("/adminupload", isLoggedIn, function (req, res) {
   res.render("adminupload");
 })
 
@@ -272,10 +375,6 @@ app.post("/register/:userType", function(req, res) {
           name: req.body.name,
           year: req.body.year,
           past_sat_score: req.body.score,
-          current_questions: questions.map(function(question) {
-            return question._id
-          })
-          missed_questions: questions,
           last_log_in: Date.now()
         });
         Student.register(newUser, req.body.password, function (err, user) {
@@ -284,6 +383,7 @@ app.post("/register/:userType", function(req, res) {
             return res.render("register" + type);
           }
           passport.authenticate('student')(req, res, function () {
+            insertStudentQs(user._id);
             res.redirect("/");
           });
         });
@@ -329,7 +429,7 @@ app.get("/login/:userType", function(req, res) {
 
 // handle login logic
 app.post("/login/student", passport.authenticate('student',
-  { failureRedirect: "/login/student" }),
+  { failureRedirect: "/login/student"}),
     function (req, res) {
       var query = {
             'username': req.user.username

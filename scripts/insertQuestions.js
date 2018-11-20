@@ -10,7 +10,7 @@ var insertQuestions = function insertQuestions(arr) {
            newQ.calc = arr[i][3] == 'W';
            newQ.image_link = arr[i][4];
            newQ.difficulty = Number(arr[i][5]);
-           newQ.type = arr[i][6];
+           newQ.type = arr[i][6].toLowerCase();
            newQ.question_num = Number(arr[i][7]);
            newQ.category = arr[i][8];
            newQ.subcategory = arr[i][9];
@@ -22,6 +22,7 @@ var insertQuestions = function insertQuestions(arr) {
 	});
     }
     console.log("Finished uploading!");
+
 }
 
 module.exports = insertQuestions;
