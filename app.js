@@ -230,7 +230,7 @@ app.get("/profile", function (req, res) {
 // Admin Dashboard Page
 app.get('/admindashboard', function (req, res) {
     Admin.find({}, function (err, admins) {
-        res.render('admindashboard.ejs', {
+        res.render('admindashboard', {
             user: req.user,
             admins: admins
         });
@@ -252,17 +252,19 @@ app.get("/userdirectory", function (req, res) {
         });
   });
 });
-app.get("/student/:username", function(req, res) {
-  var username = req.param("username");
+// Delete student/tutor in userdirectory
+app.get("/userdirectory/:username", function(req, res) {
+  var username = req.params.username;
   Student.removeStudent(username);
-  res.send("Removed Student:" + username);
-  res.redirect("/userdirectory");
+  res.send("Removed Student: " + username);
+  res.redirect("userdirectory");
 });
-app.get("/tutor/:username", function(req, res) {
-  var username = req.param("username");
-  Tutor.removeTutor(username);
-  res.send("Removed Tutor:" + username);
-  res.redirect("/userdirectory");
+
+// Add school
+app.post("/admindashboard", function(req, res) {
+  var name = req.body.name;
+  School.addSchool(name);
+  res.redirect("/admindashboard");
 });
 
 // ============

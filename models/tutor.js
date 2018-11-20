@@ -55,6 +55,6 @@ function removeTutor(username) {
 }
 module.exports.removeTutor = removeTutor;
 
-//addFakeTutor();
+addFakeTutor();
 viewTutors();
 // removeTutor("tutor_username");

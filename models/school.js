@@ -22,7 +22,7 @@ function addFakeSchool() {
     });
 }
 
-// Method that displays questions in the database
+// Method that displays schools in the database
 function viewSchools() {
     School.find({}, function (err, schools) {
         if (err) {
@@ -45,6 +45,19 @@ function removeSchool(name) {
         }
     });
 }
+
+function addSchool(name) {
+    School.create({name: name,
+    }, function (err, question) {
+        if (err) {
+            console.log(err);
+        }
+        else {
+            console.log("Added School to database");
+        }
+    });
+}
+module.exports.addSchool = addSchool;
 
 // addFakeSchool();
 viewSchools();
