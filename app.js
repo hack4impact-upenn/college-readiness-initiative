@@ -188,7 +188,7 @@ app.post("/incorrectsolution/:type", function (req, res) {
 app.get("/review/:type", isLoggedIn, function(req, res) {
   var questionType = req.params.type;
   var missed_Ids = req.user.missed_questions;
-  getMissedIds(missed_Ids).then(function (missed_qArr) {
+  getMissedQuestions(missed_Ids).then(function (missed_qArr) {
     var missed_qs = missed_qArr;
     console.log("here!");
     console.log(missed_qs);
@@ -196,7 +196,7 @@ app.get("/review/:type", isLoggedIn, function(req, res) {
   });
 })
 
-async function getMissedIds(missed_Ids) {
+async function getMissedQuestions(missed_Ids) {
   missed_qs = []
   for (const missedId of missed_Ids) {
     await Question.findById(missedId._id, function (err, question) {
@@ -208,7 +208,6 @@ async function getMissedIds(missed_Ids) {
       }
     });
   }
-  console.log("returning");
   return missed_qs;
 }
 
