@@ -11,6 +11,8 @@ var express       = require("express"),
     LocalStrategy = require("passport-local"),
     parseCSV      = require("./scripts/parseCSV"),
     uploadSchool  = require("./scripts/uploadSchool"),
+    insertStudentQs = require("./scripts/insertStudentQuestions"),
+    deleteStudentQ = require("./scripts/deleteStudentQuestion"),
     fs            = require('fs'),
     path          = require('path') // needed for image paths,
 
@@ -107,52 +109,64 @@ app.get("/satprep", function (req, res) {
 })
 
 // Question page
-app.get("/question/:type", function (req, res) {
+app.get("/question/:type", isLoggedIn, function (req, res) {
   var questionType = req.params.type;
-  console.log(questionType);
   if (questionType == "solving equation expression") {
-    questionType = "solving equation/expression"
+    questionType = "solving_equation_expression";
   }
-  Question.findOne({type: questionType}, function(err, question) {
+  else if (questionType == "word problem") {
+    questionType = "word_problem";
+  }
+  var questionId = req.user.current_questions[questionType][0];
+  Question.findOne({_id: questionId}, function(err, question) {
     if (err) console.log(err);
-    console.log(question);
     res.render("question", { question: question, link: req.params.type }); 
   });
 })
 
 // Post method that redirects to solution page
-app.post("/question/:type", function(req, res) {
+app.post("/question/:type", isLoggedIn, function(req, res) {
   var type = req.params.type;
+  if (type == "solving equation expression") {
+    type = "solving_equation_expression";
+  }
+  else if (type == "word problem") {
+    type = "word_problem";
+  }
+  var studentId = req.user._id;
   res.redirect("solution/" + type);
 })
 
 // Display solution to single question
 app.get("/solution/:type", isLoggedIn, function(req, res) {
   var questionType = req.params.type;
+  if (questionType == "solving equation expression") {
+    questionType = "solving_equation_expression";
+  }
+  else if (questionType == "word problem") {
+    questionType = "word_problem";
+  }
+  var questionId = req.user.current_questions[questionType][0];
+  Question.findOne({ _id: questionId }, function (err, question) {
+    if (err) console.log(err);
+    res.render("solution", { question: question, type: questionType });
+  });
+  
+
+
   Question.findOne({ type: questionType }, function (err, question) {
     if (err) console.log(err);
     console.log(question);
-    res.render("solution", { question: question, type: questionType });
+    
   });
 });
 
 // Insert question into correct database
 app.post("/solution/:type", function(req, res) {
   var questionType = req.params.type;
-  Question.findOne({ type: questionType }, function (err, question) {
-    if (err) console.log(err);
-    console.log(question);
-    var ID = question._id;
-    console.log("ID: " + ID);
-    var currentStudent = req.user;
-    console.log("ARRAY: " + currentStudent.current_questions);
-    var indexOfID = currentStudent.current_questions.indexOf(ID);
-    console.log("INDEX: " + indexOfID);
-    if (indexOfID > -1) {
-      currentStudent.current_questions = currentStudent.current_questions.splice(indexOfID, 1);
-    }
-    res.render("question/" + questionType);
-  });
+  var studentId = req.user._id;
+  deleteStudentQ(studentId, questionType);
+  res.redirect("question/" + questionType);
 })
 
 // Full Practice Test Page
@@ -318,10 +332,6 @@ app.post("/register/:userType", function(req, res) {
           name: req.body.name,
           year: req.body.year,
           past_sat_score: req.body.score,
-          current_questions: questions.map(function(question) {
-            return question._id
-          }),
-          missed_questions: questions,
           last_log_in: Date.now()
         });
         Student.register(newUser, req.body.password, function (err, user) {
@@ -330,6 +340,7 @@ app.post("/register/:userType", function(req, res) {
             return res.render("register" + type);
           }
           passport.authenticate('student')(req, res, function () {
+            insertStudentQs(user._id);
             res.redirect("/");
           });
         });
