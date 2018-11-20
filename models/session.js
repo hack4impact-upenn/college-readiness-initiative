@@ -5,47 +5,40 @@ mongoose.connect('mongodb://localhost:27017/college_readiness_initiative', { use
 
 var SessionSchema = new mongoose.Schema({
 	date: Date,
-	student: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Student'
-    },
-	tutor: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Tutor'
-    }
+	studentId: String,
 });
 
 var Session = mongoose.model("Session", SessionSchema);
 module.exports = Session;
 
-function addFakeSession() {
-    Student.findOne({}, function(err, foundStudent) {
-        Tutor.findOne({}, function(err, foundTutor) {
-            Session.create({
-                date: new Date(),
-                student: foundStudent,
-                tutor: foundTutor
-            }, function(err, session) {
-                if (err) {
-                    console.log(err);
-                }
-                else {
-                    console.log(session);
-                }
-            });
-        });
-    });
-}
+// function addFakeSession() {
+//     Student.findOne({}, function(err, foundStudent) {
+//         Tutor.findOne({}, function(err, foundTutor) {
+//             Session.create({
+//                 date: new Date(),
+//                 student: foundStudent,
+//                 tutor: foundTutor
+//             }, function(err, session) {
+//                 if (err) {
+//                     console.log(err);
+//                 }
+//                 else {
+//                     console.log(session);
+//                 }
+//             });
+//         });
+//     });
+// }
 
-// Method that displays questions in the database
-function viewSessions() {
-    Session.find({}, function(err, sessions){
-        if (err) {
-            console.log(err);
-        }
-        else {
-            console.log("Sessions:");
-            console.log(sessions);
-        }
-    });
-}
+// // Method that displays questions in the database
+// function viewSessions() {
+//     Session.find({}, function(err, sessions){
+//         if (err) {
+//             console.log(err);
+//         }
+//         else {
+//             console.log("Sessions:");
+//             console.log(sessions);
+//         }
+//     });
+// }

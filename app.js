@@ -65,11 +65,28 @@ app.get("/", function (req, res) {
 })
 
 // Practice page
-// Allows student to select type
+// Allows student to select type of question and whether with tutor
 app.get("/practicetype", isLoggedIn, function(req, res) {
   Question.find().distinct('type', function(err, questionTypes) {
     res.render("practicetype", {questionTypes: questionTypes});
   });
+})
+
+app.post("/practicetype", isLoggedIn, function (req, res) {
+  questionType = req.body.questionType;
+  console.log("tutoring? : " + req.body.withTutor);
+  withTutor = req.body.withTutor;
+  if (withTutor) {
+    Session.create({
+      date: Date.now(),
+      studentId: req.user._id
+    }, function(err, session) {
+      if (err) console.log(err);
+    });
+  } else {
+    console.log("false");
+  }
+  res.redirect("/question/" + questionType);  
 })
 
 // About page route
@@ -123,7 +140,7 @@ app.get("/question/:type", isLoggedIn, function (req, res) {
   }
   else {
     var questionId = req.user.current_questions[questionType][0];
-    Question.findOne({ _id: questionId }, function (err, question) {
+    Question.findOne({ _id: questionId._id }, function (err, question) {
       if (err) console.log(err);
       console.log(question);
       res.render("question", { question: question, link: req.params.type });
@@ -373,10 +390,15 @@ app.post("/register/:userType", function(req, res) {
   if (type == "student") {
       newUser = new Student({
         username: req.body.username,
-        school: req.body.school,
         name: req.body.name,
+        school: req.body.school,
         year: req.body.year,
         past_sat_score: req.body.score,
+        new_sat_score: null,
+        num_questions_completed: 0,
+        current_questions: {},
+        correct_questions: {},
+        missed_questions: {},
         last_log_in: Date.now()
       });
       User.register(newUser, req.body.password, function (err, user) {
@@ -428,7 +450,7 @@ app.get("/login/:userType", function(req, res) {
 
 // handle login logic
 app.post("/login/student", passport.authenticate('local',
-  { failureRedirect: "/login/student"}),
+  { failureRedirect: "/login/student" }),
     function (req, res) {
       var query = {
             'username': req.user.username
@@ -458,7 +480,8 @@ app.post("/login/tutor", passport.authenticate('local',
 app.post("/login/admin", passport.authenticate('local',
   {
     successRedirect: "/",
-    failureRedirect: "/login/admin"
+    failureRedirect: "/login/admin",
+
 
   }), function (req, res) {
 });
@@ -494,7 +517,7 @@ function isAdmin(req, res, next) {
 
 
 //analytics route
-app.get("/analytics", function(req, res) {
+app.get("/analytics", isAdmin, function(req, res) {
     var today = new Date();
     var week = new Date(today.getFullYear(), today.getMonth(), today.getDate()-7);
     var month = new Date(today.getFullYear(), today.getMonth()-1, today.getDate());
