@@ -7,15 +7,14 @@
     });
 </script>
 <div class="container"></div>
-<% var i = 0 %>
+<div class="jumbotron geometrypic">
+    <h1 class="capitalize" id="math">Missed Questions: <%= questionType %></h1>
+</div>
 <% missed_qs.forEach(function(question) { %>
     <!-- regex extracts imageID from google drive image -->
     <% var regex = /^\/d\/(.+)/; %>
     <% var imageID = question.image_link.match(/\/d\/(.+?)\/view/)[1]; %>
     <% var imageURL = "https://drive.google.com/uc?export=view&id=" + imageID %>
-    <% i++ %>
-    <% var buttonId = "button" + i.toString() %>
-    <% var answerId = "answer" + i.toString() %>
         <div align="center">
             <img src="<%= imageURL %>" , alt="Question Image">
             <br>
