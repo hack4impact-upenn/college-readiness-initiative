@@ -22,8 +22,8 @@ var Student = User.discriminator('Student',
 
 // StudentSchema.plugin(passportLocalMongoose);
 var Student = mongoose.model("Student");
-module.exports = Student;
 
+module.exports = Student;
 
 // function insertStudent(username, password, name, school, year, past_sat_score,
 //                        new_sat_score, num_questions_completed, test_date,

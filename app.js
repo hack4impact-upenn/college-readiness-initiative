@@ -184,30 +184,37 @@ app.post("/incorrectsolution/:type", function (req, res) {
   res.redirect("question/" + questionType);
 })
 
-app.get("/review/:type", isLoggedIn, function(req, res) {
+app.get("/reviewmissed/:type", isLoggedIn, function(req, res) {
   var questionType = req.params.type;
   var missed_Ids = req.user.missed_questions;
-  getMissedQuestions(missed_Ids).then(function (missed_qArr) {
+  getQuestions(missed_Ids).then(function (missed_qArr) {
     var missed_qs = missed_qArr;
-    console.log("here!");
-    console.log(missed_qs);
-    res.render("review", { questionType: questionType, missed_qs: missed_qs });
+    res.render("review", { questionType: questionType, questions: missed_qs, correct: false });
   });
 })
 
-async function getMissedQuestions(missed_Ids) {
-  missed_qs = []
-  for (const missedId of missed_Ids) {
-    await Question.findById(missedId._id, function (err, question) {
+app.get("/reviewcorrect/:type", isLoggedIn, function (req, res) {
+  var questionType = req.params.type;
+  var correct_Ids = req.user.correct_questions;
+  getQuestions(correct_Ids).then(function (correct_qArr) {
+    var correct_qs = correct_qArr;
+    res.render("review", { questionType: questionType, questions: correct_qs, correct: true });
+  });
+})
+
+async function getQuestions(question_Ids) {
+  qs = []
+  for (const id of question_Ids) {
+    await Question.findById(id._id, function (err, question) {
       if (err) console.log(err);
       else {
         if (question != null) {
-          missed_qs.push(question);
+          qs.push(question);
         }
       }
     });
   }
-  return missed_qs;
+  return qs;
 }
 
 
