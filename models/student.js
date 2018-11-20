@@ -16,11 +16,9 @@ var StudentSchema = new mongoose.Schema({
     new_sat_score: Number,
     num_questions_completed: Number,
     test_date: Date,
-    categories_completed: [String],
     current_questions: {},
     correct_questions: {},
     missed_questions: {},
-    to_review_questions: {},
     last_log_in: {type: Date, default: Date.now}
 });
 
