@@ -23,7 +23,7 @@ var parseCSV = function parseCSV(url) {
     			StudentModel.find(function(err, students) {
 				students.forEach(function(student) {
 					console.log("calling insertStudentQuestions");
-					insertStudentQuestions(student);
+					insertStudentQuestions(student._id);
 				});
     			});
 		});
