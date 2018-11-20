@@ -142,7 +142,6 @@ app.get("/question/:type", isLoggedIn, function (req, res) {
     var questionId = req.user.current_questions[questionType][0];
     Question.findOne({ _id: questionId._id }, function (err, question) {
       if (err) console.log(err);
-      console.log(question);
       res.render("question", { question: question, link: req.params.type });
     });
   }

@@ -7,8 +7,11 @@
         <div class="row">
             <% questionTypes.forEach(function(type){ %>
                 <% if (type == "solving equation/expression") {%>
-                    <% type = "solving equation%20expression" %>
+                    <% type = "solving%20equation%20expression" %>
                     <% typeDisplay = "Solving Equations/Expressions" %>
+                <% } else if (type == "word problem") { %>
+                    <% type = "word%20problem" %>
+                    <% typeDisplay = "Word Problems" %>
                 <% } else {%>
                     <% typeDisplay = type %>
                 <% } %>
