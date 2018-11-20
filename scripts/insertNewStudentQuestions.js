@@ -2,7 +2,7 @@ var mongoose = require('mongoose');
 var QuestionModel = require('../models/question');
 var StudentModel = require('../models/student');
 
-var insertStudentQuestions = function insertStudentQuestions(studentId) {
+var insertNewStudentQuestions = function insertNewStudentQuestions(studentId) {
 	var allQ = {
 		charts: [],
 		graphs: [],
@@ -38,4 +38,4 @@ var insertStudentQuestions = function insertStudentQuestions(studentId) {
 
 }
 
-module.exports = insertStudentQuestions;
+module.exports = insertNewStudentQuestions;

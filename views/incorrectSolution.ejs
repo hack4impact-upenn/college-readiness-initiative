@@ -8,9 +8,10 @@
     <div align="center">
         <img src="<%= imageURL %>" , alt="Question Image">
     </div>
-    <h2>The correct answer is: </h2>
-    <h2><%= question.answer %></h2>
-    <% var formURL = "/solution/" + type %>
+    <h1>Nice try!</h1>
+    <h2>The correct answer is: <%= question.answer %></h2>
+    <h2>Your answer was: <%= answer %></h2>
+    <% var formURL = "/incorrectsolution/" + type %>
     <form action="<%= formURL %>" method="post">
         <button class="btn btn-primary mb-2">Next Question</button>
     </form>

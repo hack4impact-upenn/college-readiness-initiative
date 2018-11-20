@@ -11,8 +11,8 @@ var express       = require("express"),
     LocalStrategy = require("passport-local"),
     parseCSV      = require("./scripts/parseCSV"),
     uploadSchool  = require("./scripts/uploadSchool"),
-    insertStudentQs = require("./scripts/insertStudentQuestions"),
-    deleteStudentQ = require("./scripts/deleteStudentQuestion"),
+    insertStudentQs = require("./scripts/insertNewStudentQuestions"),
+    moveCompletedQ = require("./scripts/moveCompletedQuestion"),
     fs            = require('fs'),
     path          = require('path') // needed for image paths,
 
@@ -125,47 +125,57 @@ app.get("/question/:type", isLoggedIn, function (req, res) {
 })
 
 // Post method that redirects to solution page
-app.post("/question/:type", isLoggedIn, function(req, res) {
-  var type = req.params.type;
-  if (type == "solving equation expression") {
-    type = "solving_equation_expression";
-  }
-  else if (type == "word problem") {
-    type = "word_problem";
-  }
-  var studentId = req.user._id;
-  res.redirect("solution/" + type);
-})
+app.post("/question/:type", isLoggedIn, processAnswer, renderSolution);
 
-// Display solution to single question
-app.get("/solution/:type", isLoggedIn, function(req, res) {
-  var questionType = req.params.type;
-  if (questionType == "solving equation expression") {
-    questionType = "solving_equation_expression";
+function processAnswer(req, res, next) {
+  req.type = req.params.type;
+  if (req.type == "solving equation expression") {
+    req.type = "solving_equation_expression";
   }
-  else if (questionType == "word problem") {
-    questionType = "word_problem";
+  else if (req.type == "word problem") {
+    req.type = "word_problem";
   }
-  var questionId = req.user.current_questions[questionType][0];
+  if (req.body.answerMC != null) {
+    req.answer = req.body.answerMC;
+    console.log("answerMC: " + req.answer)
+  }
+  else {
+    req.answer = req.body.answerInput;
+    console.log("shortAns " + req.answer);
+  }
+  return next();
+}
+
+function renderSolution(req, res) {
+  var answer = req.answer;
+  var type = req.type;
+  var questionId = req.user.current_questions[type][0];
   Question.findOne({ _id: questionId }, function (err, question) {
     if (err) console.log(err);
-    res.render("solution", { question: question, type: questionType });
+    console.log("solution: " + question.answer);
+    console.log("inputted answer: " + answer);
+    if (question.answer == answer) {
+      res.render("correctSolution", { question: question, type: type, answer: answer });
+    }
+    else {
+      res.render("incorrectSolution", { question: question, type: type, answer: answer });
+    }
   });
-  
-
-
-  Question.findOne({ type: questionType }, function (err, question) {
-    if (err) console.log(err);
-    console.log(question);
-    
-  });
-});
+} 
 
 // Insert question into correct database
-app.post("/solution/:type", function(req, res) {
+app.post("/correctsolution/:type", function(req, res) {
   var questionType = req.params.type;
   var studentId = req.user._id;
-  deleteStudentQ(studentId, questionType);
+  moveCompletedQ(studentId, questionType, true);
+  res.redirect("question/" + questionType);
+})
+
+// Insert question into correct database
+app.post("/incorrectsolution/:type", function (req, res) {
+  var questionType = req.params.type;
+  var studentId = req.user._id;
+  moveCompletedQ(studentId, questionType, false);
   res.redirect("question/" + questionType);
 })
 
@@ -285,7 +295,7 @@ app.get("/volunteer", function (req, res) {
 })
 
 // Admin Upload Page
-app.get("/adminupload", function (req, res) {
+app.get("/adminupload", isLoggedIn, function (req, res) {
   res.render("adminupload");
 })
 
@@ -386,7 +396,7 @@ app.get("/login/:userType", function(req, res) {
 
 // handle login logic
 app.post("/login/student", passport.authenticate('student',
-  { failureRedirect: "/login/student" }),
+  { failureRedirect: "/login/student"}),
     function (req, res) {
       var query = {
             'username': req.user.username

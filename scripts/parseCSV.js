@@ -1,7 +1,7 @@
 var {StringStream} = require("scramjet");
 var request = require("request");
 var insertQuestions = require("./insertQuestions");
-var insertStudentQuestions = require("./insertStudentQuestions");
+var insertStudentQuestions = require("./insertNewStudentQuestions");
 var StudentModel = require("../models/student");
 
 var parseCSV = function parseCSV(url) {
