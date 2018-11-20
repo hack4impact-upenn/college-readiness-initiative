@@ -2,6 +2,7 @@ var express       = require("express"),
     mongoose      = require("mongoose"),
     passport      = require("passport"),
     bodyParser    = require("body-parser"),
+    User          = require("./models/user"),
     Student       = require("./models/student"),
     Admin         = require("./models/admin"),
     Tutor         = require("./models/tutor"),
@@ -37,17 +38,15 @@ app.use(passport.session());
 app.use(express.static("public"));
 app.use(express.static("/images")); //needed for express to display images
 
-passport.use('student', new LocalStrategy(Student.authenticate()));
-passport.serializeUser(Student.serializeUser());
-passport.deserializeUser(Student.deserializeUser());
+passport.use(new LocalStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
 
-passport.use('tutor', new LocalStrategy(Tutor.authenticate()));
-passport.serializeUser(Tutor.serializeUser());
-passport.deserializeUser(Tutor.deserializeUser());
+app.use(function (req, res, next) {
+  res.locals.currentUser = req.user;
+  next();
+});
 
-passport.use('admin', new LocalStrategy(Admin.authenticate()));
-passport.serializeUser(Admin.serializeUser());
-passport.deserializeUser(Admin.deserializeUser());
 
 app.use(function (req, res, next) {
   res.locals.currentUser = req.user;
@@ -93,7 +92,7 @@ app.get("/answerkeys", function(req, res) {
     });
 })
 
-app.get("/studentlist", function(req, res) {
+app.get("/studentlist", isAdmin, function(req, res) {
     Student.find(function(err, students) {
         res.render("studentlist", {students: students});
     })
@@ -372,40 +371,33 @@ app.post("/register/:userType", function(req, res) {
   var type = req.params.userType;
   var newUser;
   if (type == "student") {
-    Question.find({}, function(err, questions) {
-      if (err) {
-        console.log(err);
-      } else {
-        newUser = new Student({
-          username: req.body.username,
-          school: req.body.school,
-          name: req.body.name,
-          year: req.body.year,
-          past_sat_score: req.body.score,
-          last_log_in: Date.now()
+      newUser = new Student({
+        username: req.body.username,
+        school: req.body.school,
+        name: req.body.name,
+        year: req.body.year,
+        past_sat_score: req.body.score,
+        last_log_in: Date.now()
+      });
+      User.register(newUser, req.body.password, function (err, user) {
+        if (err) {
+          console.log(err);
+          return res.render("register" + type);
+        }
+        passport.authenticate('local')(req, res, function () {
+          insertStudentQs(user._id);
+          res.redirect("/");
         });
-        Student.register(newUser, req.body.password, function (err, user) {
-          if (err) {
-            console.log(err);
-            return res.render("register" + type);
-          }
-          passport.authenticate('student')(req, res, function () {
-            insertStudentQs(user._id);
-            res.redirect("/");
-          });
-        });
-      }
-    })
-
+      });
   }
   else if (type == "admin") {
     newUser = new Admin({ username: req.body.username });
-    Admin.register(newUser, req.body.password, function (err, user) {
+    User.register(newUser, req.body.password, function (err, user) {
       if (err) {
         console.log(err);
         return res.render("register" + type);
       }
-      passport.authenticate('admin')(req, res, function () {
+      passport.authenticate('local')(req, res, function () {
         res.redirect("/");
       });
     });
@@ -413,12 +405,12 @@ app.post("/register/:userType", function(req, res) {
   else if (type == "tutor") {
     newUser = new Tutor({ username: req.body.username,
                           name: req.body.name });
-    Tutor.register(newUser, req.body.password, function (err, user) {
+    User.register(newUser, req.body.password, function (err, user) {
       if (err) {
         console.log(err);
         return res.render("register" + type);
       }
-      passport.authenticate('tutor')(req, res, function () {
+      passport.authenticate('local')(req, res, function () {
         res.redirect("/");
       });
     });
@@ -435,7 +427,7 @@ app.get("/login/:userType", function(req, res) {
 });
 
 // handle login logic
-app.post("/login/student", passport.authenticate('student',
+app.post("/login/student", passport.authenticate('local',
   { failureRedirect: "/login/student"}),
     function (req, res) {
       var query = {
@@ -447,7 +439,7 @@ app.post("/login/student", passport.authenticate('student',
         var options = {
             new: true
         };
-        Student.findOneAndUpdate(query, update, options, function(err, user) {
+        Student.findOneAndUpdate( query, update, options, function(err, user) {
             if (err) {
                 console.log(err);
             }
@@ -456,14 +448,14 @@ app.post("/login/student", passport.authenticate('student',
         res.redirect("/");
 });
 
-app.post("/login/tutor", passport.authenticate('tutor',
+app.post("/login/tutor", passport.authenticate('local',
   {
     successRedirect: "/",
     failureRedirect: "/login/tutor"
 
   }), function (req, res) {
 });
-app.post("/login/admin", passport.authenticate('admin',
+app.post("/login/admin", passport.authenticate('local',
   {
     successRedirect: "/",
     failureRedirect: "/login/admin"
@@ -477,11 +469,27 @@ app.get("/logout", function(req, res) {
   res.redirect("/");
 });
 
+// permission page
+app.get("/permission", function(req, res) {
+  res.render("permission");
+});
+
 function isLoggedIn(req, res, next) {
   if(req.isAuthenticated()) {
     return next();
   }
   res.redirect("/login");
+}
+
+function isAdmin(req, res, next) {
+  if (req.isAuthenticated()) {
+    if (req.user.userType == "Admin") {
+      return next();
+    }
+    res.redirect("/permission");
+  }
+  res.redirect("/permission");
+  
 }
 
 
