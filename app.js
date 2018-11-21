@@ -128,12 +128,12 @@ app.get("/satprep", function (req, res) {
 // Question page
 app.get("/question/:type", isLoggedIn, function (req, res) {
   var questionType = req.params.type;
-  if (questionType == "solving equation expression") {
-    questionType = "solving_equation_expression";
-  }
-  else if (questionType == "word problem") {
-    questionType = "word_problem";
-  }
+  // Replace spaces in question type from url with '_' to be able
+  // to access currentquestions[questionType]
+  var re = new RegExp(' ', 'g');
+  questionType = questionType.replace(re, "_");
+  console.log(questionType);
+  console.log(req.user.current_questions[questionType]);
   if (req.user.current_questions[questionType].length == 0) {
     // No questions left to do of this type
     res.render("completedQuestionType", { type: req.params.type });
@@ -152,12 +152,10 @@ app.post("/question/:type", isLoggedIn, processAnswer, renderSolution);
 
 function processAnswer(req, res, next) {
   req.type = req.params.type;
-  if (req.type == "solving equation expression") {
-    req.type = "solving_equation_expression";
-  }
-  else if (req.type == "word problem") {
-    req.type = "word_problem";
-  }
+  // Replace spaces in question type from url with '_' to be able
+  // to access currentquestions[questionType]
+  var re = new RegExp(' ', 'g');
+  req.type = req.type.replace(re, "_");
   if (req.body.answerMC != null) {
     req.answer = req.body.answerMC;
     console.log("answerMC: " + req.answer)
