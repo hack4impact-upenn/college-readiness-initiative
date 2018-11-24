@@ -1,60 +1,45 @@
-<!-- render image top center of page -->
-<!-- radio buttons a b c d e with random answers or w/e -->
-<!-- route it so that typing /question pulls up the page -->
-<!-- look into bootstrap, i should be getting an email about it soon -->
-
 <% include partials/header %>
 
-<!-- title, not sure if needed. should reflec which sat/sol you are taking -->
-
-<div class="jumbotron notebookpic">
-    <h1 id="pagetitle">Question</h1>
-    <h2 class="pagesub">Questions were meant to be answered!</h2>
-</div>
-
-<!-- this part loads an image (a pdf?) of the question, or in this case, a kitten -->
-
-<div align="center">
- <img src="http://placekitten.com/300/460", alt="Question Image">
-</div>
-
-<!-- radio buttons -->
-
-<form class="form-horizontal">
-<fieldset> 
-  <div class="form-group">
-   <label class="col-xs-3 control-label">Answer:</label>
-   <div class="col-xs-9">
-    <div class="radio">
-     <label>
-      <input id="inlineradio1" name="sampleinlineradio" value="option1" type="radio">
-      a</label>
-    </div>
-    <div class="radio">
-     <label>
-      <input id="inlineradio1" name="sampleinlineradio" value="option2" type="radio">
-      b</label>
-    </div>
-    <div class="radio">
-     <label>
-      <input id="inlineradio1" name="sampleinlineradio" value="option3" type="radio">
-      c</label>
-    </div>
-    <div class="radio">
-     <label>
-      <input id="inlineradio1" name="sampleinlineradio" value="option4" type="radio">
-      d</label>
-    </div>
-    <div class="radio">
-     <label>
-      <input id="inlineradio1" name="sampleinlineradio" value="option5" type="radio">
-      e</label>
-    </div>
-   </div>
+<!-- regex extracts imageID from google drive image -->
+<% var regex = /^\/d\/(.+)/; %>
+<% var imageID = question.image_link.match(/\/d\/(.+?)\/view/)[1]; %>
+<% var imageURL = "https://drive.google.com/uc?export=view&id=" + imageID %>
+<div class="container">
+  <div align="center">
+    <img src="<%= imageURL %>" , alt="Question Image">
   </div>
- </fieldset>
-</form>
-
-
+  <% var postLink = "/question/" + link %>
+  <% console.log(postLink) %>
+  <form action="<%= postLink %>" method="post">
+  <% if (question.isMC == true) { %>
+  <div class="form-check">
+    <input class="form-check-input" type="radio" name="answerMC" id="radio1" value="A">
+    <label class="form-check-label" for="radio1">A</label>
+  </div>
+  <div class="form-check">
+    <input class="form-check-input" type="radio" name="answerMC" id="radio2" value="B">
+    <label class="form-check-label" for="radio2">B</label>
+  </div>
+  <div class="form-check">
+    <input class="form-check-input" type="radio" name="answerMC" id="radio3" value="C">
+    <label class="form-check-label" for="radio3">C</label>
+  </div>
+  <div class="form-check">
+    <input class="form-check-input" type="radio" name="answerMC" id="radio4" value="D">
+    <label class="form-check-label" for="radio4">D</label>
+  </div>
+  <div class="form-check">
+    <input class="form-check-input" type="radio" name="answerMC" id="radio4" value="I would be guessing">
+    <label class="form-check-label" for="radio4">I would be guessing</label>
+  </div>
+  <% } else { %>
+  <div class="form-group">
+    <label for="answerInput">Type answer below: </label>
+    <input class="form-control form-control-lg" type="text" name="answerInput" autocomplete="off" id="answerInput">
+  </div>
+  <% } %>
+  <button class="btn btn-primary mb-2">Submit</button>
+  </form>
+</div>
 
 <% include partials/footer %>

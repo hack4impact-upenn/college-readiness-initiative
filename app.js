@@ -2,6 +2,7 @@ var express       = require("express"),
     mongoose      = require("mongoose"),
     passport      = require("passport"),
     bodyParser    = require("body-parser"),
+    User          = require("./models/user"),
     Student       = require("./models/student"),
     Admin         = require("./models/admin"),
     Tutor         = require("./models/tutor"),
@@ -10,8 +11,12 @@ var express       = require("express"),
     School        = require("./models/school"),
     LocalStrategy = require("passport-local"),
     parseCSV      = require("./scripts/parseCSV"),
+    uploadSchool  = require("./scripts/uploadSchool"),
+    insertStudentQs = require("./scripts/insertNewStudentQuestions"),
+    moveCompletedQ = require("./scripts/moveCompletedQuestion"),
     fs            = require('fs'),
-    path          = require('path') // needed for image paths,
+    path          = require('path'), // needed for image paths
+    async         = require('async');
 
 mongoose.connect('mongodb://localhost:27017/college_readiness_initiative', { useNewUrlParser: true });
 
@@ -33,21 +38,19 @@ app.use(passport.session());
 app.use(express.static("public"));
 app.use(express.static("/images")); //needed for express to display images
 
-passport.use('student', new LocalStrategy(Student.authenticate()));
-passport.serializeUser(Student.serializeUser());
-passport.deserializeUser(Student.deserializeUser());
-
-passport.use('tutor', new LocalStrategy(Tutor.authenticate()));
-passport.serializeUser(Tutor.serializeUser());
-passport.deserializeUser(Tutor.deserializeUser());
-
-passport.use('admin', new LocalStrategy(Admin.authenticate()));
-passport.serializeUser(Admin.serializeUser());
-passport.deserializeUser(Admin.deserializeUser());
+passport.use(new LocalStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
 
 app.use(function (req, res, next) {
   res.locals.currentUser = req.user;
-  console.log("current user: " + req.user);
+  next();
+});
+
+
+app.use(function (req, res, next) {
+  res.locals.currentUser = req.user;
+  // console.log("current user: " + req.user);
   next();
 });
 
@@ -62,9 +65,28 @@ app.get("/", function (req, res) {
 })
 
 // Practice page
-app.get("/practice", isLoggedIn, function(req, res) {
-  var student = req.user;
-  res.render("practice", {questions: student.missed_questions, student: student});
+// Allows student to select type of question and whether with tutor
+app.get("/practicetype", isLoggedIn, function(req, res) {
+  Question.find().distinct('type', function(err, questionTypes) {
+    res.render("practicetype", {questionTypes: questionTypes});
+  });
+})
+
+app.post("/practicetype", isLoggedIn, function (req, res) {
+  questionType = req.body.questionType;
+  console.log("tutoring? : " + req.body.withTutor);
+  withTutor = req.body.withTutor;
+  if (withTutor) {
+    Session.create({
+      date: Date.now(),
+      studentId: req.user._id
+    }, function(err, session) {
+      if (err) console.log(err);
+    });
+  } else {
+    console.log("false");
+  }
+  res.redirect("/question/" + questionType);  
 })
 
 // About page route
@@ -87,6 +109,12 @@ app.get("/answerkeys", function(req, res) {
     });
 })
 
+app.get("/studentlist", isAdmin, function(req, res) {
+    Student.find(function(err, students) {
+        res.render("studentlist", {students: students});
+    })
+})
+
 // Tutoring Page (Ask student whether they are with a tutor)
 app.get("/tutoring", function(req, res) {
     res.render("tutoring");
@@ -98,9 +126,111 @@ app.get("/satprep", function (req, res) {
 })
 
 // Question page
-app.get("/question", function(req, res) {
-    res.render("question");
+app.get("/question/:type", isLoggedIn, function (req, res) {
+  var questionType = req.params.type;
+  // Replace spaces in question type from url with '_' to be able
+  // to access currentquestions[questionType]
+  var re = new RegExp(' ', 'g');
+  questionType = questionType.replace(re, "_");
+  console.log(questionType);
+  console.log(req.user.current_questions[questionType]);
+  if (req.user.current_questions[questionType].length == 0) {
+    // No questions left to do of this type
+    res.render("completedQuestionType", { type: req.params.type });
+  }
+  else {
+    var questionId = req.user.current_questions[questionType][0];
+    Question.findOne({ _id: questionId._id }, function (err, question) {
+      if (err) console.log(err);
+      res.render("question", { question: question, link: req.params.type });
+    });
+  }
 })
+
+// Post method that redirects to solution page
+app.post("/question/:type", isLoggedIn, processAnswer, renderSolution);
+
+function processAnswer(req, res, next) {
+  req.type = req.params.type;
+  // Replace spaces in question type from url with '_' to be able
+  // to access currentquestions[questionType]
+  var re = new RegExp(' ', 'g');
+  req.type = req.type.replace(re, "_");
+  if (req.body.answerMC != null) {
+    req.answer = req.body.answerMC;
+    console.log("answerMC: " + req.answer)
+  }
+  else {
+    req.answer = req.body.answerInput;
+    console.log("shortAns " + req.answer);
+  }
+  return next();
+}
+
+function renderSolution(req, res) {
+  var answer = req.answer;
+  var type = req.type;
+  var questionId = req.user.current_questions[type][0];
+  Question.findOne({ _id: questionId }, function (err, question) {
+    if (err) console.log(err);
+    console.log("solution: " + question.answer);
+    console.log("inputted answer: " + answer);
+    if (question.answer == answer) {
+      res.render("correctSolution", { question: question, type: type, answer: answer });
+    }
+    else {
+      res.render("incorrectSolution", { question: question, type: type, answer: answer });
+    }
+  });
+} 
+
+app.post("/correctsolution/:type", function(req, res) {
+  var questionType = req.params.type;
+  var studentId = req.user._id;
+  moveCompletedQ(studentId, questionType, true);
+  res.redirect("question/" + questionType);
+})
+
+app.post("/incorrectsolution/:type", function (req, res) {
+  var questionType = req.params.type;
+  var studentId = req.user._id;
+  moveCompletedQ(studentId, questionType, false);
+  res.redirect("question/" + questionType);
+})
+
+app.get("/reviewmissed/:type", isLoggedIn, function(req, res) {
+  var questionType = req.params.type;
+  var missed_Ids = req.user.missed_questions;
+  getQuestions(missed_Ids).then(function (missed_qArr) {
+    var missed_qs = missed_qArr;
+    res.render("review", { questionType: questionType, questions: missed_qs, correct: false });
+  });
+})
+
+app.get("/reviewcorrect/:type", isLoggedIn, function (req, res) {
+  var questionType = req.params.type;
+  var correct_Ids = req.user.correct_questions;
+  getQuestions(correct_Ids).then(function (correct_qArr) {
+    var correct_qs = correct_qArr;
+    res.render("review", { questionType: questionType, questions: correct_qs, correct: true });
+  });
+})
+
+async function getQuestions(question_Ids) {
+  qs = []
+  for (const id of question_Ids) {
+    await Question.findById(id._id, function (err, question) {
+      if (err) console.log(err);
+      else {
+        if (question != null) {
+          qs.push(question);
+        }
+      }
+    });
+  }
+  return qs;
+}
+
 
 // Full Practice Test Page
 app.get("/fulltests", function (req, res) {
@@ -218,7 +348,7 @@ app.get("/volunteer", function (req, res) {
 })
 
 // Admin Upload Page
-app.get("/adminupload", function (req, res) {
+app.get("/adminupload", isLoggedIn, function (req, res) {
   res.render("adminupload");
 })
 
@@ -295,39 +425,38 @@ app.post("/register/:userType", function(req, res) {
   var type = req.params.userType;
   var newUser;
   if (type == "student") {
-    Question.find({}, function(err, questions) {
-      if (err) {
-        console.log(err);
-      } else {
-        newUser = new Student({
-          username: req.body.username,
-          school: req.body.school,
-          name: req.body.name,
-          year: req.body.year,
-          past_sat_score: req.body.score,
-          missed_questions: questions
+      newUser = new Student({
+        username: req.body.username,
+        name: req.body.name,
+        school: req.body.school,
+        year: req.body.year,
+        past_sat_score: req.body.score,
+        new_sat_score: null,
+        num_questions_completed: 0,
+        current_questions: {},
+        correct_questions: {},
+        missed_questions: {},
+        last_log_in: Date.now()
+      });
+      User.register(newUser, req.body.password, function (err, user) {
+        if (err) {
+          console.log(err);
+          return res.render("register" + type);
+        }
+        passport.authenticate('local')(req, res, function () {
+          insertStudentQs(user._id);
+          res.redirect("/");
         });
-        Student.register(newUser, req.body.password, function (err, user) {
-          if (err) {
-            console.log(err);
-            return res.render("register" + type);
-          }
-          passport.authenticate('student')(req, res, function () {
-            res.redirect("/");
-          });
-        });
-      }
-    })
-    
+      });
   }
   else if (type == "admin") {
     newUser = new Admin({ username: req.body.username });
-    Admin.register(newUser, req.body.password, function (err, user) {
+    User.register(newUser, req.body.password, function (err, user) {
       if (err) {
         console.log(err);
         return res.render("register" + type);
       }
-      passport.authenticate('admin')(req, res, function () {
+      passport.authenticate('local')(req, res, function () {
         res.redirect("/");
       });
     });
@@ -335,12 +464,12 @@ app.post("/register/:userType", function(req, res) {
   else if (type == "tutor") {
     newUser = new Tutor({ username: req.body.username,
                           name: req.body.name });
-    Tutor.register(newUser, req.body.password, function (err, user) {
+    User.register(newUser, req.body.password, function (err, user) {
       if (err) {
         console.log(err);
         return res.render("register" + type);
       }
-      passport.authenticate('tutor')(req, res, function () {
+      passport.authenticate('local')(req, res, function () {
         res.redirect("/");
       });
     });
@@ -357,24 +486,39 @@ app.get("/login/:userType", function(req, res) {
 });
 
 // handle login logic
-app.post("/login/student", passport.authenticate('student',
-  {
-    successRedirect: "/",
-    failureRedirect: "/login/student"
-
-  }), function (req, res) {
+app.post("/login/student", passport.authenticate('local',
+  { failureRedirect: "/login/student" }),
+    function (req, res) {
+      var query = {
+            'username': req.user.username
+        };
+        var update = {
+            last_log_in: Date.now()
+        };
+        var options = {
+            new: true
+        };
+        Student.findOneAndUpdate( query, update, options, function(err, user) {
+            if (err) {
+                console.log(err);
+            }
+        });
+        console.log("Welcome " + req.user.username);
+        res.redirect("/");
 });
-app.post("/login/tutor", passport.authenticate('tutor',
+
+app.post("/login/tutor", passport.authenticate('local',
   {
     successRedirect: "/",
     failureRedirect: "/login/tutor"
 
   }), function (req, res) {
 });
-app.post("/login/admin", passport.authenticate('admin',
+app.post("/login/admin", passport.authenticate('local',
   {
     successRedirect: "/",
-    failureRedirect: "/login/admin"
+    failureRedirect: "/login/admin",
+
 
   }), function (req, res) {
 });
@@ -385,6 +529,11 @@ app.get("/logout", function(req, res) {
   res.redirect("/");
 });
 
+// permission page
+app.get("/permission", function(req, res) {
+  res.render("permission");
+});
+
 function isLoggedIn(req, res, next) {
   if(req.isAuthenticated()) {
     return next();
@@ -392,9 +541,20 @@ function isLoggedIn(req, res, next) {
   res.redirect("/login");
 }
 
+function isAdmin(req, res, next) {
+  if (req.isAuthenticated()) {
+    if (req.user.userType == "Admin") {
+      return next();
+    }
+    res.redirect("/permission");
+  }
+  res.redirect("/permission");
+  
+}
+
 
 //analytics route
-app.get("/analytics", function(req, res) {
+app.get("/analytics", isAdmin, function(req, res) {
     var today = new Date();
     var week = new Date(today.getFullYear(), today.getMonth(), today.getDate()-7);
     var month = new Date(today.getFullYear(), today.getMonth()-1, today.getDate());
@@ -403,12 +563,12 @@ app.get("/analytics", function(req, res) {
     Promise.all([
         Session.countDocuments({      date: {
         $gt: week,
-        $lt: today 
+        $lt: today
             }
        }),
         Session.countDocuments({ date: {
         $gt: month,
-        $lt: today 
+        $lt: today
             }
   }),
         Session.countDocuments({ date: {
@@ -436,7 +596,7 @@ app.get("/analytics", function(req, res) {
   res.render("analytics", {weeklyOutput: weeklyOutput, monthlyOutput: monthlyOutput, yearlyOutput:yearlyOutput,
                            student_weekly: student_weekly, student_monthly: student_monthly, student_yearly: student_yearly});
 });
-    
+
 })
 
 
@@ -452,5 +612,16 @@ app.get("/questionupload", function (req, res) {
 app.post("/questionupload", bodyParser.urlencoded({extended: true}), function(req, res) {
   var url = req.body.URL;
   parseCSV(url);
+  res.redirect("/");
+});
+
+//Upload school name page
+app.get("/schoolupload", function (req, res) {
+  res.render("schoolupload");
+})
+
+app.post("/schoolupload", bodyParser.urlencoded({extended: true}), function(req, res) {
+  var name = req.body.schoolNAME;
+  uploadSchool(name);
   res.redirect("/");
 });

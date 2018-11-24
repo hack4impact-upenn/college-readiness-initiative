@@ -1,17 +1,14 @@
 var mongoose = require("mongoose");
+var User = require("./user.js");
 var passportLocalMongoose = require("passport-local-mongoose");
 mongoose.connect('mongodb://localhost:27017/college_readiness_initiative', { useNewUrlParser: true });
 
-var TutorSchema = new mongoose.Schema({
-    username: {type: String, unique: true},
-    password: String,
-    name: String,
-    tutee_username: String
+// Define Tutor user
+var Tutor = User.discriminator('Tutor',
+    new mongoose.Schema({}));
 
-});
-
-TutorSchema.plugin(passportLocalMongoose);
-var Tutor = mongoose.model("Tutor", TutorSchema);
+// TutorSchema.plugin(passportLocalMongoose);
+var Tutor = mongoose.model("Tutor");
 module.exports = Tutor;
 
 function addFakeTutor() {
@@ -31,17 +28,17 @@ function addFakeTutor() {
     });
 }
 
-function viewTutors() {
-    Tutor.find({}, function (err, tutors) {
-        if (err) {
-            console.log(err);
-        }
-        else {
-            console.log("Tutors:");
-            console.log(tutors);
-        }
-    });
-}
+// function viewTutors() {
+//     Tutor.find({}, function (err, tutors) {
+//         if (err) {
+//             console.log(err);
+//         }
+//         else {
+//             console.log("Tutors:");
+//             console.log(tutors);
+//         }
+//     });
+// }
 
 function removeTutor(username) {
     Tutor.deleteOne({ username: username }, function (err) {
@@ -56,5 +53,5 @@ function removeTutor(username) {
 module.exports.removeTutor = removeTutor;
 
 addFakeTutor();
-viewTutors();
+//viewTutors();
 // removeTutor("tutor_username");

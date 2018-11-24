@@ -1,50 +1,26 @@
 var mongoose = require("mongoose");
+var User = require("./user.js");
 var passportLocalMongoose = require("passport-local-mongoose");
 mongoose.connect('mongodb://localhost:27017/college_readiness_initiative', { useNewUrlParser: true });
 
+// Define Student user
+var Student = User.discriminator('Student',
+    new mongoose.Schema({
+        school: String,
+        year: Number,
+        past_sat_score: Number,
+        new_sat_score: Number,
+        num_questions_completed: Number,
+        test_date: Date,
+        current_questions: {},
+        correct_questions: {},
+        missed_questions: {},
+        last_log_in: { type: Date, default: Date.now }
+    }));
 
-var StudentSchema = new mongoose.Schema({
-    // Login info
-    username: {type: String, unique: true},
-    password: String,
+// StudentSchema.plugin(passportLocalMongoose);
+var Student = mongoose.model("Student");
 
-    // Student info
-    name: String,
-    school: String,
-    year: Number,
-    past_sat_score: Number,
-    new_sat_score: Number,
-    num_questions_completed: Number,
-    test_date: Date,
-    categories_completed: [String],
-    // Acts as a map. Each time Student finishes a question, compare the category
-    // of the question we want to save to the categories available, and if id is
-    // different then replace current_question with the saved question.
-    // Having a real map might be more efficient (O(1)) but it seems Mongoose
-    // only has maps of <String, String>. Thoughts?
-    current_questions: [{
-        current_category: String,
-        current_question: [{
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'Question'
-        }]
-    }],
-    correct_questions: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Question'
-    }],
-    missed_questions: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Question'
-    }],
-    to_review_questions: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Question'
-    }]
-});
-
-StudentSchema.plugin(passportLocalMongoose);
-var Student = mongoose.model("Student", StudentSchema);
 module.exports = Student;
 
 function insertStudent(username, password, name, school, year, past_sat_score,
@@ -104,29 +80,29 @@ function addFakeStudent() {
     });
 }
 
-// Method that displays questions in the database
-function viewStudents() {
-    Student.find({}, function (err, students) {
-        if (err) {
-            console.log(err);
-        }
-        else {
-            console.log("Students:");
-            console.log(students);
-        }
-    });
-}
+// // Method that displays questions in the database
+// function viewStudents() {
+//     Student.find({}, function (err, students) {
+//         if (err) {
+//             console.log(err);
+//         }
+//         else {
+//             console.log("Students:");
+//             console.log(students);
+//         }
+//     });
+// }
 
-function removeStudent(username) {
-    Student.deleteOne({username: username}, function(err) {
-        if (err) {
-            console.log(err);
-        }
-        else {
-            console.log("Removed Student: " + username);
-        }
-    });
-}
+// function removeStudent(username) {
+//     Student.deleteOne({username: username}, function(err) {
+//         if (err) {
+//             console.log(err);
+//         }
+//         else {
+//             console.log("Removed Student: " + username);
+//         }
+//     });
+// }
 
 module.exports.removeStudent = removeStudent;
 
