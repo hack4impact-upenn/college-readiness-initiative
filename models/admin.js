@@ -31,11 +31,11 @@ function addFakeAdmin() {
     });
 }
 
-// function viewAdmins() {
-//     Admin.find({}, function (err, admins) {
-//         console.log(admins);
-//     });
-// }
+ function viewAdmins() {
+     Admin.find({}, function (err, admins) {
+         console.log(admins);
+     });
+ }
 
 // function removeAdmin(username) {
 //     Admin.deleteOne({ username: username }, function (err) {

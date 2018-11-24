@@ -28,17 +28,17 @@ function addFakeTutor() {
     });
 }
 
-// function viewTutors() {
-//     Tutor.find({}, function (err, tutors) {
-//         if (err) {
-//             console.log(err);
-//         }
-//         else {
-//             console.log("Tutors:");
-//             console.log(tutors);
-//         }
-//     });
-// }
+ function viewTutors() {
+     Tutor.find({}, function (err, tutors) {
+         if (err) {
+             console.log(err);
+         }
+         else {
+             console.log("Tutors:");
+             console.log(tutors);
+         }
+     });
+ }
 
 function removeTutor(username) {
     Tutor.deleteOne({ username: username }, function (err) {
@@ -52,6 +52,6 @@ function removeTutor(username) {
 }
 module.exports.removeTutor = removeTutor;
 
-addFakeTutor();
-//viewTutors();
+//addFakeTutor();
+viewTutors();
 // removeTutor("tutor_username");

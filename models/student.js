@@ -56,7 +56,7 @@ function insertStudent(username, password, name, school, year, past_sat_score,
 function addFakeStudent() {
     console.log("inside addFakeStudent()");
     Student.create({
-        username: "student_username1",
+        username: "student_username",
         password: "password",
         name: "Prateek Bhakta1",
         school: "John Marshall",
@@ -81,31 +81,31 @@ function addFakeStudent() {
 }
 
 // // Method that displays questions in the database
-// function viewStudents() {
-//     Student.find({}, function (err, students) {
-//         if (err) {
-//             console.log(err);
-//         }
-//         else {
-//             console.log("Students:");
-//             console.log(students);
-//         }
-//     });
-// }
+ function viewStudents() {
+     Student.find({}, function (err, students) {
+         if (err) {
+             console.log(err);
+         }
+         else {
+             console.log("Students:");
+             console.log(students);
+         }
+     });
+ }
 
-// function removeStudent(username) {
-//     Student.deleteOne({username: username}, function(err) {
-//         if (err) {
-//             console.log(err);
-//         }
-//         else {
-//             console.log("Removed Student: " + username);
-//         }
-//     });
-// }
+ function removeStudent(username) {
+     Student.deleteOne({username: username}, function(err) {
+         if (err) {
+             console.log(err);
+         }
+         else {
+             console.log("Removed Student: " + username);
+         }
+     });
+ }
 
 module.exports.removeStudent = removeStudent;
 
-addFakeStudent();
-//removeStudent("student_username");
+//addFakeStudent();
+removeStudent("student_username4");
 viewStudents();
