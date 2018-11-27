@@ -16,6 +16,7 @@ var express       = require("express"),
     moveCompletedQ = require("./scripts/moveCompletedQuestion"),
     fs            = require('fs'),
     path          = require('path'), // needed for image paths
+    flash         = require('connect-flash'),
     async         = require('async');
 
 mongoose.connect('mongodb://localhost:27017/college_readiness_initiative', { useNewUrlParser: true });
@@ -25,6 +26,7 @@ mongoose.Promise = global.Promise;
 var app = express();
 app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({extended: true}));
+app.use(flash());
 
 // PASSPORT CONFIGURATION
 app.use(require("express-session")({
@@ -50,7 +52,6 @@ app.use(function (req, res, next) {
 
 app.use(function (req, res, next) {
   res.locals.currentUser = req.user;
-  // console.log("current user: " + req.user);
   next();
 });
 
@@ -477,8 +478,7 @@ app.post("/login/tutor", passport.authenticate('local',
 app.post("/login/admin", passport.authenticate('local',
   {
     successRedirect: "/",
-    failureRedirect: "/login/admin",
-
+    failureRedirect: "/login/admin"
 
   }), function (req, res) {
 });
