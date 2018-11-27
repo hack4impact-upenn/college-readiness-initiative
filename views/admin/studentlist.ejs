@@ -1,0 +1,27 @@
+<% include ../partials/header %>
+
+<div class="jumbotron notebookpic">
+    <h1 id="pagetitle">List of Students</h1>
+    <h2 class="pagesub">All Students</h2>
+</div>
+<div class="container pagetext">
+    <table class="table">
+       <thead>
+           <tr>
+               <th scope="col">Student Name</th>
+               <th scope="col">Last Login</th>
+           </tr>
+       </thead>
+        <% students.forEach(function(student){ %>
+            <tr>
+                <td><%= student.name %></td>
+                <td><%= student.last_log_in %></td>
+            </tr>
+        <% }) %>
+    </table>
+
+
+
+</div>
+
+<% include ../partials/footer %>

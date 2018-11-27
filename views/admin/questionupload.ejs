@@ -1,0 +1,37 @@
+<% include ../partials/header %>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/4.6.1/papaparse.min.js"></script>
+<div class="jumbotron notebookpic">
+    <h1 id="pagetitle">Upload Test Questions</h1>
+    <h2 class="pagesub">Upload CSV of Test Questions</h2>
+</div>
+<div class="container pagetext">
+    <h2>Instructions for Uploading Question Data</h2>
+    <p>To add new questions to the question database, create a CSV (i.e. Google Sheets tab) with the following columns in order:</p>
+    <ol>
+        <li>Description</li>
+        <li>Knowledge</li>
+        <li>Test Number</li>
+        <li>Calculator Needed (Y/N)</li>
+        <li>Question Link</li>
+        <li>Difficulty</li>
+	<li>Question Type</li>
+	<li>Question Number</li>
+	<li>Category</li>
+	<li>Sub-category</li>
+	<li>Answer (If Multiple Choice, a capital letter, or if Numerical, the numerical value)</li>
+    </ol>
+
+    <p>When you are finished entering all of your data, make sure to set the permisssions to sharable to public on the web (global). Copy the URL into the field below and click "Submit" to upload the questions within the file.</p>
+
+    <h2><u>Upload CSV File</u></h2>
+    <form name="upload" action="/questionupload" method="post">
+		<div class="input-group mb-3">
+				<input type="text" name="URL" placeholder="Enter URL">
+		</div>
+		<br />
+		<input type="submit"></button>
+	</form>
+</div>
+
+
+<% include ../partials/footer %>

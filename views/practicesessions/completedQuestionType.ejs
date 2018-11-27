@@ -1,0 +1,12 @@
+<% include ../partials/header %>
+
+<div class="container">
+    <h1>Congrats, you've finished all questions in the <%= type %> category! </h1>
+    <br>
+    <% var missedLink = "/reviewmissed/" + type %>
+    <% var correctLink = "/reviewcorrect/" + type %>
+    <h3><a href=<%= missedLink%>>Review what you missed in this category</a></h3>
+    <h3><a href=<%=correctLink%>>Review what you got correct in this category</a></h3>
+</div>
+
+<% include ../partials/footer %>

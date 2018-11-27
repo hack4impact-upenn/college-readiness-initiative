@@ -1,0 +1,32 @@
+<% include ../partials/header %>
+<div class="jumbotron pencilpic">
+    <h1 id="hometitle">Select a Category:</h1>
+</div>
+<div class="container practicetype">
+    <form action="/practicetype" method="post">
+        <div class="row">
+            <% questionTypes.forEach(function(type){ %>
+                <% typeDisplay = type %>
+                <% type = type.replace(" ", "%20")%>
+                <% type = type.replace("/", "%20")%>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="questionType" id="radio4" value=<%= type %>>
+                    <label class="form-check-label lb-lg capitalize" for="radio4"><%= typeDisplay %></label>
+                </div>
+            <% }) %>
+            <br>
+            <div class="form-check">
+                <input name="withTutor" class="form-check-input" type="checkbox" checked="" id="defaultCheck1">
+                <label class="form-check-label" for="defaultCheck1">
+                    I'm practicing with a tutor
+                </label>
+            </div>
+            <button class="btn btn-primary mb-2">Submit</button>
+        </div>
+    </form>
+    
+</div>
+
+
+
+<% include ../partials/footer %>
