@@ -15,7 +15,8 @@ var Student = User.discriminator('Student',
         current_questions: {},
         correct_questions: {},
         missed_questions: {},
-        last_log_in: { type: Date, default: Date.now }
+        last_log_in: { type: Date, default: Date.now },
+        num_tutoring_sessions: Number
     }));
 
 // StudentSchema.plugin(passportLocalMongoose);
