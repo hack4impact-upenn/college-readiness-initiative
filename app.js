@@ -16,6 +16,7 @@ var express       = require("express"),
     moveCompletedQ = require("./scripts/moveCompletedQuestion"),
     fs            = require('fs'),
     path          = require('path'), // needed for image paths
+    flash         = require('connect-flash'),
     async         = require('async');
 
 mongoose.connect('mongodb://localhost:27017/college_readiness_initiative', { useNewUrlParser: true });
@@ -25,6 +26,7 @@ mongoose.Promise = global.Promise;
 var app = express();
 app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({extended: true}));
+app.use(flash());
 
 // PASSPORT CONFIGURATION
 app.use(require("express-session")({
@@ -50,7 +52,6 @@ app.use(function (req, res, next) {
 
 app.use(function (req, res, next) {
   res.locals.currentUser = req.user;
-  // console.log("current user: " + req.user);
   next();
 });
 
@@ -68,13 +69,12 @@ app.get("/", function (req, res) {
 // Allows student to select type of question and whether with tutor
 app.get("/practicetype", isLoggedIn, function(req, res) {
   Question.find().distinct('type', function(err, questionTypes) {
-    res.render("practicetype", {questionTypes: questionTypes});
+    res.render("practicesessions/practicetype", {questionTypes: questionTypes});
   });
 })
 
 app.post("/practicetype", isLoggedIn, function (req, res) {
   questionType = req.body.questionType;
-  console.log("tutoring? : " + req.body.withTutor);
   withTutor = req.body.withTutor;
   if (withTutor) {
     Session.create({
@@ -83,8 +83,6 @@ app.post("/practicetype", isLoggedIn, function (req, res) {
     }, function(err, session) {
       if (err) console.log(err);
     });
-  } else {
-    console.log("false");
   }
   res.redirect("/question/" + questionType);  
 })
@@ -111,18 +109,18 @@ app.get("/answerkeys", function(req, res) {
 
 app.get("/studentlist", isAdmin, function(req, res) {
     Student.find(function(err, students) {
-        res.render("studentlist", {students: students});
+        res.render("admin/studentlist", {students: students});
     })
 })
 
 // Tutoring Page (Ask student whether they are with a tutor)
 app.get("/tutoring", function(req, res) {
-    res.render("tutoring");
+    res.render("practicesessions/tutoring");
 })
 
 // SAT Prep Page
 app.get("/satprep", function (req, res) {
-  res.render("satprep");
+  res.render("basicprep/satprep");
 })
 
 // Question page
@@ -132,17 +130,15 @@ app.get("/question/:type", isLoggedIn, function (req, res) {
   // to access currentquestions[questionType]
   var re = new RegExp(' ', 'g');
   questionType = questionType.replace(re, "_");
-  console.log(questionType);
-  console.log(req.user.current_questions[questionType]);
   if (req.user.current_questions[questionType].length == 0) {
     // No questions left to do of this type
-    res.render("completedQuestionType", { type: req.params.type });
+    res.render("practicesessions/completedQuestionType", { type: req.params.type });
   }
   else {
     var questionId = req.user.current_questions[questionType][0];
     Question.findOne({ _id: questionId._id }, function (err, question) {
       if (err) console.log(err);
-      res.render("question", { question: question, link: req.params.type });
+      res.render("practicesessions/question", { question: question, link: req.params.type });
     });
   }
 })
@@ -158,11 +154,9 @@ function processAnswer(req, res, next) {
   req.type = req.type.replace(re, "_");
   if (req.body.answerMC != null) {
     req.answer = req.body.answerMC;
-    console.log("answerMC: " + req.answer)
   }
   else {
     req.answer = req.body.answerInput;
-    console.log("shortAns " + req.answer);
   }
   return next();
 }
@@ -173,13 +167,11 @@ function renderSolution(req, res) {
   var questionId = req.user.current_questions[type][0];
   Question.findOne({ _id: questionId }, function (err, question) {
     if (err) console.log(err);
-    console.log("solution: " + question.answer);
-    console.log("inputted answer: " + answer);
     if (question.answer == answer) {
-      res.render("correctSolution", { question: question, type: type, answer: answer });
+      res.render("practicesessions/correctSolution", { question: question, type: type, answer: answer });
     }
     else {
-      res.render("incorrectSolution", { question: question, type: type, answer: answer });
+      res.render("practicesessions/incorrectSolution", { question: question, type: type, answer: answer });
     }
   });
 } 
@@ -203,7 +195,7 @@ app.get("/reviewmissed/:type", isLoggedIn, function(req, res) {
   var missed_Ids = req.user.missed_questions;
   getQuestions(missed_Ids).then(function (missed_qArr) {
     var missed_qs = missed_qArr;
-    res.render("review", { questionType: questionType, questions: missed_qs, correct: false });
+    res.render("practicesessions/review", { questionType: questionType, questions: missed_qs, correct: false });
   });
 })
 
@@ -212,7 +204,7 @@ app.get("/reviewcorrect/:type", isLoggedIn, function (req, res) {
   var correct_Ids = req.user.correct_questions;
   getQuestions(correct_Ids).then(function (correct_qArr) {
     var correct_qs = correct_qArr;
-    res.render("review", { questionType: questionType, questions: correct_qs, correct: true });
+    res.render("practicesessions/review", { questionType: questionType, questions: correct_qs, correct: true });
   });
 })
 
@@ -234,7 +226,7 @@ async function getQuestions(question_Ids) {
 
 // Full Practice Test Page
 app.get("/fulltests", function (req, res) {
-  res.render("fulltests");
+  res.render("basicprep/fulltests");
 })
 
 app.get('/files/fulltests/:testnum', function (req, res) {
@@ -247,7 +239,7 @@ app.get('/files/fulltests/:testnum', function (req, res) {
 
 // Math Practice Page
 app.get("/mathpractice", function (req, res) {
-  res.render("math.ejs");
+  res.render("basicprep/math");
 })
 
 app.get('/files/math/tutorialsandworksheets/:folder/:worksheet', function (req, res) {
@@ -268,7 +260,7 @@ app.get('/files/math/:folder/:worksheetnum', function (req, res) {
 
 // Reading Practice Page
 app.get("/readingpractice", function (req, res) {
-  res.render("reading.ejs");
+  res.render("basicprep/reading");
 })
 app.get('/files/reading/:practicenum', function (req, res) {
   var filePath = "/files/reading/" + req.params.practicenum;
@@ -280,7 +272,7 @@ app.get('/files/reading/:practicenum', function (req, res) {
 
 // Writing and Language Practice Page
 app.get("/writingpractice", function (req, res) {
-  res.render("writing.ejs");
+  res.render("basicprep/writing");
 })
 app.get('/files/writing/:practicenum', function (req, res) {
   var filePath = "/files/writing/" + req.params.practicenum;
@@ -347,11 +339,6 @@ app.get("/volunteer", function (req, res) {
   res.render("volunteer");
 })
 
-// Admin Upload Page
-app.get("/adminupload", isLoggedIn, function (req, res) {
-  res.render("adminupload");
-})
-
 //Student profile page
 app.get("/profile", function (req, res) {
   res.render("profile");
@@ -363,7 +350,7 @@ app.get("/profile", function (req, res) {
 
 // show register forms
 app.get("/register", function(req, res) {
-  res.render("register");
+  res.render("authentication/register");
 });
 app.get("/register/:userType", function(req, res) {
   if (req.params.userType == "student") {
@@ -371,12 +358,12 @@ app.get("/register/:userType", function(req, res) {
       if (err) {
         console.log(err);
       } else {
-        res.render("registerstudent", { schools: schools });
+        res.render("authentication/registerstudent", { schools: schools });
       }
     });
   }
   else {
-    res.render("register" + req.params.userType);
+    res.render("authentication/register" + req.params.userType);
   }
 });
 
@@ -401,7 +388,7 @@ app.post("/register/:userType", function(req, res) {
       User.register(newUser, req.body.password, function (err, user) {
         if (err) {
           console.log(err);
-          return res.render("register" + type);
+          return res.render("authentication/register" + type);
         }
         passport.authenticate('local')(req, res, function () {
           insertStudentQs(user._id);
@@ -414,7 +401,7 @@ app.post("/register/:userType", function(req, res) {
     User.register(newUser, req.body.password, function (err, user) {
       if (err) {
         console.log(err);
-        return res.render("register" + type);
+        return res.render("authentication/register" + type);
       }
       passport.authenticate('local')(req, res, function () {
         res.redirect("/");
@@ -427,7 +414,7 @@ app.post("/register/:userType", function(req, res) {
     User.register(newUser, req.body.password, function (err, user) {
       if (err) {
         console.log(err);
-        return res.render("register" + type);
+        return res.render("authentication/register" + type);
       }
       passport.authenticate('local')(req, res, function () {
         res.redirect("/");
@@ -438,11 +425,11 @@ app.post("/register/:userType", function(req, res) {
 
 // show login forms
 app.get("/login", function (req, res) {
-  res.render("login");
+  res.render("authentication/login");
 });
 
 app.get("/login/:userType", function(req, res) {
-  res.render("login" + req.params.userType);
+  res.render("authentication/login" + req.params.userType);
 });
 
 // handle login logic
@@ -463,7 +450,6 @@ app.post("/login/student", passport.authenticate('local',
                 console.log(err);
             }
         });
-        console.log("Welcome " + req.user.username);
         res.redirect("/");
 });
 
@@ -477,8 +463,7 @@ app.post("/login/tutor", passport.authenticate('local',
 app.post("/login/admin", passport.authenticate('local',
   {
     successRedirect: "/",
-    failureRedirect: "/login/admin",
-
+    failureRedirect: "/login/admin"
 
   }), function (req, res) {
 });
@@ -553,7 +538,7 @@ app.get("/analytics", isAdmin, function(req, res) {
       })
 ]).then( ([ weeklyOutput, monthlyOutput , yearlyOutput,
             student_weekly, student_monthly, student_yearly]) => {
-  res.render("analytics", {weeklyOutput: weeklyOutput, monthlyOutput: monthlyOutput, yearlyOutput:yearlyOutput,
+  res.render("admin/analytics", {weeklyOutput: weeklyOutput, monthlyOutput: monthlyOutput, yearlyOutput:yearlyOutput,
                            student_weekly: student_weekly, student_monthly: student_monthly, student_yearly: student_yearly});
 });
 
@@ -565,8 +550,8 @@ app.listen(process.env.PORT || 3000, process.env.IP, function () {
 })
 
 //Upload question page
-app.get("/questionupload", function (req, res) {
-  res.render("questionupload");
+app.get("/questionupload", isAdmin, function (req, res) {
+  res.render("admin/questionupload");
 })
 
 app.post("/questionupload", bodyParser.urlencoded({extended: true}), function(req, res) {
@@ -576,8 +561,8 @@ app.post("/questionupload", bodyParser.urlencoded({extended: true}), function(re
 });
 
 //Upload school name page
-app.get("/schoolupload", function (req, res) {
-  res.render("schoolupload");
+app.get("/schoolupload", isAdmin,function (req, res) {
+  res.render("admin/schoolupload");
 })
 
 app.post("/schoolupload", bodyParser.urlencoded({extended: true}), function(req, res) {
