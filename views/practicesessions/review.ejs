@@ -8,6 +8,8 @@
 </script>
 <div class="container"></div>
 <div class="jumbotron geometrypic">
+    <% var re = new RegExp('_', 'g'); %>
+    <% questionType = questionType.replace(re, " "); %>
     <% if (!correct) {%>
         <h1 class="capitalize" id="math">Missed Questions: <%= questionType %></h1>
     <% } else { %>
