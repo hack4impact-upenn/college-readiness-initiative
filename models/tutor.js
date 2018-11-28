@@ -11,46 +11,47 @@ var Tutor = User.discriminator('Tutor',
 var Tutor = mongoose.model("Tutor");
 module.exports = Tutor;
 
-// function addFakeTutor() {
-//     console.log("inside addFakeTutor()");
-//     Tutor.create({
-//         username: "tutor_username",
-//         password: "password",
-//         name: "John",
-//         tutee_username: "student_username"
-//     }, function (err, tutor) {
-//         if (err) {
-//             console.log(err);
-//         }
-//         else {
-//             console.log("Added Tutor: " + tutor.username);
-//         }
-//     });
-// }
+function addFakeTutor() {
+    console.log("inside addFakeTutor()");
+    Tutor.create({
+        username: "tutor_username3",
+        password: "password",
+        name: "Tutor3",
+        tutee_username: "student_username2"
+    }, function (err, tutor) {
+        if (err) {
+            console.log(err);
+        }
+        else {
+            console.log("Added Tutor: " + tutor.username);
+        }
+    });
+}
 
-// function viewTutors() {
-//     Tutor.find({}, function (err, tutors) {
-//         if (err) {
-//             console.log(err);
-//         }
-//         else {
-//             console.log("Tutors:");
-//             console.log(tutors);
-//         }
-//     });
-// }
+ function viewTutors() {
+     Tutor.find({}, function (err, tutors) {
+         if (err) {
+             console.log(err);
+         }
+         else {
+             console.log("Tutors:");
+             console.log(tutors);
+         }
+     });
+ }
 
-// function removeTutor(username) {
-//     Tutor.deleteOne({ username: username }, function (err) {
-//         if (err) {
-//             console.log(err);
-//         }
-//         else {
-//             console.log("Removed Tutor from database:");
-//         }
-//     });
-// }
+function removeTutor(username) {
+    Tutor.deleteOne({ username: username }, function (err) {
+        if (err) {
+            console.log(err);
+        }
+        else {
+            console.log("Removed Tutor from database:");
+        }
+    });
+}
+module.exports.removeTutor = removeTutor;
 
-// // // addFakeTutor();
-// // viewTutors();
-// // removeTutor("tutor_username");
+//addFakeTutor();
+viewTutors();
+// removeTutor("tutor_username");

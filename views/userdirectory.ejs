@@ -1,0 +1,104 @@
+<% include partials/header %>
+<div class="jumbotron notebookpic">
+  <h1 id="pagetitle">User Directory</h1>
+</div>
+
+<!-- List of Students -->
+<h3 class="tabletitle">Students</h3>
+
+<table class="table table-hover">
+	<thead class="thead-dark">
+	  <tr>
+				<th scope="col">#</th>
+				<th scope="col">First</th>
+				<th scope="col">Last</th>
+				<th scope="col">School</th>
+				<th scope="col">Action</th>
+	  </tr>
+	</thead>
+	<tbody>
+		<% for(var i=0; i<students.length; i++) { %>
+	  <tr>
+				<th scope="row"><%= i+1 %></th>
+				<td> <%= students[i].name %> </td>
+				<td> <%= students[i].name %> </td>
+				<td> <%= students[i].school %> </td>
+				<td><div class="dropdown">
+						<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">Action
+							<span class="caret"></span>
+					  </button>
+						<ul class="dropdown-menu" role="menu">
+							<li><a href="/profile">View User Info</a></li>
+							<li><a href="#">Change account type</a></li>
+							<li class="divider"></li>
+							<li><a id="deleteLink" data-toggle="modal" data-target="#exampleModal" >Delete this student</a></li>
+						</ul>
+					</div>
+				</td>
+		</tr>
+		<% }; %>
+	</tbody>
+</table>
+
+<script type="text/javascript" src="models/student.js"></script>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Delete User</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+	  <div>
+		Confirm Deletion?
+	  </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal" href="/userdirectory" onClick="alert(viewStudents());window.location.reload();" >Confirm</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- List of Tutors -->
+<h3 class="tabletitle">Tutors</h3>
+
+<table class="table table-hover">
+	<thead class="thead-dark">
+	  <tr>
+				<th scope="col">#</th>
+				<th scope="col">First</th>
+				<th scope="col">Last</th>
+				<th scope="col">Tutee</th>
+				<th scope="col">Action</th>
+	  </tr>
+	</thead>
+	<tbody>
+		<% for(var i=0; i<tutors.length; i++) { %>
+	  <tr>
+				<th scope="row"><%= i+1 %></th>
+				<td> <%= tutors[i].name %> </td>
+				<td> <%= tutors[i].name %> </td>
+				<td> <%= tutors[i].tutee_username %> </td>
+				<td><div class="dropdown">
+						<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">Action
+							<span class="caret"></span>
+					  </button>
+						<ul class="dropdown-menu" role="menu">
+							<li><a href="/profile">View User Info</a></li>
+							<li><a href="#">Change account type</a></li>
+							<li class="divider"></li>
+							<li><a id="deleteLink" href="/userdirectory/<%= tutors[i].username %>" onclick="">Delete this tutor</a></li>
+				<!--TRYING TO ADD LINK TO A BOOTSTRAP MODAL FOR CONFIRMATION OF DELETE/CHANGE ACCT TYPE-->
+						</ul>
+					</div>
+				</td>
+	  </tr>
+		<% }; %>
+	</tbody>
+</table>
+
+
+<% include partials/footer %>

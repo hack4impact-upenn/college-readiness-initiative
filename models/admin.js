@@ -3,6 +3,11 @@ var User = require("./user.js");
 var passportLocalMongoose = require("passport-local-mongoose");
 mongoose.connect('mongodb://localhost:27017/college_readiness_initiative', { useNewUrlParser: true });
 
+var AdminSchema = new mongoose.Schema({
+    username: {type: String, unique: true},
+    password: String,
+    name: String
+});
 
 var Admin = User.discriminator('Admin',
     new mongoose.Schema({}));
@@ -11,25 +16,26 @@ var Admin = User.discriminator('Admin',
 var Admin = mongoose.model("Admin");
 module.exports = Admin;
 
-// function addFakeAdmin() {
-//     Admin.create({
-//         username: "admin_username",
-//         password: "password"
-//     }, function (err, admin) {
-//         if (err) {
-//             console.log(err);
-//         }
-//         else {
-//             console.log("Added admin " + admin.username);
-//         }
-//     });
-// }
+function addFakeAdmin() {
+    Admin.create({
+        username: "admin_username",
+        password: "password",
+        name: "Admin1"
+    }, function (err, admin) {
+        if (err) {
+            console.log(err);
+        }
+        else {
+            console.log("Added admin " + admin.username);
+        }
+    });
+}
 
-// function viewAdmins() {
-//     Admin.find({}, function (err, admins) {
-//         console.log(admins);
-//     });
-// }
+ function viewAdmins() {
+     Admin.find({}, function (err, admins) {
+         console.log(admins);
+     });
+ }
 
 // function removeAdmin(username) {
 //     Admin.deleteOne({ username: username }, function (err) {
@@ -42,6 +48,6 @@ module.exports = Admin;
 //     });
 // }
 
-// // addFakeAdmin();
-// // viewAdmins();
-// // removeAdmin("admin_username");
+//addFakeAdmin();
+viewAdmins();
+//removeAdmin("admin_username");
