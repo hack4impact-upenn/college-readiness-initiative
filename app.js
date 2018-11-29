@@ -9,8 +9,10 @@ var express       = require("express"),
     Session       = require("./models/session"),
     Question      = require("./models/question")
     School        = require("./models/school"),
+    TestDate      = require("./models/testdates"),
     LocalStrategy = require("passport-local"),
     parseCSV      = require("./scripts/parseCSV"),
+    uploadTestDate = require("./scripts/uploadTestDate"),
     uploadSchool  = require("./scripts/uploadSchool"),
     insertStudentQs = require("./scripts/insertNewStudentQuestions"),
     moveCompletedQ = require("./scripts/moveCompletedQuestion"),
@@ -365,7 +367,11 @@ app.get("/register/:userType", function(req, res) {
       if (err) {
         console.log(err);
       } else {
-        res.render("authentication/registerstudent", { schools: schools });
+        var today = new Date();
+        today = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+        TestDate.find({testDate: {$gt: today}}, function (err, testdates) {
+          res.render("authentication/registerstudent", { schools: schools, dates: testdates });
+        });
       }
     });
   }
@@ -495,6 +501,7 @@ function isAdmin(req, res, next) {
     }
     res.redirect("/permission");
   }
+  req.session.redirectURL = req.url;
   res.redirect("/permission");
   
 }
@@ -572,6 +579,25 @@ app.post("/questionupload", bodyParser.urlencoded({extended: true}), function(re
 app.get("/schoolupload", isAdmin,function (req, res) {
   res.render("admin/schoolupload");
 })
+
+//Upload test date page
+app.get("/testdateupload", isAdmin, function (req, res) {
+  var today = new Date();
+  var dd = today.getDate();
+  var mm = today.getMonth() + 1;
+  var yyyy = today.getFullYear();
+  currentDate = yyyy + "-" + mm + "-" + dd;
+  res.render("admin/testdateupload", {currentDate: currentDate});
+})
+
+app.post("/testdateupload", bodyParser.urlencoded({ extended: true }), function (req, res) {
+  var testDate = req.body.testdate;
+  var scoreDate = req.body.scoredate;
+  uploadTestDate(testDate, scoreDate);
+  res.redirect("/");
+});
+
+
 
 app.post("/schoolupload", bodyParser.urlencoded({extended: true}), function(req, res) {
   var name = req.body.schoolNAME;

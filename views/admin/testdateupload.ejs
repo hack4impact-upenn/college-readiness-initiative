@@ -1,0 +1,21 @@
+<% include ../partials/header %>
+<div class="jumbotron notebookpic">
+    <h1 id="pagetitle">Upload Test Date</h1>
+    <h2 class="pagesub">Upload New Test Date</h2>
+</div>
+<div class="container pagetext">
+    <h2>Instructions for Uploading New Test Date</h2>
+    <p>To add a new test date for students to choose from, simply input the date in the field below and submit.</p>
+
+    <h2><u>Upload New Test Date</u></h2>
+    <form name="testDateUP" action="/testdateupload" method="post">
+        <label for="testdate">Test date:</label>
+        <input type="date" id="testdate" name="testdate" value=<%= currentDate %>">
+        <label for="scoredate">Score Release date:</label>
+        <input type="date" id="scoredate" name="scoredate" value=<%=currentDate %>">
+        <input type="submit"></button>
+    </form>
+</div>
+
+
+<% include ../partials/footer %>

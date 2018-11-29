@@ -23,6 +23,17 @@
                 <% }) %>
             </select>
         </div>
+        <div class="form-group">
+            <label for="inputSchool">SAT Test Date</label>
+            <select id="inputSchool" class="form-control" name="testdate">
+                <% dates.forEach(function(date) { %>
+                <option>
+                    <% var displayDate = (date.testDate.getUTCMonth() + 1) + "-" + date.testDate.getUTCDate() + "-" + date.testDate.getUTCFullYear() %>
+                    <%= displayDate %>
+                </option>
+                <% }) %>
+            </select>
+        </div>
             <div class="form-group">
                 <label for="nameInput" name="name">Full Name</label>
                 <input type="text" class="form-control" id="nameInput" name="name" placeholder="Enter full name">
