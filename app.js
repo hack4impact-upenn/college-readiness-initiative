@@ -303,42 +303,42 @@ app.get('/files/sol/:pdf', function (req, res) {
 
 // Algebra 1 SOL
 app.get("/algebra1", function (req, res) {
-  res.render("algebra1");
+  res.render("sol/algebra1");
 })
 // Algebra 1 Calculator Strategy Videos
 app.get("/algebra1calcvids", function (req, res) {
-  res.render("algebra1calcvids");
+  res.render("sol/algebra1calcvids");
 })
 // Algebra 1 Song Videos
 app.get("/algebra1songvids", function (req, res) {
-  res.render("algebra1songvids");
+  res.render("sol/algebra1songvids");
 })
 // Algebra 1 SAT
 app.get("/algebra1sat", function (req, res) {
-  res.render("algebra1sat");
+  res.render("sol/algebra1sat");
 })
 // Algebra 1 Quizzes
 app.get("/algebra1quizzes", function (req, res) {
-  res.render("algebra1quizzes");
+  res.render("sol/algebra1quizzes");
 })
 
 // Geometry SOL
 app.get("/geometry", function (req, res) {
-  res.render("geometry");
+  res.render("sol/geometry");
 })
 
 // Geometry Videos
 app.get("/geometryvids", function (req, res) {
-  res.render("geometryvids");
+  res.render("sol/geometryvids");
 })
 
 // Algebra 2 SOL
 app.get("/algebra2", function (req, res) {
-  res.render("algebra2");
+  res.render("sol/algebra2");
 })
 // Algebra 2 Videos
 app.get("/algebra2vids", function (req, res) {
-  res.render("algebra2vids");
+  res.render("sol/algebra2vids");
 })
 
 // Volunteer Page

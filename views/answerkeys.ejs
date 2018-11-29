@@ -8,13 +8,17 @@
     <table class="table">
        <thead>
            <tr>
-               <th scope="col">Question</th>
+               <th scope="col">Test Number</th>
+               <th scope="col">Question Number</th>
+               <th scope="col">Question Image</th>
                <th scope="col">Answer</th>
                <th scope="col">Category</th>
            </tr>
        </thead>
         <% questions.forEach(function(question){ %>
             <tr>
+                <td><%= question.test_num%></td>
+                <td><%= question.question_num%></td>
                 <% var imageID = question.image_link.match(/\/d\/(.+?)\/view/)[1]; %>
                 <% var imageURL = "https://drive.google.com/uc?export=view&id=" + imageID %>
                 <td><img src="<%= imageURL %>" width="600px"></td>
@@ -23,9 +27,6 @@
             </tr>
         <% }) %>
     </table>
-
-
-
 </div>
 
 <% include partials/footer %>
