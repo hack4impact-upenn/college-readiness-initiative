@@ -376,6 +376,10 @@ app.get("/register/:userType", function(req, res) {
 
 // handle sign up logic
 app.post("/register/:userType", function(req, res) {
+  redirectURL = "/";
+  if (req.redirectURL != null) {
+    redirectURL = req.redirectURL;
+  }
   var type = req.params.userType;
   var newUser;
   if (type == "student") {
@@ -399,7 +403,7 @@ app.post("/register/:userType", function(req, res) {
         }
         passport.authenticate('local')(req, res, function () {
           insertStudentQs(user._id);
-          res.redirect("/");
+          res.redirect(redirectURL);
         });
       });
   }
