@@ -62,7 +62,9 @@ app.get('/images/:image', function (req, res, next) {
 
 // Home page route
 app.get("/", function (req, res) {
-  res.render("home");
+  if (req.user != null) loggedIn = true;
+  else loggedIn = false;
+  res.render("home", {loggedIn: loggedIn});
 })
 
 // Practice page

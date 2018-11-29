@@ -2,9 +2,11 @@
 <div class="jumbotron pencilpic">
   <h1 id="hometitle">The College Readiness Initiative</h1>
   <p class="homesub">Helping students in Richmond, Virginia achieve their full academic potential through SAT and SOL tutoring</p>
-  <p><a class="btn btn-primary btn-lg" onclick=" window.open('https://docs.google.com/forms/d/e/1FAIpQLSfD6xyYoFzm4A2DN9k-G6uz1akIPzdXW_5cV2WWhV5mxJ9CIA/viewform')" role="button">Sign up</a>
+  <% if (!loggedIn) { %>
+    <a class="btn btn-primary btn-lg" href="/register" role="button">Sign up</a>
+  <% } %>
   <a class="btn btn-info btn-lg" href="/satprep" role="button">SAT Practice</a>
-  <a class="btn btn-success btn-lg" href="/solprep" role="button">SOL Practice</a></p>
+  <a class="btn btn-success btn-lg" href="/solprep" role="button">SOL Practice</a>
 </div>
 
 <div class="container sectiontwo">
