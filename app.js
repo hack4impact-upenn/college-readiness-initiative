@@ -443,6 +443,7 @@ app.get("/login/:userType", function(req, res) {
 app.post("/login", passport.authenticate('local',
   { failureRedirect: "/login" }),
     function (req, res) {
+      redirectURL = "/";
       if (req.session.redirectURL) {
         redirectURL = req.session.redirectURL;
         req.session.redirectURL = null;
