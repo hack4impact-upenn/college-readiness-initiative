@@ -32,7 +32,7 @@ app.use(flash());
 app.use(require("express-session")({
   secret: "any string can go here",
   resave: false,
-  saveUninitialized: false,
+  saveUninitialized: false
 }));
 app.use(passport.initialize());
 app.use(passport.session());
@@ -64,7 +64,7 @@ app.get('/images/:image', function (req, res, next) {
 app.get("/", function (req, res) {
   if (req.user != null) loggedIn = true;
   else loggedIn = false;
-  res.render("home", {loggedIn: loggedIn});
+  res.render("home", { loggedIn: loggedIn, message: req.flash('info')});
 })
 
 // Practice page
@@ -434,18 +434,28 @@ app.post("/register/:userType", function(req, res) {
   }
 });
 
-// show login forms
+// show login form
 app.get("/login", function (req, res) {
-  res.render("authentication/login");
+  // req.flash('info', "login failed 3");
+  res.render("authentication/login", {message: req.flash('info')});
 });
 
-app.get("/login/:userType", function(req, res) {
-  res.render("authentication/login" + req.params.userType);
-});
 
 // handle login logic
 app.post("/login", passport.authenticate('local',
-  { failureRedirect: "/login" }),
+  { failureRedirect: "/login", failureFlash: true}),
+  // function (req, res, user, info) {
+  //   redirectURL = "/";
+  //   if (req.session.redirectURL) {
+  //     redirectURL = req.session.redirectURL;
+  //     req.session.redirectURL = null;
+  //   }
+  //   if (!user) { 
+  //     req.flash('info', {message: "fail blah"});
+  //     res.redirect('/login'); 
+  //   }
+  //   req.flash('info', { message: "success blah" });
+  //   res.redirect(redirectURL);
     function (req, res) {
       redirectURL = "/";
       if (req.session.redirectURL) {
@@ -466,6 +476,7 @@ app.post("/login", passport.authenticate('local',
                 console.log(err);
             }
         });
+        req.flash('info', 'Login successful!');
         res.redirect(redirectURL);
 });
 

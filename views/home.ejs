@@ -1,4 +1,9 @@
 <% include partials/header %>
+<% if (message != null) { %>
+  <div class="alert alert-primary" role="alert">
+    <%= message %>
+  </div>
+<% } %>
 <div class="jumbotron pencilpic">
   <h1 id="hometitle">The College Readiness Initiative</h1>
   <p class="homesub">Helping students in Richmond, Virginia achieve their full academic potential through SAT and SOL tutoring</p>
