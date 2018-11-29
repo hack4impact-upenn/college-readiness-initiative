@@ -433,8 +433,8 @@ app.get("/login/:userType", function(req, res) {
 });
 
 // handle login logic
-app.post("/login/student", passport.authenticate('local',
-  { failureRedirect: "/login/student" }),
+app.post("/login", passport.authenticate('local',
+  { failureRedirect: "/login" }),
     function (req, res) {
       var query = {
             'username': req.user.username
@@ -451,21 +451,6 @@ app.post("/login/student", passport.authenticate('local',
             }
         });
         res.redirect("/");
-});
-
-app.post("/login/tutor", passport.authenticate('local',
-  {
-    successRedirect: "/",
-    failureRedirect: "/login/tutor"
-
-  }), function (req, res) {
-});
-app.post("/login/admin", passport.authenticate('local',
-  {
-    successRedirect: "/",
-    failureRedirect: "/login/admin"
-
-  }), function (req, res) {
 });
 
 // logout route
