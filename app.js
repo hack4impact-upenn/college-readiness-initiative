@@ -505,41 +505,47 @@ app.get("/analytics", isAdmin, function(req, res) {
     var month = new Date(today.getFullYear(), today.getMonth()-1, today.getDate());
     var year = new Date(today.getFullYear()-1, today.getMonth(), today.getDate());
 
+    // Retrieve number of sessions this week, month, and year
     Promise.all([
-        Session.countDocuments({      date: {
-        $gt: week,
-        $lt: today
-            }
-       }),
-        Session.countDocuments({ date: {
-        $gt: month,
-        $lt: today
-            }
-  }),
-        Session.countDocuments({ date: {
-          $gt: year,
-          $lt: today
-        }
-      }),
-        Session.distinct().countDocuments({ date: {
+      Session.countDocuments({      
+        date: {
           $gt: week,
           $lt: today
         }
       }),
-        Session.distinct().countDocuments({ date: {
+      Session.countDocuments({ 
+        date: {
           $gt: month,
           $lt: today
         }
       }),
-        Session.distinct().countDocuments({ date: {
+      Session.countDocuments({ 
+        date: {
+          $gt: year,
+          $lt: today
+        }
+      }),
+      Session.distinct('studentId', {
+        date: {
+          $gt: week,
+          $lt: today
+        }}),
+      Session.distinct('studentId', {
+        date: {
+          $gt: month,
+          $lt: today
+        }
+      }),
+      Session.distinct('studentId', {
+        date: {
           $gt: year,
           $lt: today
         }
       })
-]).then( ([ weeklyOutput, monthlyOutput , yearlyOutput,
-            student_weekly, student_monthly, student_yearly]) => {
-  res.render("admin/analytics", {weeklyOutput: weeklyOutput, monthlyOutput: monthlyOutput, yearlyOutput:yearlyOutput,
-                           student_weekly: student_weekly, student_monthly: student_monthly, student_yearly: student_yearly});
+  ]).then(([ weeklyOutput, monthlyOutput , yearlyOutput,
+              student_weekly, student_monthly, student_yearly]) => {
+    res.render("admin/analytics", {weeklyOutput: weeklyOutput, monthlyOutput: monthlyOutput, yearlyOutput:yearlyOutput,
+                            student_weekly: student_weekly.length, student_monthly: student_monthly.length, student_yearly: student_yearly.length});
 });
 
 })
