@@ -393,6 +393,7 @@ app.post("/register/:userType", function(req, res) {
         username: req.body.username,
         name: req.body.name,
         school: req.body.school,
+        test_date: req.body.testdate,
         year: req.body.year,
         past_sat_score: req.body.score,
         new_sat_score: null,
