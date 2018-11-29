@@ -649,3 +649,12 @@ div a:after {
     padding-left: 100px;
 }
 
+.description {
+    text-align: left;
+}
+
+#redbadge {
+    background-color: crimson;
+    font-size: 20px;
+}
+

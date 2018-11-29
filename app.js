@@ -240,6 +240,11 @@ app.get('/files/fulltests/:testnum', function (req, res) {
 })
 
 // Math Practice Page
+app.get("/math", function(req, res) {
+  res.render("mathoptions");
+});
+
+// Basic math
 app.get("/mathpractice", function (req, res) {
   res.render("basicprep/math");
 })
@@ -438,6 +443,10 @@ app.get("/login/:userType", function(req, res) {
 app.post("/login", passport.authenticate('local',
   { failureRedirect: "/login" }),
     function (req, res) {
+      if (req.session.redirectURL) {
+        redirectURL = req.session.redirectURL;
+        req.session.redirectURL = null;
+      }
       var query = {
             'username': req.user.username
         };
@@ -452,7 +461,7 @@ app.post("/login", passport.authenticate('local',
                 console.log(err);
             }
         });
-        res.redirect("/");
+        res.redirect(redirectURL);
 });
 
 // logout route
@@ -470,6 +479,7 @@ function isLoggedIn(req, res, next) {
   if(req.isAuthenticated()) {
     return next();
   }
+  req.session.redirectURL = req.url;
   res.redirect("/login");
 }
 
