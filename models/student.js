@@ -6,6 +6,7 @@ mongoose.connect('mongodb://localhost:27017/college_readiness_initiative', { use
 // Define Student user
 var Student = User.discriminator('Student',
     new mongoose.Schema({
+        name: String,
         school: String,
         year: Number,
         past_sat_score: Number,

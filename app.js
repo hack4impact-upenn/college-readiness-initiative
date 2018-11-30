@@ -349,8 +349,8 @@ app.get("/volunteer", function (req, res) {
 })
 
 //Student profile page
-app.get("/profile", function (req, res) {
-  res.render("profile");
+app.get("/profile", isLoggedIn, isStudent, function (req, res) {
+  res.render("profile", {user: req.user});
 })
 
 // ============
@@ -504,7 +504,17 @@ function isAdmin(req, res, next) {
   }
   req.session.redirectURL = req.url;
   res.redirect("/permission");
-  
+}
+
+function isStudent(req, res, next) {
+  if (req.isAuthenticated()) {
+    if (req.user.userType == "Student") {
+      return next();
+    }
+    res.redirect("/permission");
+  }
+  req.session.redirectURL = req.url;
+  res.redirect("/permission");
 }
 
 
