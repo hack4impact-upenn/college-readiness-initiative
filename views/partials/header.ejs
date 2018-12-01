@@ -9,6 +9,9 @@
         <link rel="stylesheet" type="text/css" href="/stylesheets/app.css">
         <link href="https://fonts.googleapis.com/css?family=Roboto:100" rel="stylesheet">
         <script src="https://use.fontawesome.com/a0335568e4.js"></script>
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU"
+          crossorigin="anonymous">
+
         <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/4.6.1/papaparse.min.js"></script>
     </head>
     <body>
@@ -64,8 +67,13 @@
             <li><a href="/login">Login</a></li>
             <li><a href="/register">Sign Up</a></li>
         <% } else { %>
-            <li><a href="#">Signed in as <%= currentUser.username %></a></li>    
-            <li><a href="/logout">Logout</a></li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Signed in as <%= currentUser.username %><span class="caret"></span></a>  
+              <ul class="dropdown-menu">
+                <li><a href="/profile">Your Profile</a></li>
+                <li><a href="/logout">Logout</a></li>
+              </ul>
+            </li>
         <% } %>
         <li><a href="/volunteer">Volunteer</a></li>
         </li>

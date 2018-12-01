@@ -3,14 +3,28 @@
   <h1 id="profiletitle">Student Profile</h1>
 </div>
 
-<div class="profileinfo">
-	<div class="wrapper">
-		<aside class="aside aside-1"><img style="width: 200px;" src="https://image.freepik.com/free-icon/male-university-graduate-silhouette-with-the-cap_318-61897.jpg" /></aside>
+<div class="container">
+	<div class="wrapper" style="float: left; margin-bottom: 50px;">
 		<article class="main">
-			<h3>Name: <%= user.name %></h3>
-			<h3>School: <%= user.school%></h3>
-			<h3>Tutoring Sessions Attended: <%= user.num_tutoring_sessions%></h3>
+			<h4><i class="fa fa-user"></i> <%= user.name %></h4>
+			<h4><i class="fa fa-envelope"></i> <%= user.username %></h4>
+			<h4><i class="fa fa-graduation-cap"> </i><%= user.school %>, <%= user.year %></h4>
+			<h4><i class="fas fa-chalkboard-teacher"></i> Tutoring Sessions Attended: <%= user.num_tutoring_sessions%></h4>
 		</article>
 		</div>
+</div>
+<div class="container">
+	<div class="panel panel-primary">
+		<!-- Default panel contents -->
+		<div class="panel-heading"><h4>SAT Math Practice Progress</h4></div>
+		<!-- Table -->
+		<table class="table">
+			<thead>
+				<th>Category</th>
+				<th>Questions Completed</th>
+			</thead>
+			<td>Blah</td>
+		</table>
+	</div>
 </div>
 <% include partials/footer %>

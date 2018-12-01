@@ -86,6 +86,11 @@ app.post("/practicetype", isLoggedIn, function (req, res) {
       studentId: req.user._id
     }, function(err, session) {
       if (err) console.log(err);
+      Student.findByIdAndUpdate({_id: req.user._id}, 
+        {num_tutoring_sessions: (req.user.num_tutoring_sessions + 1)},
+        function (err, session) {
+          if (err) console.log(err);
+        });
     });
   }
   res.redirect("/question/" + questionType);  
@@ -293,7 +298,7 @@ app.get('/files/writing/:practicenum', function (req, res) {
 
 // SOL Prep Page
 app.get("/solprep", function (req, res) {
-  res.render("solprep");
+  res.render("sol/solprep");
 })
 app.get('/files/sol/:pdf', function (req, res) {
   var filePath = "/files/sol/" + req.params.pdf;
@@ -401,6 +406,7 @@ app.post("/register/:userType", function(req, res) {
         current_questions: {},
         correct_questions: {},
         missed_questions: {},
+        num_tutoring_sessions: 0,
         last_log_in: Date.now()
       });
       User.register(newUser, req.body.password, function (err, user) {
