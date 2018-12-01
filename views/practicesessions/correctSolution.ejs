@@ -15,6 +15,20 @@
     <form action="<%= formURL %>" method="post">
         <button class="btn btn-primary mb-2">Next Question</button>
     </form>
+    <br>
+</div>
+
+<div class="container">
+  <div class="card" style="width: 18rem;">
+    <div class="card-body" style="padding: 10px;">
+      <h4 class="card-title">About this question: </h4>
+      <p class="card-text">Math <%= question.test_num%></p>
+      <p class="card-text">Question <%= question.question_num%> </p>
+      <p class="card-text">Type: <%= question.type%></p>
+      <p class="card-text">Category: <%= question.category%></p>
+      <p class="card-text">Subcategory: <%= question.subcategory%></p>
+    </div>
+  </div>
 </div>
 
 
