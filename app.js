@@ -206,7 +206,7 @@ app.post("/incorrectsolution/:type", function (req, res) {
   res.redirect("question/" + questionType);
 })
 
-app.get("/reviewmissed/:type", isLoggedIn, function(req, res) {
+app.get("/reviewmissed", isLoggedIn, function(req, res) {
   var questionType = req.params.type;
   var missed_Ids = req.user.missed_questions;
   getQuestions(missed_Ids).then(function (missed_qArr) {
@@ -215,7 +215,7 @@ app.get("/reviewmissed/:type", isLoggedIn, function(req, res) {
   });
 })
 
-app.get("/reviewcorrect/:type", isLoggedIn, function (req, res) {
+app.get("/reviewcorrect", isLoggedIn, function (req, res) {
   var questionType = req.params.type;
   var correct_Ids = req.user.correct_questions;
   getQuestions(correct_Ids).then(function (correct_qArr) {
@@ -360,7 +360,7 @@ app.get("/volunteer", function (req, res) {
   res.render("volunteer");
 })
 
-//Student profile page
+// User profile page
 app.get("/profile", isLoggedIn, function (req, res) {
   if (req.user.userType == "Student") {
     res.render("studentprofile", { user: req.user });
