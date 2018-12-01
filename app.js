@@ -64,14 +64,21 @@ app.get('/images/:image', function (req, res, next) {
 
 // Home page route
 app.get("/", function (req, res) {
-  if (req.user != null) loggedIn = true;
-  else loggedIn = false;
-  res.render("home", {loggedIn: loggedIn});
+  if (req.user != null) {
+    loggedIn = true;
+    if (req.user.userType == "Student") displayPractice = true;
+    else displayPractice = false;
+  } 
+  else {
+    loggedIn = false;
+    displayPractice = true;
+  }
+  res.render("home", {loggedIn: loggedIn, displayPractice: displayPractice});
 })
 
 // Practice page
 // Allows student to select type of question and whether with tutor
-app.get("/practicetype", isLoggedIn, function(req, res) {
+app.get("/practicetype", isLoggedIn, isStudent, function(req, res) {
   Question.find().distinct('type', function(err, questionTypes) {
     res.render("practicesessions/practicetype", {questionTypes: questionTypes});
   });
@@ -133,7 +140,7 @@ app.get("/satprep", function (req, res) {
 })
 
 // Question page
-app.get("/question/:type", isLoggedIn, function (req, res) {
+app.get("/question/:type", isLoggedIn, isStudent, function (req, res) {
   var questionType = req.params.type;
   // Replace spaces in question type from url with '_' to be able
   // to access currentquestions[questionType]
@@ -354,8 +361,14 @@ app.get("/volunteer", function (req, res) {
 })
 
 //Student profile page
-app.get("/profile", isLoggedIn, isStudent, function (req, res) {
-  res.render("profile", {user: req.user});
+app.get("/profile", isLoggedIn, function (req, res) {
+  if (req.user.userType == "Student") {
+    res.render("studentprofile", { user: req.user });
+  }
+  else {
+    res.render("profile", {user: req.user});
+  }
+  
 })
 
 // ============

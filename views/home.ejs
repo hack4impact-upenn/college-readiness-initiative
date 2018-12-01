@@ -8,12 +8,14 @@
   <a class="btn btn-info btn-lg" href="/satprep" role="button">SAT Practice</a>
   <a class="btn btn-success btn-lg" href="/solprep" role="button">SOL Practice</a>
 </div>
-<div style="margin-top: 40px;" class="container">
-    <a href="/practicetype"><h1>Math Practice Sessions <span id="redbadge" class="badge badge-secondary">New</span></h1></a>
-    <h3 class="changefont">
-      Work through individual questions and solutions, and review questions you've
-      completed. Your progress is saved, so you can pick up where you left off last time!</h3>
-</div>
+<% if (displayPractice) { %>
+  <div style="margin-top: 40px;" class="container">
+      <a href="/practicetype"><h1>Math Practice Sessions <span id="redbadge" class="badge badge-secondary">New</span></h1></a>
+      <h3 class="changefont">
+        Work through individual questions and solutions, and review questions you've
+        completed. Your progress is saved, so you can pick up where you left off last time!</h3>
+  </div>
+<% } %>
 <div class="container sectiontwo">
 <h1 style="text-align: left; margin-top: 0px; margin-bottom: 50px;">About us:</h1>
   <div class="row">
