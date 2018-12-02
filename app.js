@@ -611,7 +611,9 @@ app.post("/questionupload", bodyParser.urlencoded({extended: true}), function(re
 
 //Upload school name page
 app.get("/schoolupload", isAdmin,function (req, res) {
-  res.render("admin/schoolupload");
+  School.find({}, function(err, schools) {
+    res.render("admin/schoolupload", {schools: schools});
+  })
 })
 
 //Upload test date page
@@ -621,7 +623,10 @@ app.get("/testdateupload", isAdmin, function (req, res) {
   var mm = today.getMonth() + 1;
   var yyyy = today.getFullYear();
   currentDate = yyyy + "-" + mm + "-" + dd;
-  res.render("admin/testdateupload", {currentDate: currentDate});
+  TestDate.find({}, function(err, testdates) {
+    res.render("admin/testdateupload", { currentDate: currentDate, testdates: testdates });
+  });
+  
 })
 
 app.post("/testdateupload", bodyParser.urlencoded({ extended: true }), function (req, res) {

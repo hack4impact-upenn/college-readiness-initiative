@@ -1,12 +1,13 @@
 <% include ../partials/header %>
 <div class="jumbotron notebookpic">
     <h1 id="pagetitle">Upload School Name</h1>
-    <h2 class="pagesub">Upload New School Name</h2>
 </div>
 <div class="container pagetext">
-    <h2>Instructions for Uploading New School Name</h2>
-    <p>To add a new school for students to choose from, simply input the name in the field below and submit.</p>
-
+    <h3>Current Schools:</h3>
+    <% schools.forEach(function(school) { %>
+        <h4><%= school.name %></h4>
+    <% }) %>
+    <br>
     <h2><u>Upload New School Name</u></h2>
     <form name="schoolUP" action="/schoolupload" method="post">
                 <div class="input-group mb-3">

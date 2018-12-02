@@ -4,8 +4,10 @@
     <h2 class="pagesub">Upload New Test Date</h2>
 </div>
 <div class="container pagetext">
-    <h2>Instructions for Uploading New Test Date</h2>
-    <p>To add a new test date for students to choose from, simply input the date in the field below and submit.</p>
+    <h3>Current test dates: </h3>
+    <% testdates.forEach(function(date) { %>
+        <h4><%= date.testDate.getMonth() + 1 %>-<%= date.testDate.getDate() + 1 %>-<%= date.testDate.getFullYear() %></h4>
+    <% }) %>
 
     <h2><u>Upload New Test Date</u></h2>
     <form name="testDateUP" action="/testdateupload" method="post">
