@@ -1,6 +1,10 @@
 <% include partials/header %>
 <div class="jumbotron bookstackpic">
-    <h1 id="profiletitle">Profile</h1>
+    <% if (type == "Admin") { %>
+        <h1 id="profiletitle">Admin Profile</h1>
+    <% } else { %>
+        <h1 id="profiletitle">Tutor Profile</h1>
+    <% } %>
 </div>
 
 <div class="container">
@@ -17,7 +21,26 @@
 </div>
 <div class="container">
     <% if (type == "Admin") { %>
-    <a href="/analytics"><h3>Analytics Page</h3></a>
+        <div class="container sectiontwo">
+            <div class="row">
+                <div class="col-lg-3 col-sm-12">
+                    <i class="icons fa fa-bar-chart fa-5x" aria-hidden="true"></i>
+                    <a href="/analytics"><h3>Analytics Page</h3></a>
+                </div>
+                <div class="col-lg-3 col-sm-12">
+                    <i class="icons fa fa-file-upload fa-5x" aria-hidden="true"></i>
+                    <a href="/questionupload"><h3>Question Upload Page</h3></a>
+                </div>
+                <div class="col-lg-3 col-sm-12">
+                    <i class="icons fa fa-school fa-5x" aria-hidden="true"></i>
+                    <a href="/schoolupload"><h3>School Upload Page</h3></a>
+                </div>
+                <div class="col-lg-3 col-sm-12">
+                    <i class="icons fa fa-pencil-alt fa-5x" aria-hidden="true"></i>
+                    <a href="/testdateupload"><h3>Test Date Upload Page</h3></a>
+                </div>
+            </div>
+        </div>
     <% } %>
 </div>
 <% include partials/footer %>
