@@ -623,7 +623,10 @@ app.get("/testdateupload", isAdmin, function (req, res) {
   var mm = today.getMonth() + 1;
   var yyyy = today.getFullYear();
   currentDate = yyyy + "-" + mm + "-" + dd;
-  TestDate.find({}, function(err, testdates) {
+  var today = new Date();
+  today = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+
+  TestDate.find({testDate: { $gt: today }} , function(err, testdates) {
     res.render("admin/testdateupload", { currentDate: currentDate, testdates: testdates });
   });
   
@@ -633,7 +636,7 @@ app.post("/testdateupload", bodyParser.urlencoded({ extended: true }), function 
   var testDate = req.body.testdate;
   var scoreDate = req.body.scoredate;
   uploadTestDate(testDate, scoreDate);
-  res.redirect("/");
+  res.redirect("/testdateupload");
 });
 
 
@@ -641,5 +644,5 @@ app.post("/testdateupload", bodyParser.urlencoded({ extended: true }), function 
 app.post("/schoolupload", bodyParser.urlencoded({extended: true}), function(req, res) {
   var name = req.body.schoolNAME;
   uploadSchool(name);
-  res.redirect("/");
+  res.redirect("/schoolupload");
 });

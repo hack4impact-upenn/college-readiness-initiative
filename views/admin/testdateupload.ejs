@@ -4,11 +4,12 @@
     <h2 class="pagesub">Upload New Test Date</h2>
 </div>
 <div class="container pagetext">
-    <h3>Current test dates: </h3>
+    <h3>Future test dates: </h3>
     <% testdates.forEach(function(date) { %>
         <h4><%= date.testDate.getMonth() + 1 %>-<%= date.testDate.getDate() + 1 %>-<%= date.testDate.getFullYear() %></h4>
     <% }) %>
 
+    <br>
     <h2><u>Upload New Test Date</u></h2>
     <form name="testDateUP" action="/testdateupload" method="post">
         <label for="testdate">Test date:</label>
