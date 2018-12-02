@@ -66,8 +66,12 @@ app.get('/images/:image', function (req, res, next) {
 app.get("/", function (req, res) {
   if (req.user != null) {
     loggedIn = true;
-    if (req.user.userType == "Student") displayPractice = true;
-    else displayPractice = false;
+    if (req.user.userType == "Student") {
+      displayPractice = true;
+    } 
+    else {
+      displayPractice = false;
+    }
   } 
   else {
     loggedIn = false;
@@ -366,7 +370,7 @@ app.get("/profile", isLoggedIn, function (req, res) {
     res.render("studentprofile", { user: req.user });
   }
   else {
-    res.render("profile", {user: req.user});
+    res.render("profile", {user: req.user, type: req.user.userType});
   }
   
 })
