@@ -429,7 +429,7 @@ app.post("/register/:userType", function(req, res) {
       User.register(newUser, req.body.password, function (err, user) {
         if (err) {
           console.log(err);
-          return res.render("authentication/register" + type);
+          res.redirect("register/" + type);
         }
         passport.authenticate('local')(req, res, function () {
           insertStudentQs(user._id);
